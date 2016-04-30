@@ -1,0 +1,22 @@
+{
+  "name": "convention-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "convention-bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buzzfeed-openlab/convention-bot.git"
+  },
+  "author": "Westley Argentum Hennigh-Palermo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/buzzfeed-openlab/convention-bot/issues"
+  },
+  "homepage": "https://github.com/buzzfeed-openlab/convention-bot#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
