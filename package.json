@@ -4,6 +4,7 @@
   "description": "",
   "main": "convention-bot.js",
   "scripts": {
+    "start": "node ./convention-bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
