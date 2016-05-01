@@ -15,16 +15,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-function sendTextMessage(sender, text) {
+function sendTextMessage(token, recipient, text) {
     messageData = {
         text:text
     }
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:config.token},
+        qs: {access_token:token},
         method: 'POST',
         json: {
-            recipient: {id:sender},
+            recipient: {id:recipient},
             message: messageData,
         }
     }, function(error, response, body) {
@@ -37,13 +37,13 @@ function sendTextMessage(sender, text) {
 }
 
 app.get('/hook/', function (req, res) {
-    console.log('hook!');
-    if (req.query['hub.verify_token'] === 'beepboopbop') {
-        console.log('success!');
-        res.send(req.query['hub.challenge']);
+    if (req.query['hub.verify_token'] === config.verifyToken) {
+        console.log('success, verified hook!');
+        return res.send(req.query['hub.challenge']);
     }
 
-    res.send('Error, wrong validation token');
+    console.log('ERROR failed to verify hook...');
+    return res.send('Error, wrong validation token');
 });
 
 app.post('/hook/', function (req, res) {
@@ -54,7 +54,7 @@ app.post('/hook/', function (req, res) {
         if (event.message && event.message.text) {
             text = event.message.text;
 
-            sendTextMessage(sender, "Text received, echo: "+ text.substring(0, 200));
+            sendTextMessage(config.pageToken, sender, "Text received, echo: "+ text.substring(0, 200));
         }
     }
     res.sendStatus(200);
