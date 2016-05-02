@@ -4,8 +4,14 @@ var express = require('express'),
     request = require('request'),
     uuid = require('node-uuid');
 
-var configPath = (process.argv[2] || './config.json'),
-    config = require(configPath);
+// var configPath = (process.argv[2] || './config.json'),
+//     config = require(configPath);
+
+var config = {
+    pageToken: process.env.pageToken,
+    verifyToken: process.env.verifyToken,
+    port: process.env.PORT
+}
 
 var app = express();
 
@@ -218,4 +224,4 @@ app.post('/messages/', function (req, res) {
     res.sendStatus(200);
 });
 
-app.listen(8000);
+app.listen(config.port);
