@@ -1,18 +1,29 @@
 
 var express = require('express'),
     bodyParser = require('body-parser'),
-    request = require('request');
+    request = require('request'),
+    uuid = require('node-uuid');
 
 var configPath = (process.argv[2] || './config.json'),
     config = require(configPath);
 
 var app = express();
 
+// parse application/json
+app.use(bodyParser.json());
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// parse application/json
-app.use(bodyParser.json());
+app.use(function (error, req, res, next) {
+    console.log('called');
+  if (error instanceof SyntaxError) {
+    console.log('ERROR: ', error);
+    sendError(res, 'myCustomErrorMessage');
+  } else {
+    next();
+  }
+});
 
 var users = {};
 
@@ -187,6 +198,24 @@ app.post('/hook/', function (req, res) {
     }
 
     res.sendStatus(status);
+});
+
+app.post('/messages/', function (req, res) {
+    if (!req.body.message) {
+        return res.sendStatus(400);
+    }
+
+    var message = req.body.message;
+
+    // give the message an id and save it
+    // message.id = uuid.v4();
+    messages[message.id] = message;
+
+    for (var id in users) {
+        sendMessage(config.pageToken, id, message);
+    }
+
+    res.sendStatus(200);
 });
 
 app.listen(8000);
