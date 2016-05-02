@@ -16,8 +16,8 @@ app.use(bodyParser.json());
 
 var users = {};
 
-var initialQuestions = [
-    {
+var messages = {
+    "e42d0ffc-cdf2-41f8-a18d-988529d6b86f": {
         "id": "e42d0ffc-cdf2-41f8-a18d-988529d6b86f",
         "attachment": {
           "type":"template",
@@ -44,6 +44,10 @@ var initialQuestions = [
           }
         }
     }
+}
+
+var initialMessages = [
+    "e42d0ffc-cdf2-41f8-a18d-988529d6b86f",
 ];
 
 function handleIncomingMessage(token, event) {
@@ -53,7 +57,8 @@ function handleIncomingMessage(token, event) {
     if (!users[sender]) {
         users[sender] = {
             id: sender,
-            messages: {}
+            messages: {},
+            tags: []
         };
 
         startInitialConversation(token, sender);
@@ -69,35 +74,13 @@ function handlePostBack(token, event) {
 function startInitialConversation(token, user) {
     console.log('starting initial conversation with user:', user);
 
-    for (var i = 0; i < initialQuestions.length; ++i) {
-        var question = initialQuestions[i];
-        sendTemplateMessage(token, user, question);
+    for (var i = 0; i < initialMessages.length; ++i) {
+        var message = messages[initialMessages[i]];
+        sendMessage(token, user, message);
     }
 }
 
-function sendTextMessage(token, recipient, text) {
-    messageData = {
-        text:text
-    };
-
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:token},
-        method: 'POST',
-        json: {
-            recipient: {id:recipient},
-            message: messageData,
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending message: ', error);
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error);
-        }
-    });
-}
-
-function sendTemplateMessage(token, recipient, message) {
+function sendMessage(token, recipient, message) {
     delete message.id;
 
     request({
