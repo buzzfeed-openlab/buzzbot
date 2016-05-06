@@ -4,14 +4,14 @@ var express = require('express'),
     request = require('request'),
     uuid = require('node-uuid');
 
-// var configPath = (process.argv[2] || './config.json'),
-//     config = require(configPath);
+var configPath = (process.argv[2] || './config.json'),
+    config = require(configPath);
 
-var config = {
-    pageToken: process.env.pageToken,
-    verifyToken: process.env.verifyToken,
-    port: process.env.PORT
-}
+// var config = {
+//     pageToken: process.env.pageToken,
+//     verifyToken: process.env.verifyToken,
+//     port: process.env.PORT
+// }
 
 var app = express();
 
@@ -207,7 +207,7 @@ app.post('/hook/', function (req, res) {
 });
 
 app.post('/messages/', function (req, res) {
-    if (!req.body.message) {
+    if (!req.body.message || !req.body.message.id) {
         return res.sendStatus(400);
     }
 
@@ -217,6 +217,15 @@ app.post('/messages/', function (req, res) {
     // message.id = uuid.v4();
     messages[message.id] = message;
 
+    res.sendStatus(200);
+});
+
+app.post('/send', function (req, res) {
+    if (!req.body.messageId || !messages[req.body.messageId]) {
+        return res.sendStatus(400);
+    }
+
+    var message = messages[req.body.messageId];
     for (var id in users) {
         sendMessage(config.pageToken, id, message);
     }
@@ -224,4 +233,5 @@ app.post('/messages/', function (req, res) {
     res.sendStatus(200);
 });
 
+console.log('config', config);
 app.listen(config.port);
