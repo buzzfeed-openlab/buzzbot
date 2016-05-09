@@ -134,6 +134,10 @@ function handlePostBack(token, event) {
     var sender = event.sender.id,
         payload = event.postback.payload;
 
+    if (!users[sender]) {
+        return console.log('ERROR: user does not exist', sender);
+    }
+
     users[sender].tags.push(payload);
 
     var triggeredMessages = messageTriggers[payload] || [];
@@ -167,9 +171,9 @@ function sendMessage(token, recipient, message) {
 
     }, function(error, response, body) {
         if (error) {
-            console.log('Error sending message: ', error);
+            console.log('ERROR: sending message: ', error);
         } else if (response.body.error) {
-            console.log('Error: ', response.body.error);
+            console.log('ERROR: ', response.body.error);
         }
 
         // record that we sent the user this message
@@ -183,7 +187,7 @@ app.get('/hook/', function (req, res) {
         return res.send(req.query['hub.challenge']);
     }
 
-    console.log('ERROR failed to verify hook...');
+    console.log('ERROR: failed to verify hook...');
     return res.send('Error, wrong validation token');
 });
 
