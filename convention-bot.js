@@ -40,7 +40,7 @@ var messages = {
           "type":"template",
           "payload":{
             "template_type":"button",
-            "text":"Why are you interested in the Republican convention?",
+            "text":"Hi! Nice to meet you.\n\nWhy are you interested in the Republican convention?",
             "buttons":[
               {
                 "title":"I'll be in Cleveland",
@@ -115,7 +115,8 @@ var messageTriggers = {
 
 function handleIncomingMessage(token, event) {
     var sender = event.sender.id,
-        text = event.message.text;
+        text = event.message.text,
+        attachments = event.message.attachments;
 
     if (!users[sender]) {
         users[sender] = {
@@ -125,8 +126,21 @@ function handleIncomingMessage(token, event) {
         };
 
         startInitialConversation(token, sender);
+    }
+
+    if (text) {
+        sendMessage(token, sender, { text: 'DEBUG: ' + text });
+
+    } else if (event.message.attachments) {
+        console.log(event.message.attachments[0]);
+        for (var i = 0; i < attachments.length; ++i) {
+            var attachment = attachments[i];
+
+            sendMessage(token, sender, { text: 'DEBUG: ' + attachment.payload.url });
+        }
+
     } else {
-        console.log('user', sender, 'says:', text);
+        console.log('user', sender);
     }
 }
 
@@ -198,7 +212,7 @@ app.post('/hook/', function (req, res) {
     for (i = 0; i < messaging_events.length; i++) {
         var event = req.body.entry[0].messaging[i];
 
-        if (event.message && event.message.text) {
+        if (event.message) {
             handleIncomingMessage(config.pageToken, event);
         } else if (event.postback) {
             handlePostBack(config.pageToken, event);
@@ -237,5 +251,7 @@ app.post('/send', function (req, res) {
     res.sendStatus(200);
 });
 
-console.log('config', config);
+console.log('STARTING with config:');
+console.log(config);
+
 app.listen(config.port);
