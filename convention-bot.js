@@ -113,6 +113,11 @@ var messageTriggers = {
     "9ce84a73-311c-453b-b140-aa6f0353025f:other-reason": ["6fa03b19-28ae-4c7c-a7c0-e40e62b0478b"]
 };
 
+function parseTag(tag) {
+    var tagData = tag.split(':');
+    return { mid: tagData[0], tag: tagData[1] };
+}
+
 function handleIncomingMessage(token, event) {
     var sender = event.sender.id,
         text = event.message.text,
@@ -129,18 +134,17 @@ function handleIncomingMessage(token, event) {
     }
 
     if (text) {
-        sendMessage(token, sender, { text: 'DEBUG: ' + text });
+        sendMessage(token, sender, { id: 0, text: 'DEBUG: ' + text });
 
     } else if (event.message.attachments) {
-        console.log(event.message.attachments[0]);
         for (var i = 0; i < attachments.length; ++i) {
             var attachment = attachments[i];
 
-            sendMessage(token, sender, { text: 'DEBUG: ' + attachment.payload.url });
+            sendMessage(token, sender, { id: 0, text: 'DEBUG: ' + attachment.payload.url });
         }
 
     } else {
-        console.log('user', sender);
+        console.log('user:', sender, 'sent event:', event);
     }
 }
 
@@ -152,7 +156,11 @@ function handlePostBack(token, event) {
         return console.log('ERROR: user does not exist', sender);
     }
 
-    users[sender].tags.push(payload);
+    var tagData = parseTag(payload);
+
+    var user = users[sender];
+    user.tags.push(payload);
+    user.messages[tagData.mid].responses.push(tagData.tag);
 
     var triggeredMessages = messageTriggers[payload] || [];
     for (var i = 0; i < triggeredMessages.length; ++i) {
@@ -191,7 +199,7 @@ function sendMessage(token, recipient, message) {
         }
 
         // record that we sent the user this message
-        users[recipient]['messages'][message.id] = {};
+        users[recipient]['messages'][message.id] = { responses: [] };
     });
 }
 
