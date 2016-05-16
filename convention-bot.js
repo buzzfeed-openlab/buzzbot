@@ -4,8 +4,9 @@ var express = require('express'),
     request = require('request'),
     uuid = require('node-uuid');
 
-var configPath = (process.argv[2] || './config.json'),
-    config = require(configPath);
+const config = require('./config.js');
+
+var db = require('./db');
 
 // var config = {
 //     pageToken: process.env.pageToken,
