@@ -3,7 +3,7 @@ import path from 'path';
 import Sequelize from 'sequelize';
 
 const config = require('../config.js'),
-    dbConfig = require('./config.js')[config.env],
+    dbConfig = require('./sequelize_config.js')[config.env],
     basename = path.basename(module.filename),
     modelDir = path.join(__dirname, 'models');
 

@@ -6,6 +6,11 @@
   "scripts": {
     "start": "npm run babel-node -- ./convention-bot.js",
     "babel-node": "babel-node --presets es2015 --ignore node_modules",
+    "sequelize": "sequelize",
+    "migrate": "npm run sequelize -- db:migrate",
+    "migration:create": "npm run sequelize -- migration:create",
+    "migrate:undo": "npm run sequelize -- db:migrate:undo",
+    "migrate:undo:all": "npm run sequelize -- db:migrate:undo:all",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,7 +30,8 @@
     "pg": "^4.5.5",
     "pg-hstore": "^2.3.2",
     "request": "^2.72.0",
-    "sequelize": "^3.23.1"
+    "sequelize": "^3.23.1",
+    "sequelize-cli": "^2.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
