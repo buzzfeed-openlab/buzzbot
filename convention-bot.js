@@ -4,6 +4,8 @@ var express = require('express'),
     request = require('request'),
     uuid = require('node-uuid');
 
+import { User } from './db';
+
 const config = require('./config.js');
 
 var db = require('./db');
@@ -119,6 +121,27 @@ function parseTag(tag) {
     return { mid: tagData[0], tag: tagData[1] };
 }
 
+function getOrCreateUser(id) {
+    return User.findOne({ where: { id: id } }).then((existingUser) => {
+        if (existingUser) {
+            console.log('EXISTING: ', existingUser);
+            return existingUser;
+        }
+
+        const user = User.build({
+            id: id
+        });
+
+        console.log('NEW: ', user);
+
+        return user.save().then(() => {
+            console.log('SAVED!!!');
+            return user;
+        });
+
+    }).catch((err) => console.log(err));
+}
+
 function handleIncomingMessage(token, event) {
     var sender = event.sender.id,
         text = event.message.text,
@@ -130,6 +153,11 @@ function handleIncomingMessage(token, event) {
             messages: {},
             tags: []
         };
+
+        getOrCreateUser(sender).then((user) => {
+            console.log('CRAZY!', user);
+        });
+
 
         startInitialConversation(token, sender);
     }
@@ -218,7 +246,7 @@ app.post('/hook/', function (req, res) {
     var messaging_events = req.body.entry[0].messaging,
         status = 200;
 
-    for (i = 0; i < messaging_events.length; i++) {
+    for (var i = 0; i < messaging_events.length; i++) {
         var event = req.body.entry[0].messaging[i];
 
         if (event.message) {
