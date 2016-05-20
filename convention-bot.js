@@ -135,12 +135,15 @@ function handleIncomingMessage(token, event) {
             console.log('CRAZY!', user);
         });
 
-
         startInitialConversation(token, sender);
     }
 
     if (text) {
         sendMessage(token, sender, { id: 0, text: 'DEBUG: ' + text });
+
+        Controller.createResponse(sender, { text: text }).then((response) => {
+            console.log('SUCCESSSSSS: ', response);
+        });
 
     } else if (event.message.attachments) {
         for (var i = 0; i < attachments.length; ++i) {

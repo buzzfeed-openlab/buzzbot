@@ -13,13 +13,23 @@ export default (db) => { return {
 
             console.log('NEW: ', user);
 
-            return user.save().then(() => {
+            return user.save().then((err) => {
                 console.log('SAVED!!!');
+                if (err) {
+                    console.log('ERROR saving new user: ', err);
+                    return err;
+                }
+
                 return user;
             });
 
         }).catch((err) => console.log(err));
+    },
+
+    createResponse(userId, data) {
+        const props = Object.assign({}, data, { userId });
+
+        return db.Response.create(props);
     }
 
 }}
-

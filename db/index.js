@@ -9,7 +9,7 @@ const config = require('../config.js'),
     modelDir = path.join(__dirname, 'models');
 
 const db = {
-    Sequelize: Sequelize,
+    Sequelize,
 };
 
 const dbUrl = process.env[dbConfig.useEnvVar];
