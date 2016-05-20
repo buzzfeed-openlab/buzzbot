@@ -4,11 +4,9 @@ var express = require('express'),
     request = require('request'),
     uuid = require('node-uuid');
 
-import { User } from './db';
+import { User, Controller } from './db';
 
 const config = require('./config.js');
-
-var db = require('./db');
 
 // var config = {
 //     pageToken: process.env.pageToken,
@@ -121,27 +119,6 @@ function parseTag(tag) {
     return { mid: tagData[0], tag: tagData[1] };
 }
 
-function getOrCreateUser(id) {
-    return User.findOne({ where: { id: id } }).then((existingUser) => {
-        if (existingUser) {
-            console.log('EXISTING: ', existingUser);
-            return existingUser;
-        }
-
-        const user = User.build({
-            id: id
-        });
-
-        console.log('NEW: ', user);
-
-        return user.save().then(() => {
-            console.log('SAVED!!!');
-            return user;
-        });
-
-    }).catch((err) => console.log(err));
-}
-
 function handleIncomingMessage(token, event) {
     var sender = event.sender.id,
         text = event.message.text,
@@ -154,7 +131,7 @@ function handleIncomingMessage(token, event) {
             tags: []
         };
 
-        getOrCreateUser(sender).then((user) => {
+        Controller.getOrCreateUser(sender).then((user) => {
             console.log('CRAZY!', user);
         });
 

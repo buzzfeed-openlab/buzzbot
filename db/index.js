@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import Sequelize from 'sequelize';
+import Controller from './controller'
 
 const config = require('../config.js'),
     dbConfig = require('./sequelize_config.js')[config.env],
@@ -32,5 +33,7 @@ Object.keys(db).forEach((modelName) => {
         db[modelName].associate(db);
     }
 });
+
+db.Controller = Controller(db);
 
 module.exports = db;
