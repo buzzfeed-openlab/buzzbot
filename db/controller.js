@@ -1,35 +1,25 @@
 
 export default (db) => { return {
+    getUser(id) {
+        return db.User.findOne({ where: { id: id } });
+    },
+
+    createUser(id) {
+        return db.User.create({ id });
+    },
+
     getOrCreateUser(id) {
-        return db.User.findOne({ where: { id: id } }).then((existingUser) => {
-            if (existingUser) {
-                console.log('EXISTING: ', existingUser);
-                return existingUser;
-            }
-
-            const user = db.User.build({
-                id: id
-            });
-
-            console.log('NEW: ', user);
-
-            return user.save().then((err) => {
-                console.log('SAVED!!!');
-                if (err) {
-                    console.log('ERROR saving new user: ', err);
-                    return err;
-                }
-
-                return user;
-            });
-
-        }).catch((err) => console.log(err));
+        return db.User.findOrCreate({ where: { id } });
     },
 
     createResponse(userId, data) {
         const props = Object.assign({}, data, { userId });
 
         return db.Response.create(props);
-    }
+    },
+
+    getAllResponses(options) {
+        return db.Response.findAll(options);
+    },
 
 }}

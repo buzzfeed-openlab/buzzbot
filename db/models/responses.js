@@ -6,8 +6,7 @@ export default (sequelize, DataTypes) => {
             autoIncrement: true
         },
         text: DataTypes.STRING,
-        image: DataTypes.STRING,
-        video: DataTypes.STRING,
+        attachments: DataTypes.ARRAY(DataTypes.JSON),
         date: {
             type: DataTypes.DATE,
             defaultValue: sequelize.fn('NOW')

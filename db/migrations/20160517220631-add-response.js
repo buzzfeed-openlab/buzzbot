@@ -10,8 +10,7 @@ module.exports = {
                     autoIncrement: true
                 },
                 text: DataTypes.STRING,
-                image: DataTypes.STRING,
-                video: DataTypes.STRING,
+                attachments: DataTypes.ARRAY(DataTypes.JSON),
                 date: {
                     type: DataTypes.DATE,
                     defaultValue: DataTypes.fn('NOW')

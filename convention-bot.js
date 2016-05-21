@@ -120,61 +120,56 @@ function parseTag(tag) {
 }
 
 function handleIncomingMessage(token, event) {
-    var sender = event.sender.id,
+    const userId = event.sender.id,
         text = event.message.text,
         attachments = event.message.attachments;
 
-    if (!users[sender]) {
-        users[sender] = {
-            id: sender,
-            messages: {},
-            tags: []
-        };
-
-        Controller.getOrCreateUser(sender).then((user) => {
-            console.log('CRAZY!', user);
-        });
-
-        startInitialConversation(token, sender);
-    }
-
-    if (text) {
-        sendMessage(token, sender, { id: 0, text: 'DEBUG: ' + text });
-
-        Controller.createResponse(sender, { text: text }).then((response) => {
-            console.log('SUCCESSSSSS: ', response);
-        });
-
-    } else if (event.message.attachments) {
-        for (var i = 0; i < attachments.length; ++i) {
-            var attachment = attachments[i];
-
-            sendMessage(token, sender, { id: 0, text: 'DEBUG: ' + attachment.payload.url });
+    Controller.getOrCreateUser(userId).spread((user, created) => {
+        if (created) {
+            startInitialConversation(token, userId);
         }
 
-    } else {
-        console.log('user:', sender, 'sent event:', event);
-    }
+        const props = {};
+
+        if (text) {
+            sendMessage(token, userId, { id: 0, text: 'DEBUG: ' + text });
+            props.text = text;
+        }
+
+        if (attachments) {
+            props.attachments = attachments;
+
+            for (var i = 0; i < attachments.length; ++i) {
+                var attachment = attachments[i];
+
+                sendMessage(token, userId, { id: 0, text: 'DEBUG: ' + attachment.payload.url });
+            }
+
+        } else {
+            console.log('user:', userId, 'sent event:', event);
+        }
+
+        Controller.createResponse(userId, props).then(() => {
+            console.log('PERSISTED');
+            Controller.getAllResponses().then((responses) => {
+                console.log('responses: ', responses);
+            })
+        });
+    });
 }
 
 function handlePostBack(token, event) {
-    var sender = event.sender.id,
+    var userId = event.sender.id,
         payload = event.postback.payload;
 
-    if (!users[sender]) {
-        return console.log('ERROR: user does not exist', sender);
-    }
+    Controller.getUser(userId).then((user) => {
+        var tagData = parseTag(payload);
 
-    var tagData = parseTag(payload);
-
-    var user = users[sender];
-    user.tags.push(payload);
-    user.messages[tagData.mid].responses.push(tagData.tag);
-
-    var triggeredMessages = messageTriggers[payload] || [];
-    for (var i = 0; i < triggeredMessages.length; ++i) {
-        sendMessage(token, sender, messages[triggeredMessages[i]]);
-    }
+        var triggeredMessages = messageTriggers[payload] || [];
+        for (var i = 0; i < triggeredMessages.length; ++i) {
+            sendMessage(token, userId, messages[triggeredMessages[i]]);
+        }
+    });
 }
 
 function startInitialConversation(token, user) {
@@ -208,7 +203,7 @@ function sendMessage(token, recipient, message) {
         }
 
         // record that we sent the user this message
-        users[recipient]['messages'][message.id] = { responses: [] };
+        // users[recipient]['messages'][message.id] = { responses: [] };
     });
 }
 
