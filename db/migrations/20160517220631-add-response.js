@@ -1,32 +1,50 @@
 'use strict';
 
 module.exports = {
-    up(queryInterface, DataTypes) {
+    up(queryInterface, Sequelize) {
         return queryInterface.createTable(
             'Responses', {
                 id: {
-                    type: DataTypes.INTEGER,
+                    type: Sequelize.INTEGER,
                     primaryKey: true,
                     autoIncrement: true
                 },
-                text: DataTypes.STRING,
-                attachments: DataTypes.ARRAY(DataTypes.JSON),
-                date: {
-                    type: DataTypes.DATE,
-                    defaultValue: DataTypes.fn('NOW')
-                },
+                text: Sequelize.STRING,
+                attachments: Sequelize.ARRAY(Sequelize.JSON),
                 userId: {
-                    type: DataTypes.STRING,
+                    type: Sequelize.STRING,
                     references: {
                         model: 'Users',
                         key: 'id'
-                  }
+                    }
+                },
+                messageId: {
+                    type: Sequelize.INTEGER,
+                    references: {
+                        model: 'Message',
+                        key: 'id'
+                    }
+                },
+                tag: {
+                    type: Sequelize.STRING,
+                    references: {
+                        model: 'Tag',
+                        key: 'tag'
+                    }
+                },
+                createdAt: {
+                    allowNull: false,
+                    type: Sequelize.DATE
+                },
+                updatedAt: {
+                    allowNull: false,
+                    type: Sequelize.DATE
                 }
             }
         );
     },
 
     down(queryInterface) {
-        return queryInterface.dropTable('Topics');
+        return queryInterface.dropTable('Responses');
     }
 };

@@ -6,6 +6,7 @@
   "scripts": {
     "start": "npm run babel-node -- ./convention-bot.js",
     "babel-node": "babel-node --presets es2015 --ignore node_modules",
+    "db:init": "npm run babel-node -- ./db/init.js",
     "sequelize": "sequelize",
     "migrate": "npm run sequelize -- db:migrate",
     "migration:create": "npm run sequelize -- migration:create",

@@ -5,11 +5,21 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             primaryKey: true
+        },
+        name: {
+            type: DataTypes.STRING
         }
     }, {
-        timestamps: false,
         classMethods: {
             associate(models) {
+                User.hasMany(models.Response, {
+                    as: 'Responses',
+                    foreignKey: 'userId'
+                });
+                User.belongsToMany(models.Tag, {
+                    through: 'UserTag',
+                    foreignKey: 'userId'
+                });
             }
         },
         instanceMethods: {

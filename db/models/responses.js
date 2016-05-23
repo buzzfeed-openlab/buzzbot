@@ -7,16 +7,17 @@ export default (sequelize, DataTypes) => {
         },
         text: DataTypes.STRING,
         attachments: DataTypes.ARRAY(DataTypes.JSON),
-        date: {
-            type: DataTypes.DATE,
-            defaultValue: sequelize.fn('NOW')
-        }
     }, {
-        timestamps: false,
         classMethods: {
             associate(models) {
                 Response.belongsTo(models.User, {
                     foreignKey: 'userId'
+                });
+                Response.belongsTo(models.Message, {
+                    foreignKey: 'messageId'
+                });
+                Response.belongsTo(models.Tag, {
+                    foreignKey: 'tag'
                 });
             }
         }
