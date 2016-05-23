@@ -21,7 +21,8 @@ export default (sequelize, DataTypes) => {
                 });
                 Message.belongsToMany(models.Trigger, {
                     through: 'MessageTrigger',
-                    foreignKey: 'messageId'
+                    foreignKey: 'messageId',
+                    as: 'triggers'
                 });
             }
         }

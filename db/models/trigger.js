@@ -14,7 +14,8 @@ module.exports = function(sequelize, DataTypes) {
                 });
                 Trigger.belongsToMany(models.Message, {
                     through: 'MessageTrigger',
-                    foreignKey: 'triggerId'
+                    foreignKey: 'triggerId',
+                    as: 'messages'
                 });
             }
         }

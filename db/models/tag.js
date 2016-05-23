@@ -11,7 +11,8 @@ module.exports = function(sequelize, DataTypes) {
             associate: function(models) {
                 Tag.belongsToMany(models.User, {
                     through: 'UserTag',
-                    foreignKey: 'tag'
+                    foreignKey: 'tag',
+                    as: 'users'
                 });
                 Tag.belongsTo(models.Message, {
                     foreignKey: 'messageId'
