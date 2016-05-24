@@ -14,6 +14,11 @@ const config = require('./config.js');
 //     port: process.env.PORT
 // }
 
+// clear user table
+// User.destroy({ where: {} }).then(() => {
+//     console.log('CLEARED USER TABLE');
+// });
+
 var app = express();
 
 // parse application/json
@@ -103,7 +108,7 @@ var messages = {
 };
 
 var initialMessages = [
-    "e42d0ffc-cdf2-41f8-a18d-988529d6b86f",
+    1,
 ];
 
 var messageTriggers = {
@@ -132,7 +137,7 @@ function handleIncomingMessage(token, event) {
         const props = {};
 
         if (text) {
-            sendMessage(token, userId, { id: 0, text: 'DEBUG: ' + text });
+            //sendMessage(token, userId, { id: 0, text: 'DEBUG: ' + text });
             props.text = text;
         }
 
@@ -142,7 +147,7 @@ function handleIncomingMessage(token, event) {
             for (var i = 0; i < attachments.length; ++i) {
                 var attachment = attachments[i];
 
-                sendMessage(token, userId, { id: 0, text: 'DEBUG: ' + attachment.payload.url });
+                //sendMessage(token, userId, { id: 0, text: 'DEBUG: ' + attachment.payload.url });
             }
 
         } else {
@@ -150,10 +155,7 @@ function handleIncomingMessage(token, event) {
         }
 
         Controller.createResponse(userId, props).then(() => {
-            console.log('PERSISTED');
-            Controller.getAllResponses().then((responses) => {
-                console.log('responses: ', responses);
-            })
+            console.log('PERSISTED RESPONSE');
         });
     });
 }
@@ -172,27 +174,25 @@ function handlePostBack(token, event) {
     });
 }
 
-function startInitialConversation(token, user) {
-    console.log('starting initial conversation with user:', user);
+function startInitialConversation(token, userId) {
+    console.log('starting initial conversation with user:', userId);
 
-    for (var i = 0; i < initialMessages.length; ++i) {
-        var message = messages[initialMessages[i]];
-        sendMessage(token, user, message);
-    }
+    Controller.getMessages(initialMessages).then((messages) => {
+        for (var i = 0; i < messages.length; ++i) {
+            var message = messages[i];
+            sendMessage(token, userId, JSON.parse(message.data));
+        }
+    });
 }
 
-function sendMessage(token, recipient, message) {
-    // copy the message so that we can remove fields used locally
-    var msg = Object.assign({}, message);
-    delete msg.id;
-
+function sendMessage(token, recipient, messageData) {
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:token},
         method: 'POST',
         json: {
             recipient: { id:recipient },
-            message: msg,
+            message: messageData,
         }
 
     }, function(error, response, body) {

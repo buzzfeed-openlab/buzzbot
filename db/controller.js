@@ -22,4 +22,14 @@ export default (db) => { return {
         return db.Response.findAll(options);
     },
 
+    getMessages(messageIds) {
+        return db.Message.findAll({
+            where: {
+                id: {
+                    $or: messageIds
+                }
+            }
+        });
+    },
+
 }}

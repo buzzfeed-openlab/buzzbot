@@ -10,7 +10,7 @@ module.exports = [
                         "type": "template",
                         "payload": {
                             "template_type": "button",
-                            "text": "Hi! Nice to meet you.\n\nWhy are you interested in the Republican convention?",
+                            "text": "Hi! Nice to meet you.\\n\\nWhy are you interested in the Republican convention?",
                             "buttons": [
                                 {
                                     "title": "I'll be in Cleveland",
