@@ -32,4 +32,10 @@ export default (db) => { return {
         });
     },
 
+    getMessagesForTrigger(tag) {
+        return db.Trigger.findOne({ where: { tag: tag } }).then((trigger) => {
+            return trigger ? trigger.getMessages() : [];
+        });
+    }
+
 }}

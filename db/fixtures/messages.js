@@ -59,22 +59,24 @@ module.exports = [
             "data": {
                 "id": 4,
                 "data": `{
-                    "type": "template",
-                    "payload": {
-                        "template_type": "button",
-                        "text": "Oh? Are you:",
-                        "buttons": [
-                            {
-                                "title":"Just interested",
-                                "type":"postback",
-                                "payload":"4:remote"
-                            },
-                            {
-                                "title":"For another reason",
-                                "type":"postback",
-                                "payload":"4:other-reason"
-                            }
-                        ]
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "button",
+                            "text": "Oh? Are you:",
+                            "buttons": [
+                                {
+                                    "title":"Just interested",
+                                    "type":"postback",
+                                    "payload":"4:remote"
+                                },
+                                {
+                                    "title":"For another reason",
+                                    "type":"postback",
+                                    "payload":"4:other-reason"
+                                }
+                            ]
+                        }
                     }
                 }`
             }

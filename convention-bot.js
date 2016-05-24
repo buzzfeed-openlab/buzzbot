@@ -167,10 +167,11 @@ function handlePostBack(token, event) {
     Controller.getUser(userId).then((user) => {
         var tagData = parseTag(payload);
 
-        var triggeredMessages = messageTriggers[payload] || [];
-        for (var i = 0; i < triggeredMessages.length; ++i) {
-            sendMessage(token, userId, messages[triggeredMessages[i]]);
-        }
+        Controller.getMessagesForTrigger(payload).then((triggeredMessages) => {
+            for (var i = 0; i < triggeredMessages.length; ++i) {
+                sendMessage(token, userId, JSON.parse(triggeredMessages[i].data));
+            }
+        });
     });
 }
 
