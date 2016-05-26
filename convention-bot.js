@@ -1,7 +1,8 @@
 
 var express = require('express'),
     bodyParser = require('body-parser'),
-    request = require('request');
+    request = require('request'),
+    path = require('path');
 
 import { User, Controller } from './db';
 
@@ -23,6 +24,9 @@ var initialMessages = [
 // });
 
 var app = express();
+
+// serve up the admin interface
+app.use('/', express.static(path.join(__dirname, 'client')));
 
 // parse application/json
 app.use(bodyParser.json());
