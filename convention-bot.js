@@ -149,7 +149,9 @@ function handleIncomingMessage(token, event) {
                 //sendMessage(token, userId, { id: 0, text: 'DEBUG: ' + attachment.payload.url });
             }
 
-        } else {
+        }
+
+        if (!text && !attachments) {
             console.log('user:', userId, 'sent event:', event);
         }
 
@@ -166,9 +168,9 @@ function handlePostBack(token, event) {
     Controller.getUser(userId).then((user) => {
         var tagData = parseTag(payload);
 
-        Controller.getMessagesForTrigger(payload).then((triggeredMessages) => {
+        Controller.getMessagesForTrigger(tagData.mid, tagData.tag).then((triggeredMessages) => {
             for (var i = 0; i < triggeredMessages.length; ++i) {
-                sendMessage(token, userId, JSON.parse(triggeredMessages[i].data));
+                sendMessage(token, userId, triggeredMessages[i]);
             }
         });
     });
@@ -179,16 +181,30 @@ function startInitialConversation(token, userId) {
 
     Controller.getMessages(initialMessages).then((messages) => {
         for (var i = 0; i < messages.length; ++i) {
-            var message = messages[i];
-            sendMessage(token, userId, JSON.parse(message.data));
+            sendMessage(token, userId, messages[i]);
         }
     });
 }
 
-function sendMessage(token, recipient, messageData) {
+function sendMessage(token, recipient, message) {
+    var messageData = JSON.parse(message.data);
+
+    // special case for template messages so that we have more info when we get
+    // a postback from facebook
+    if (messageData.attachment && messageData.attachment.payload && messageData.attachment.payload.buttons) {
+        var buttons = messageData.attachment.payload.buttons;
+        for (var i = 0; i < buttons.length; ++i) {
+            buttons[i].payload = message.id + ':' + buttons[i].payload;
+        }
+    }
+
+    return sendMessageData(token, recipient, messageData);
+}
+
+function sendMessageData(token, recipient, messageData) {
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:token},
+        qs: { access_token:token },
         method: 'POST',
         json: {
             recipient: { id:recipient },
@@ -259,7 +275,7 @@ app.post('/send', function (req, res) {
 
     var message = messages[req.body.messageId];
     for (var id in users) {
-        sendMessage(config.pageToken, id, message);
+        sendMessageData(config.pageToken, id, message);
     }
 
     res.sendStatus(200);

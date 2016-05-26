@@ -3,7 +3,7 @@ module.exports = [
         model: 'Trigger',
         data: {
             id: 1,
-            tag: 1,
+            tagId: 1,
             messages: [2]
         }
     },
@@ -11,7 +11,7 @@ module.exports = [
         model: 'Trigger',
         data: {
             id: 2,
-            tag: 2,
+            tagId: 2,
             messages: [3]
         }
     },
@@ -19,7 +19,7 @@ module.exports = [
         model: 'Trigger',
         data: {
             id: 3,
-            tag: 3,
+            tagId: 3,
             messages: [4]
         }
     },
@@ -27,7 +27,7 @@ module.exports = [
         model: 'Trigger',
         data: {
             id: 4,
-            tag: 4,
+            tagId: 4,
             messages: [5]
         }
     },
@@ -35,7 +35,7 @@ module.exports = [
         model: 'Trigger',
         data: {
             id: 5,
-            tag: 5,
+            tagId: 5,
             messages: [6]
         }
     },

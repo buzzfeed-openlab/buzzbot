@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
         classMethods: {
             associate: function(models) {
                 Trigger.belongsTo(models.Tag, {
-                    foreignKey: 'id'
+                    foreignKey: 'tagId'
                 });
                 Trigger.belongsToMany(models.Message, {
                     through: 'MessageTrigger',

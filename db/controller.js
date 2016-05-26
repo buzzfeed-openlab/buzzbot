@@ -36,9 +36,16 @@ export default (db) => { return {
         });
     },
 
-    getMessagesForTrigger(tag) {
-        return db.Trigger.findOne({ where: { tag: tag } }).then((trigger) => {
-            return trigger ? trigger.getMessages() : [];
+    getMessagesForTrigger(messageId, tag) {
+        return db.Tag.findOne({ where: {
+            messageId,
+            tag,
+        } }).then((tag) => {
+            return db.Trigger.findOne({ where: {
+                tagId: tag.id
+            } }).then((trigger) => {
+                return trigger ? trigger.getMessages() : [];
+            });
         });
     }
 
