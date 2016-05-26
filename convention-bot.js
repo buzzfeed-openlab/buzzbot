@@ -269,16 +269,23 @@ app.post('/messages/', function (req, res) {
 });
 
 app.post('/send', function (req, res) {
-    if (!req.body.messageId || !messages[req.body.messageId]) {
-        return res.sendStatus(400);
+    if (!req.body.messageId) {
+        return res.status(400).json({ message: '`messageId` must be specified in request' })
     }
 
-    var message = messages[req.body.messageId];
-    for (var id in users) {
-        sendMessageData(config.pageToken, id, message);
-    }
-
-    res.sendStatus(200);
+    Controller.getUsers({
+        attributes: ['id']
+    }).then((users) => {
+        Controller.getMessage(req.body.messageId).then((message) => {
+            for (var i = 0; i < users.length; ++i) {
+                sendMessage(config.pageToken, users[i].id, message);
+            }
+            res.sendStatus(200);
+        });
+    }).catch((err) => {
+        console.log('ERROR sending message: ', err);
+        res.status(400).json(err);
+    });
 });
 
 console.log('STARTING with config:');

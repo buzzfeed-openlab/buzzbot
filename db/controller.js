@@ -1,7 +1,11 @@
 
 export default (db) => { return {
     getUser(id) {
-        return db.User.findOne({ where: { id: id } });
+        return db.User.findOne({ where: { id } });
+    },
+
+    getUsers(options = { where: {} }) {
+        return db.User.findAll(options);
     },
 
     createUser(id) {
@@ -23,7 +27,11 @@ export default (db) => { return {
     },
 
     createMessage(data) {
-        return db.Message.create( { data });
+        return db.Message.create( { data: JSON.stringify(data) });
+    },
+
+    getMessage(id) {
+        return db.Message.findOne({ where: { id } });
     },
 
     getMessages(messageIds) {
