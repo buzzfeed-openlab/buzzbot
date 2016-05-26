@@ -198,7 +198,7 @@ app.post('/messages/', function (req, res) {
 
 app.post('/send', function (req, res) {
     if (!req.body.messageId) {
-        return res.status(400).json({ message: '`messageId` must be specified in request' })
+        return res.status(400).json({ message: '`messageId` must be specified in request' });
     }
 
     Controller.getUsers({
@@ -213,6 +213,22 @@ app.post('/send', function (req, res) {
     }).catch((err) => {
         console.log('ERROR sending message: ', err);
         res.status(400).json(err);
+    });
+});
+
+app.post('/triggers/', function (req, res) {
+    if (!req.body.triggerTag || !req.body.triggerMessageId || !req.body.messages) {
+        return res.status(400).json({ message: '`triggerTag`, `triggerMessageId`, and `messages` must be specified in request' });
+    }
+
+    Controller.getTag(req.body.triggerMessageId, req.body.triggerTag).then((tag) => {
+        Controller.createTrigger(tag.id, req.body.messages).then((trigger) => {
+            console.log('CREATED TRIGGER: ', trigger.get({plain: true}));
+            res.sendStatus(200);
+        });
+    }).catch((err) => {
+        console.log('ERROR creating trigger: ', err);
+        res.status(500).json(err);
     });
 });
 

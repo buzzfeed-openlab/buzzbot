@@ -40,13 +40,9 @@ export default (db) => {
                 }
             }
 
-            console.log('TAGS: ', tags);
-
             return controller.createMessage(data).then((message) => {
                 for (var i = 0; i < tags.length; ++i) {
-                    controller.createTag(message.id, tags[i]).then((tag) => {
-                        console.log('created tag: ', tag.get({plain: true}));
-                    });
+                    controller.createTag(message.id, tags[i]);
                 }
 
                 return message;
@@ -67,12 +63,19 @@ export default (db) => {
             });
         },
 
+        createTrigger(tagId, messageIds) {
+            return db.Trigger.create({
+                tagId
+            }).then((trigger) => {
+                trigger.addMessages(messageIds);
+                return trigger;
+            });
+        },
+
         getMessagesForTriggerFromTag(tag) {
             return db.Trigger.findOne({ where: {
                 tagId: tag.id
-            } }).then((trigger) => {
-                return trigger ? trigger.getMessages() : [];
-            });
+            } });
         },
 
         getTag(messageId, tag) {
