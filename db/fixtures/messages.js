@@ -15,17 +15,17 @@ module.exports = [
                                 {
                                     "title": "I'll be in Cleveland",
                                     "type": "postback",
-                                    "payload": "1:in-town"
+                                    "payload": "in-town"
                                 },
                                 {
                                     "title": "I'm a delegate",
                                     "type": "postback",
-                                    "payload": "1:delegate"
+                                    "payload": "delegate"
                                 },
                                 {
                                     "title": "For another reason",
                                     "type": "postback",
-                                    "payload": "1:other-reason"
+                                    "payload": "other-reason"
                                 }
                             ]
                         }
@@ -68,12 +68,12 @@ module.exports = [
                                 {
                                     "title":"Just interested",
                                     "type":"postback",
-                                    "payload":"4:remote"
+                                    "payload":"remote"
                                 },
                                 {
                                     "title":"For another reason",
                                     "type":"postback",
-                                    "payload":"4:other-reason"
+                                    "payload":"other-reason"
                                 }
                             ]
                         }
