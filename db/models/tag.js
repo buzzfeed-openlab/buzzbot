@@ -1,17 +1,26 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
     var Tag = sequelize.define('Tag', {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
         tag: {
             type: DataTypes.STRING,
             allowNull: false,
-            primaryKey: true
+            unique: 'messageTag',
+        },
+        messageId: {
+            type: DataTypes.INTEGER,
+            unique: 'messageTag'
         }
     }, {
         classMethods: {
             associate: function(models) {
                 Tag.belongsToMany(models.User, {
                     through: 'UserTag',
-                    foreignKey: 'tag',
+                    foreignKey: 'tagId',
                     as: 'users'
                 });
                 Tag.belongsTo(models.Message, {

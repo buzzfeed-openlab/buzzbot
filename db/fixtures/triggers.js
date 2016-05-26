@@ -2,35 +2,40 @@ module.exports = [
     {
         model: 'Trigger',
         data: {
-            tag: "1:in-town",
+            id: 1,
+            tag: 1,
             messages: [2]
         }
     },
     {
         model: 'Trigger',
         data: {
-            tag: "1:delegate",
+            id: 2,
+            tag: 2,
             messages: [3]
         }
     },
     {
         model: 'Trigger',
         data: {
-            tag: "1:other-reason",
+            id: 3,
+            tag: 3,
             messages: [4]
         }
     },
     {
         model: 'Trigger',
         data: {
-            tag: "4:remote",
+            id: 4,
+            tag: 4,
             messages: [5]
         }
     },
     {
         model: 'Trigger',
         data: {
-            tag: "4:other-reason",
+            id: 5,
+            tag: 5,
             messages: [6]
         }
     },

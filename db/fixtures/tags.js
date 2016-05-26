@@ -2,35 +2,40 @@ module.exports = [
     {
         model: 'Tag',
         data: {
-            tag: '1:in-town',
+            id: 1,
+            tag: 'in-town',
             messageId: 1
         }
     },
     {
         model: 'Tag',
         data: {
-            tag: '1:delegate',
+            id: 2,
+            tag: 'delegate',
             messageId: 1
         }
     },
     {
         model: 'Tag',
         data: {
-            tag: '1:other-reason',
+            id: 3,
+            tag: 'other-reason',
             messageId: 1
         }
     },
     {
         model: 'Tag',
         data: {
-            tag: '4:remote',
+            id: 4,
+            tag: 'remote',
             messageId: 4
         }
     },
     {
         model: 'Tag',
         data: {
-            tag: '4:other-reason',
+            id: 5,
+            tag: 'other-reason',
             messageId: 4
         }
     },

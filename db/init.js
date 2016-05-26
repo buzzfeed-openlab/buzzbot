@@ -10,8 +10,9 @@ db.sequelize.sync().then(() => {
     ], db).then(function() {
         // set automatic increment starting values
         db.sequelize.query("ALTER SEQUENCE \"Messages_id_seq\" RESTART WITH 1000;").spread(function(results, metadata) {
+        db.sequelize.query("ALTER SEQUENCE \"Tags_id_seq\" RESTART WITH 1000;").spread(function(results, metadata) {
         db.sequelize.query("ALTER SEQUENCE \"Triggers_id_seq\" RESTART WITH 1000;").spread(function(results, metadata) {
             console.log('CREATED FIXTURES!');
-        }); });
+        }); }); });
     });
 });
