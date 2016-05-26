@@ -67,17 +67,19 @@ export default (db) => {
             });
         },
 
-        getMessagesForTrigger(messageId, tag) {
+        getMessagesForTriggerFromTag(tag) {
+            return db.Trigger.findOne({ where: {
+                tagId: tag.id
+            } }).then((trigger) => {
+                return trigger ? trigger.getMessages() : [];
+            });
+        },
+
+        getTag(messageId, tag) {
             return db.Tag.findOne({ where: {
                 messageId,
-                tag,
-            } }).then((tag) => {
-                return db.Trigger.findOne({ where: {
-                    tagId: tag.id
-                } }).then((trigger) => {
-                    return trigger ? trigger.getMessages() : [];
-                });
-            });
+                tag
+            } });
         },
 
         createTag(messageId, tag) {

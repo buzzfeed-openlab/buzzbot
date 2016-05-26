@@ -90,10 +90,16 @@ function handlePostBack(token, event) {
     Controller.getUser(userId).then((user) => {
         var tagData = parseTag(payload);
 
-        Controller.getMessagesForTrigger(tagData.mid, tagData.tag).then((triggeredMessages) => {
-            for (var i = 0; i < triggeredMessages.length; ++i) {
-                sendMessage(token, userId, triggeredMessages[i]);
-            }
+        Controller.getTag(tagData.mid, tagData.tag).then((tag) => {
+            // associate the tag with the user
+            user.addTag(tag);
+
+            // trigger additional messages
+            Controller.getMessagesForTriggerFromTag(tag).then((triggeredMessages) => {
+                for (var i = 0; i < triggeredMessages.length; ++i) {
+                    sendMessage(token, userId, triggeredMessages[i]);
+                }
+            });
         });
     });
 }
