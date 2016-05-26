@@ -1,8 +1,7 @@
 
 var express = require('express'),
     bodyParser = require('body-parser'),
-    request = require('request'),
-    uuid = require('node-uuid');
+    request = require('request');
 
 import { User, Controller } from './db';
 
@@ -238,17 +237,19 @@ app.post('/hook/', function (req, res) {
 });
 
 app.post('/messages/', function (req, res) {
-    if (!req.body.message || !req.body.message.id) {
+    if (!req.body.message) {
         return res.sendStatus(400);
     }
 
     var message = req.body.message;
 
-    // give the message an id and save it
-    // message.id = uuid.v4();
-    messages[message.id] = message;
-
-    res.sendStatus(200);
+    Controller.createMessage(message).then((message) => {
+        console.log('CREATED MESSAGE:', message.get({plain: true}));
+        res.status(200).json(message.get({ plain: true }));
+    }).catch((err) => {
+        console.log('ERROR creating message: ', err);
+        res.status(500).json(err);
+    });
 });
 
 app.post('/send', function (req, res) {

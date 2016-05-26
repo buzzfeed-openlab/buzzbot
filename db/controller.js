@@ -22,6 +22,10 @@ export default (db) => { return {
         return db.Response.findAll(options);
     },
 
+    createMessage(data) {
+        return db.Message.create( { data });
+    },
+
     getMessages(messageIds) {
         return db.Message.findAll({
             where: {
