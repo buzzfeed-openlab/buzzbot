@@ -179,9 +179,9 @@ app.post('/messages/', function (req, res) {
         return res.sendStatus(400);
     }
 
-    var message = req.body.message;
+    var messageData = req.body.message;
 
-    Controller.createMessage(message).then((message) => {
+    Controller.createMessageAndTags(messageData).then((message) => {
         console.log('CREATED MESSAGE:', message.get({plain: true}));
         res.status(200).json(message.get({ plain: true }));
     }).catch((err) => {
