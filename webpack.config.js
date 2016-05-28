@@ -10,7 +10,7 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015', 'stage-0'],
@@ -21,7 +21,8 @@ module.exports = {
   },
   output: {
     path: __dirname + "/client/",
-    filename: "index.min.js"
+    filename: "index.min.js",
+    publicPath: '/'
   },
   plugins: debug ? [] : [
     new webpack.optimize.DedupePlugin(),

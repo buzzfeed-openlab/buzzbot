@@ -4,6 +4,8 @@ var express = require('express'),
     request = require('request'),
     path = require('path');
 
+import webpack from 'webpack';
+import webpackConfig from './webpack.config.js';
 import { User, Controller } from './db';
 
 const config = require('./config.js');
@@ -24,6 +26,16 @@ var initialMessages = [
 // });
 
 var app = express();
+
+if (config.env == 'development') {
+    const compiler = webpack(webpackConfig);
+    app.use(require('webpack-dev-middleware')(compiler, {
+      noInfo: true,
+      publicPath: webpackConfig.output.publicPath
+    }));
+
+    app.use(require('webpack-hot-middleware')(compiler));
+}
 
 // serve up the admin interface
 app.use('/', express.static(path.join(__dirname, 'client')));
@@ -236,7 +248,19 @@ app.post('/triggers/', function (req, res) {
     });
 });
 
+// -------
+
+// set up websockets
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+io.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+});
+
+// -------
+
 console.log('STARTING with config:');
 console.log(config);
 
-app.listen(config.port);
+server.listen(config.port);
