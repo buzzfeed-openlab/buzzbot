@@ -1,4 +1,7 @@
 import React from "react";
+import ReactBootstrap, { Row, Col } from 'react-bootstrap';
+
+import ResponseList from './ResponseList';
 
 export default class Dashboard extends React.Component {
     constructor() {
@@ -17,24 +20,36 @@ export default class Dashboard extends React.Component {
     }
 
     render() {
-        console.log("dashboard");
-        console.log(this.state);
+        const responseLists = Object.keys(this.state.responses).map((listKey, i) => {
+            const list = this.state.responses[listKey];
+            return (
+                <Col sm={12} md={6} key={i}>
+                    <ResponseList
+                        responses={list}
+                    />
+                </Col>
+            );
+        });
+
         return (
-            <div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        beep boop bop
-                    </div>
-                </div>
+           <div>
+                <Row>
+                    {responseLists}
+                </Row>
             </div>
         );
     }
 
     handleNewResponse(response) {
         console.log('HANDLE NEW RESPONSE', response);
-        console.log('from: ', this.props.route.socket);
+
+        const messageId = response.messageId || 'none';
+        const responseList = this.state.responses[messageId] || [];
+
         this.setState({
-            responses: this.state.responses.push(response)
+            responses: {
+                [messageId]: responseList.concat([ response ])
+            }
         });
     }
 }

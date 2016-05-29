@@ -1,16 +1,19 @@
 import React from "react";
+import ReactBootstrap, { Row, Col } from 'react-bootstrap';
 
 
 export default class Footer extends React.Component {
-  render() {
-    return (
-      <footer>
-        <div class="row">
-          <div class="col-lg-12">
-            <p>Footer Footer Footer</p>
-          </div>
-        </div>
-      </footer>
-    );
-  }
+    constructor() {
+        super();
+    }
+
+    render() {
+        return (
+            <Row style={this.props.style}>
+                <Col lg={12}>
+                    <p>Footer Footer Footer</p>
+                </Col>
+            </Row>
+        );
+    }
 }
