@@ -17,6 +17,10 @@ export default (db) => {
             return db.User.findOrCreate({ where: { id } });
         },
 
+        getResponse(id) {
+            return db.Response.findOne({ where: { id } });
+        },
+
         createResponse(userId, data) {
             const props = Object.assign({}, data, { userId });
 

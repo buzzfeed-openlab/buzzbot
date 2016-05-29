@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import pg from 'pg';
 import Sequelize from 'sequelize';
-import Controller from './controller'
+import Controller from './controller';
 
 const config = require('../config.js'),
     dbConfig = require('./sequelize_config.js')[config.env],
@@ -12,11 +13,15 @@ const db = {
     Sequelize,
 };
 
-const dbUrl = process.env[dbConfig.useEnvVar];
+var dbUrl = process.env[dbConfig.useEnvVar];
 if (dbUrl) {
     db.sequelize = new Sequelize(dbUrl);
+    db.pg = new pg.Client(dbUrl);
 } else {
-    db.sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, dbConfig);
+    db.sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig);
+
+    dbUrl = 'postgres://' + dbConfig.username + ':' + dbConfig.password + '@' + dbConfig.host + '/' + dbConfig.database;
+    db.pg = new pg.Client(dbUrl);
 }
 
 fs.readdirSync(modelDir)

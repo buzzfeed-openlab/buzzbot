@@ -1,6 +1,8 @@
 
-var sequelize_fixtures = require('sequelize-fixtures');
-import db from './index'
+import fs from 'fs';
+import db from './index';
+
+const sequelize_fixtures = require('sequelize-fixtures');
 
 db.sequelize.sync().then(() => {
     sequelize_fixtures.loadFiles([
@@ -8,11 +10,12 @@ db.sequelize.sync().then(() => {
         './db/fixtures/tags.js',
         './db/fixtures/triggers.js'
     ], db).then(function() {
-        // set automatic increment starting values
-        db.sequelize.query("ALTER SEQUENCE \"Messages_id_seq\" RESTART WITH 1000;").spread(function(results, metadata) {
-        db.sequelize.query("ALTER SEQUENCE \"Tags_id_seq\" RESTART WITH 1000;").spread(function(results, metadata) {
-        db.sequelize.query("ALTER SEQUENCE \"Triggers_id_seq\" RESTART WITH 1000;").spread(function(results, metadata) {
+        const seqScript = fs.readFileSync('./db/scripts/init-seq-ids.sql').toString();
+        const triggerScript = fs.readFileSync('./db/scripts/init-triggers.sql').toString();
+
+        db.sequelize.query(seqScript).spread((results, metadata) => {
+        db.sequelize.query(triggerScript).spread((results, metadata) => {
             console.log('CREATED FIXTURES!');
-        }); }); });
+        }); });
     });
 });

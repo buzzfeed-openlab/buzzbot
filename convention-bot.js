@@ -6,7 +6,7 @@ var express = require('express'),
 
 import webpack from 'webpack';
 import webpackConfig from './webpack.config.js';
-import { User, Controller } from './db';
+import { User, Controller, pg } from './db';
 
 const config = require('./config.js');
 
@@ -256,6 +256,24 @@ const io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
+});
+
+pg.connect(function(err) {
+    if(err) {
+        console.log('ERROR connecting to database with pg: ', err);
+    }
+    pg.on('notification', function(msg) {
+        const payloadData = msg.payload.split(',');
+
+        if (msg.channel == 'responses') {
+            Controller.getResponse(payloadData[2]).then((response) => {
+                io.emit('new-response', response.get({ plain: true }));
+            });
+        } else {
+            return console.log('UNKNOWN DB EVENT: ', msg);
+        }
+    });
+    var query = pg.query("LISTEN responses");
 });
 
 // -------
