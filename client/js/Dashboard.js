@@ -27,6 +27,7 @@ export default class Dashboard extends React.Component {
                 <Col sm={12} md={6} key={i}>
                     <ResponseList
                         responses={list}
+                        messageId={listKey}
                     />
                 </Col>
             );

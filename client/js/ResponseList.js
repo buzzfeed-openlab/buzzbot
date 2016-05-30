@@ -2,7 +2,9 @@
 import React from "react";
 import ReactBootstrap, { Row, Col } from 'react-bootstrap';
 import ReactList from 'react-list';
+
 import Response from './Response';
+import Message from './Message';
 
 export default class ResponseList extends React.Component {
     constructor() {
@@ -19,6 +21,7 @@ export default class ResponseList extends React.Component {
 
         return (
             <div style={listBoxStyle}>
+                <Message id={this.props.messageId}/>
                 <ReactList
                     itemRenderer={this.renderResponse}
                     length={this.props.responses.length}
