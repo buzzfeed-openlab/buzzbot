@@ -1,5 +1,6 @@
 import React from "react";
 import ReactBootstrap, { Row, Col } from 'react-bootstrap';
+import update from 'react-addons-update';
 
 import ResponseList from './ResponseList';
 
@@ -46,10 +47,14 @@ export default class Dashboard extends React.Component {
         const messageId = response.messageId || 'none';
         const responseList = this.state.responses[messageId] || [];
 
-        this.setState({
+        const newState = update(this.state, {
             responses: {
-                [messageId]: responseList.concat([ response ])
+                [messageId]: {
+                    $set: responseList.concat([ response ])
+                }
             }
         });
+
+        this.setState(newState);
     }
 }

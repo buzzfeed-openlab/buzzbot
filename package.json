@@ -31,6 +31,7 @@
     "node-uuid": "^1.4.7",
     "pg": "^4.5.5",
     "pg-hstore": "^2.3.2",
+    "react-addons-update": "^15.1.0",
     "react-bootstrap": "^0.29.4",
     "react-list": "^0.7.18",
     "request": "^2.72.0",
