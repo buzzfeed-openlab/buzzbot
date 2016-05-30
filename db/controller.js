@@ -79,7 +79,9 @@ export default (db) => {
         getMessagesForTriggerFromTag(tag) {
             return db.Trigger.findOne({ where: {
                 tagId: tag.id
-            } });
+            } }).then((trigger) => {
+                return trigger.getMessages();
+            });
         },
 
         getTag(messageId, tag) {

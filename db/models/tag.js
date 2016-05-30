@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
                 });
                 Tag.hasMany(models.Response, {
                     as: 'Responses',
-                    foreignKey: 'tag'
+                    foreignKey: 'tagId'
                 });
             }
         }

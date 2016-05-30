@@ -110,6 +110,13 @@ function handlePostBack(token, event) {
             // associate the tag with the user
             user.addTag(tag);
 
+            // save the response
+            Controller.createResponse(userId, {
+                text: payload,
+                messageId: tagData.mid,
+                tagId: tag.id
+            });
+
             // trigger additional messages
             Controller.getMessagesForTriggerFromTag(tag).then((triggeredMessages) => {
                 for (var i = 0; i < triggeredMessages.length; ++i) {

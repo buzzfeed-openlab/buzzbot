@@ -17,7 +17,7 @@ export default (sequelize, DataTypes) => {
                     foreignKey: 'messageId'
                 });
                 Response.belongsTo(models.Tag, {
-                    foreignKey: 'tag'
+                    foreignKey: 'tagId'
                 });
             }
         }
