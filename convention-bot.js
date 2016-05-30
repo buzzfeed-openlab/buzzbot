@@ -262,7 +262,15 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
+    socket.on('get-responses', (options) => {
+        Controller.getResponses({
+            where: {},
+            limit: options.limit || 300,
+            order: '"updatedAt" DESC'
+        }).then((responses) => {
+            socket.emit('responses', responses.map((r) => r.get({ plain: true })));
+        });
+    });
 });
 
 pg.connect(function(err) {

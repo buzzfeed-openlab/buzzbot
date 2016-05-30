@@ -21,14 +21,14 @@ export default (db) => {
             return db.Response.findOne({ where: { id } });
         },
 
+        getResponses(options = { where: {} }) {
+            return db.Response.findAll(options);
+        },
+
         createResponse(userId, data) {
             const props = Object.assign({}, data, { userId });
 
             return db.Response.create(props);
-        },
-
-        getAllResponses(options) {
-            return db.Response.findAll(options);
         },
 
         createMessage(data) {

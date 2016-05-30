@@ -13,11 +13,17 @@ export default class Dashboard extends React.Component {
             other: 234
         }
 
+        this.handleResponses = this.handleResponses.bind(this);
         this.handleNewResponse = this.handleNewResponse.bind(this);
     }
 
     componentWillMount() {
-        this.props.route.socket.on('new-response', this.handleNewResponse);
+        const socket = this.props.route.socket;
+
+        socket.on('responses', this.handleResponses);
+        socket.on('new-response', this.handleNewResponse);
+
+        socket.emit('get-responses', { limit: 100 });
     }
 
     render() {
@@ -40,6 +46,29 @@ export default class Dashboard extends React.Component {
                 </Row>
             </div>
         );
+    }
+
+    handleResponses(responses) {
+        const responseState = {};
+
+        for (var i = 0; i < responses.length; ++i) {
+            const response = responses[i];
+            const messageId = response.messageId || 'none';
+
+            if (!responseState[messageId]) {
+                responseState[messageId] = [];
+            }
+
+            responseState[messageId].push(response);
+        }
+
+        const newState = update(this.state, {
+            responses: {
+                $set: responseState
+            }
+        });
+
+        this.setState(newState);
     }
 
     handleNewResponse(response) {
