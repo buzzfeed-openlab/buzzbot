@@ -20,13 +20,15 @@ export default class ResponseList extends React.Component {
         }
 
         return (
-            <div style={listBoxStyle}>
+            <div>
                 <Message id={this.props.messageId}/>
-                <ReactList
-                    itemRenderer={this.renderResponse}
-                    length={this.props.responses.length}
-                    type='variable'
-                />
+                <div style={listBoxStyle}>
+                    <ReactList
+                        itemRenderer={this.renderResponse}
+                        length={this.props.responses.length}
+                        type='variable'
+                    />
+                </div>
             </div>
         );
     }
