@@ -20,8 +20,6 @@ export default class Layout extends React.Component {
         <div class="container" style={containerStyle}>
           <Row>
             <Col lg={12}>
-              <h1>Convention Bot Admin</h1>
-
               {this.props.children}
 
             </Col>
