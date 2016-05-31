@@ -8,6 +8,10 @@ export default class Message extends React.Component {
     }
 
     render() {
-        return <div>message id: {this.props.id}</div>;
+        if (!this.props.message) {
+            return <div></div>;
+        }
+
+        return <div>message: {JSON.stringify(this.props.message)}</div>;
     }
 }

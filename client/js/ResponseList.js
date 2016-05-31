@@ -21,7 +21,7 @@ export default class ResponseList extends React.Component {
 
         return (
             <div>
-                <Message id={this.props.messageId}/>
+                <Message message={this.props.message}/>
                 <div style={listBoxStyle}>
                     <ReactList
                         itemRenderer={this.renderResponse}
