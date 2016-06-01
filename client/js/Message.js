@@ -39,14 +39,14 @@ export default class Message extends React.Component {
             var buttonList;
             if (data.buttons) {
                 buttonList = (
-                    <p style={{ textAlign: 'center', marginTop: 8, marginBottom: 10.5 }}>
+                    <p key={'buttonList'} style={{ textAlign: 'center', marginTop: 8, marginBottom: 10.5 }}>
                         {data.buttons.map((b) => b.title).join('  |  ')}
                     </p>
                 );
             }
 
             messageBodyDiv = [
-                <p>
+                <p key={'messageText'}>
                     {data.text}
                 </p>,
                 buttonList
