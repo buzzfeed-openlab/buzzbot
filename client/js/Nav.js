@@ -18,6 +18,7 @@ export default class Nav extends React.Component {
     const { location } = this.props;
     const { collapsed } = this.state;
     const dashboardClass = location.pathname === "/" ? "active" : "";
+    const messageFormClass = location.pathname.match(/^\/create-message/) ? "active" : "";
     const navClass = collapsed ? "collapse" : "";
 
     return (
@@ -35,6 +36,9 @@ export default class Nav extends React.Component {
             <ul class="nav navbar-nav">
               <li class={dashboardClass}>
                 <IndexLink to="/" onClick={this.toggleCollapse.bind(this)}>Convention Bot Dashboard</IndexLink>
+              </li>
+              <li class={messageFormClass}>
+                <Link to="create-message" onClick={this.toggleCollapse.bind(this)}>Create a Message</Link>
               </li>
             </ul>
           </div>
