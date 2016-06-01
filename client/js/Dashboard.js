@@ -25,7 +25,7 @@ export default class Dashboard extends React.Component {
         socket.on('new-response', this.handleNewResponse);
         socket.on('messages', this.handleMessages);
 
-        socket.emit('get-responses', { limit: 100 });
+        socket.emit('get-responses', { limit: 1000 });
     }
 
     componentWillUnmount() {
