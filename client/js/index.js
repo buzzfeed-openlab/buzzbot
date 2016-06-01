@@ -4,6 +4,7 @@ import { Router, Route, IndexRoute, hashHistory } from "react-router";
 
 import Dashboard from "./Dashboard";
 import MessageForm from "./MessageForm";
+import TriggerForm from "./TriggerForm";
 import Layout from "./Layout";
 
 import io from 'socket.io-client/socket.io'
@@ -17,6 +18,7 @@ ReactDOM.render(
     <Route path="/" component={Layout}>
       <IndexRoute component={Dashboard} socket={socket}></IndexRoute>
       <Route path="create-message" name="create-message" component={MessageForm} socket={socket}></Route>
+      <Route path="create-trigger" name="create-trigger" component={TriggerForm} socket={socket}></Route>
     </Route>
   </Router>,
 app);

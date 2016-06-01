@@ -19,6 +19,7 @@ export default class Nav extends React.Component {
     const { collapsed } = this.state;
     const dashboardClass = location.pathname === "/" ? "active" : "";
     const messageFormClass = location.pathname.match(/^\/create-message/) ? "active" : "";
+    const triggerFormClass = location.pathname.match(/^\/create-trigger/) ? "active" : "";
     const navClass = collapsed ? "collapse" : "";
 
     return (
@@ -39,6 +40,9 @@ export default class Nav extends React.Component {
               </li>
               <li class={messageFormClass}>
                 <Link to="create-message" onClick={this.toggleCollapse.bind(this)}>Create a Message</Link>
+              </li>
+              <li class={triggerFormClass}>
+                <Link to="create-trigger" onClick={this.toggleCollapse.bind(this)}>Create a Trigger</Link>
               </li>
             </ul>
           </div>

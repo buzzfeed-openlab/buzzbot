@@ -1,12 +1,12 @@
 import React from "react";
 import ReactBootstrap, { Row, Col } from 'react-bootstrap';
 
-export default class MessageForm extends React.Component {
+export default class TriggerForm extends React.Component {
     constructor() {
         super();
     }
 
     render() {
-        return <div><h2>HI!</h2></div>
+        return <div><h2>TRIGGER FORM!</h2></div>
     }
 }
