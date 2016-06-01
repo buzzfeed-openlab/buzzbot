@@ -30,11 +30,10 @@ export default class Dashboard extends React.Component {
 
     render() {
         const responseLists = Object.keys(this.state.responses).map((listKey, i) => {
-            const list = this.state.responses[listKey];
             return (
                 <Col sm={12} md={6} key={i}>
                     <ResponseList
-                        responses={list}
+                        responses={this.state.responses[listKey]}
                         message={this.state.messages[listKey]}
                     />
                 </Col>
@@ -91,7 +90,7 @@ export default class Dashboard extends React.Component {
         const newState = update(this.state, {
             responses: {
                 [messageId]: {
-                    $set: responseList.concat([ response ])
+                    $set: [ response ].concat(responseList)
                 }
             }
         });
