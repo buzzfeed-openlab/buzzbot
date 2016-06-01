@@ -290,7 +290,7 @@ pg.connect(function(err) {
             Controller.getResponse(payloadData[2]).then((response) => {
                 io.emit('new-response', response.get({ plain: true }));
 
-                if (response.message) {
+                if (response.messageId) {
                     Controller.getMessage(response.messageId).then((message) => {
                         io.emit('messages', [ message.get({ plain: true }) ]);
                     });

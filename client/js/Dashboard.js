@@ -29,9 +29,9 @@ export default class Dashboard extends React.Component {
     }
 
     render() {
-        const responseLists = Object.keys(this.state.responses).map((listKey, i) => {
+        const responseLists = Object.keys(this.state.responses).map((listKey) => {
             return (
-                <Col sm={12} md={6} key={i}>
+                <Col sm={12} md={6} key={listKey}>
                     <ResponseList
                         responses={this.state.responses[listKey]}
                         message={this.state.messages[listKey]}
