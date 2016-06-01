@@ -28,6 +28,14 @@ export default class Dashboard extends React.Component {
         socket.emit('get-responses', { limit: 100 });
     }
 
+    componentWillUnmount() {
+        const socket = this.props.route.socket;
+
+        socket.removeListener('responses', this.handleResponses);
+        socket.removeListener('new-response', this.handleNewResponse);
+        socket.removeListener('messages', this.handleMessages);
+    }
+
     render() {
         const responseLists = Object.keys(this.state.responses).map((listKey) => {
             return (
