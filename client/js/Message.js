@@ -39,7 +39,7 @@ export default class Message extends React.Component {
             var buttonList;
             if (data.buttons) {
                 buttonList = (
-                    <p style={{ textAlign: 'center', marginTop: 8, marginBottom: 8 }}>
+                    <p style={{ textAlign: 'center', marginTop: 8, marginBottom: 10.5 }}>
                         {data.buttons.map((b) => b.title).join('  |  ')}
                     </p>
                 );
