@@ -289,6 +289,12 @@ pg.connect(function(err) {
         if (msg.channel == 'responses') {
             Controller.getResponse(payloadData[2]).then((response) => {
                 io.emit('new-response', response.get({ plain: true }));
+
+                if (response.message) {
+                    Controller.getMessage(response.messageId).then((message) => {
+                        io.emit('messages', [ message.get({ plain: true }) ]);
+                    });
+                }
             });
         } else {
             return console.log('UNKNOWN DB EVENT: ', msg);
