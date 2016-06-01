@@ -1,6 +1,11 @@
 
 import React from "react";
-import ReactBootstrap, { Row, Col } from 'react-bootstrap';
+import ReactBootstrap, {
+    Row,
+    Col,
+    ListGroup,
+    ListGroupItem,
+} from 'react-bootstrap';
 
 export default class Message extends React.Component {
     constructor() {
@@ -9,7 +14,20 @@ export default class Message extends React.Component {
 
     render() {
         if (!this.props.message) {
-            return <div></div>;
+            return (
+                <div>
+                <Row>
+                    <Col md={12}>
+                        <h3>No Associated Message</h3>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={12}>
+                        <p>The responses below are unprompted. People may be reaching out with something to share, or just saying hi.</p>
+                    </Col>
+                </Row>
+                </div>
+            );
         }
 
         const messageData = JSON.parse(this.props.message.data);
@@ -18,41 +36,37 @@ export default class Message extends React.Component {
         if (messageData.attachment && messageData.attachment.payload) {
             const data = messageData.attachment.payload;
 
-            var buttons;
+            var buttonList;
             if (data.buttons) {
-                buttons = data.buttons.map((buttonData) => {
-                    return (
-                        <Row>
-                            <Col md={12}>
-                                {buttonData.title}
-                            </Col>
-                        </Row>
-                    );
-                });
+                buttonList = (
+                    <p style={{ textAlign: 'center', marginTop: 8, marginBottom: 8 }}>
+                        {data.buttons.map((b) => b.title).join('  |  ')}
+                    </p>
+                );
             }
 
-            messageBodyDiv = (
-                <div>
-                <Row>
-                    <Col md={12}>
+            messageBodyDiv = [
+                <p>
                         {data.text}
-                    </Col>
-                </Row>
-                {buttons}
-                </div>
-            );
+                </p>,
+                buttonList
+            ];
         } else {
             console.log('WARNING unknown message type: ', messageData);
         }
 
         return (
-            <div>
+            <div style={this.props.style}>
             <Row>
                 <Col md={12}>
-                    Message id: {this.props.message.id}
+                    <h3>Message id: {this.props.message.id}</h3>
                 </Col>
             </Row>
-            {messageBodyDiv}
+            <Row>
+                <Col md={12}>
+                    {messageBodyDiv}
+                </Col>
+            </Row>
             </div>
         );
     }

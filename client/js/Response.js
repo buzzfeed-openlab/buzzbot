@@ -14,7 +14,7 @@ export default class Response extends React.Component {
             textRow = (
                 <Row>
                     <Col md={12}>
-                        {this.props.response.text}
+                        <h4>{this.props.response.text}</h4>
                     </Col>
                 </Row>
             );
@@ -34,7 +34,7 @@ export default class Response extends React.Component {
             <div>
                 <Row>
                     <Col md={6}>
-                        id: {this.props.response.id}
+                        Response id: {this.props.response.id}
                     </Col>
                     <Col md={6}>
                         user: {this.props.response.userId}
