@@ -5,7 +5,7 @@ export default (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
-        text: DataTypes.STRING,
+        text: DataTypes.TEXT,
         attachments: DataTypes.ARRAY(DataTypes.JSON),
     }, {
         classMethods: {

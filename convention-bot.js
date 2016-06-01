@@ -112,7 +112,7 @@ function handlePostBack(token, event) {
 
             // save the response
             Controller.createResponse(userId, {
-                text: payload,
+                text: tagData.tag,
                 messageId: tagData.mid,
                 tagId: tag.id
             });

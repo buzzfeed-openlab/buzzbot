@@ -47,7 +47,7 @@ export default class Message extends React.Component {
 
             messageBodyDiv = [
                 <p>
-                        {data.text}
+                    {data.text}
                 </p>,
                 buttonList
             ];
