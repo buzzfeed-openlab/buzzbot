@@ -9,14 +9,18 @@ import ReactBootstrap, {
     HelpBlock,
     Form,
     Checkbox,
+    Button,
 } from 'react-bootstrap';
 
 export default class MessageForm extends React.Component {
     constructor() {
         super();
 
+        this.submitMessage = this.submitMessage.bind(this);
+
         this.validateMessageText = this.validateMessageText.bind(this);
         this.validateButton = this.validateButton.bind(this);
+        this.validateAll = this.validateAll.bind(this);
 
         this.handleMessageTextChange = this.handleMessageTextChange.bind(this);
         this.handleButtonChange = this.handleButtonChange.bind(this);
@@ -35,7 +39,7 @@ export default class MessageForm extends React.Component {
 
     render() {
         return (
-            <form>
+            <form onSubmit={this.submitMessage}>
                 <FormGroup
                     controlId="formMessageText"
                     validationState={this.validateMessageText()}
@@ -126,8 +130,18 @@ export default class MessageForm extends React.Component {
                         <FormControl.Feedback />
                     </FormGroup>
                 </Form>
+                <Button
+                    type="submit"
+                    disabled={this.validateAll() != 'success'}
+                >
+                      Submit
+                </Button>
             </form>
         );
+    }
+
+    submitMessage() {
+        console.log('SUBMIT!');
     }
 
     validateMessageText() {
@@ -161,6 +175,22 @@ export default class MessageForm extends React.Component {
 
         // if anything is set while expecting an unstructured reply
         if ((buttonState.tag || buttonState.text) && this.state.unstructuredReply) {
+            return 'error';
+        }
+
+        return 'success';
+    }
+
+    validateAll() {
+        if (this.validateMessageText() == 'error') {
+            return 'error';
+        }
+
+        if (!this.state.unstructuredReply &&
+            (this.validateButton(0) == 'error' ||
+             this.validateButton(1) == 'error' ||
+             this.validateButton(2) == 'error')) {
+
             return 'error';
         }
 
