@@ -11,7 +11,7 @@ export default class Footer extends React.Component {
         return (
             <Row style={this.props.style}>
                 <Col lg={12}>
-                    <p>Footer Footer Footer</p>
+                    <p>This is an Open Lab project -- email <a href="mailto:WestleyArgentum@gmail.com" target="_top">WestleyArgentum@gmail.com</a> with any questions / feedback</p>
                 </Col>
             </Row>
         );
