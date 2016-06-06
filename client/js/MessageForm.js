@@ -12,6 +12,9 @@ import ReactBootstrap, {
     Button,
 } from 'react-bootstrap';
 
+import request from 'axios';
+
+
 export default class MessageForm extends React.Component {
     constructor() {
         super();
@@ -142,6 +145,57 @@ export default class MessageForm extends React.Component {
 
     submitMessage() {
         console.log('SUBMIT!');
+
+        var buttonData = [];
+        for (var i = 0; i < this.state.buttons.length; ++i) {
+            if (this.state.buttons[i].text) {
+                const button = this.state.buttons[i];
+                buttonData.push({
+                    "title": button.text,
+                    "type": "postback",
+                    "payload": button.tag
+                });
+            }
+        }
+
+        var messageData;
+        if (this.state.unstructuredReply) {
+            // TODO: send untructured reply signal, whatever that ends up being
+            messageData = {
+                "message": {
+                    "data": {
+                        "text": this.state.messageText
+                    }
+                }
+            }
+        } else if (buttonData.length) {
+            messageData = {
+                "message": {
+                    "attachment": {
+                        "type":"template",
+                        "payload": {
+                            "template_type": "button",
+                            "text": this.state.messageText,
+                            "buttons": buttonData
+                        }
+                    }
+                }
+            }
+        } else {
+            messageData = {
+                "message": {
+                    "data": {
+                        "text": this.state.messageText
+                    }
+                }
+            }
+        }
+
+        request.post('/messages', messageData).then((response) => {
+            console.log('POSTED NEW MESSAGE: ', response);
+        }).catch((response) => {
+            console.log('ERROR POSTING NEW MESSAGE: ', response);
+        });
     }
 
     validateMessageText() {

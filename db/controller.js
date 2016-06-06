@@ -80,7 +80,11 @@ export default (db) => {
             return db.Trigger.findOne({ where: {
                 tagId: tag.id
             } }).then((trigger) => {
-                return trigger.getMessages();
+                if (trigger) {
+                    return trigger.getMessages();
+                }
+
+                return [];
             });
         },
 
