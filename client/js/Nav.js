@@ -18,8 +18,8 @@ export default class Nav extends React.Component {
     const { location } = this.props;
     const { collapsed } = this.state;
     const dashboardClass = location.pathname === "/" ? "active" : "";
-    const messageFormClass = location.pathname.match(/^\/create-message/) ? "active" : "";
-    const triggerFormClass = location.pathname.match(/^\/create-trigger/) ? "active" : "";
+    const messageFormClass = location.pathname.match(/^\/create-messages/) ? "active" : "";
+    const sendFormClass = location.pathname.match(/^\/send-messages/) ? "active" : "";
     const navClass = collapsed ? "collapse" : "";
 
     return (
@@ -39,10 +39,10 @@ export default class Nav extends React.Component {
                 <IndexLink to="/" onClick={this.toggleCollapse.bind(this)}>Convention Bot Dashboard</IndexLink>
               </li>
               <li class={messageFormClass}>
-                <Link to="create-message" onClick={this.toggleCollapse.bind(this)}>Create a Message</Link>
+                <Link to="create-messages" onClick={this.toggleCollapse.bind(this)}>Create Messages</Link>
               </li>
-              <li class={triggerFormClass}>
-                <Link to="create-trigger" onClick={this.toggleCollapse.bind(this)}>Create a Trigger</Link>
+              <li class={sendFormClass}>
+                <Link to="send-messages" onClick={this.toggleCollapse.bind(this)}>Send Messages</Link>
               </li>
             </ul>
           </div>

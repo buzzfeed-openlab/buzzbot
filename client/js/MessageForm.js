@@ -43,6 +43,7 @@ export default class MessageForm extends React.Component {
     render() {
         return (
             <form onSubmit={this.submitMessage}>
+                <h3>Create a Message</h3>
                 <FormGroup
                     controlId="formMessageText"
                     validationState={this.validateMessageText()}

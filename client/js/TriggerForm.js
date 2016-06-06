@@ -7,6 +7,10 @@ export default class TriggerForm extends React.Component {
     }
 
     render() {
-        return <div><h2>TRIGGER FORM!</h2></div>
+        return (
+            <div>
+                <h3>Create a Trigger</h3>
+            </div>
+        );
     }
 }
