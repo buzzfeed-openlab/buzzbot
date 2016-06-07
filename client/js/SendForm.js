@@ -79,7 +79,7 @@ export default class SendForm extends React.Component {
                                 type="submit"
                                 disabled={this.validateAll() != 'success'}
                             >
-                                  Send
+                                  Send to all
                             </Button>
                         </form>
                     </Col>
