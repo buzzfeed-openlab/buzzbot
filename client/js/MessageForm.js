@@ -52,7 +52,7 @@ export default class MessageForm extends React.Component {
                     <FormControl
                         type="text"
                         value={this.state.messageText}
-                        placeholder="Enter text"
+                        placeholder="enter text"
                         onChange={this.handleMessageTextChange}
                     />
                     <FormControl.Feedback />
@@ -164,9 +164,7 @@ export default class MessageForm extends React.Component {
             // TODO: send untructured reply signal, whatever that ends up being
             messageData = {
                 "message": {
-                    "data": {
-                        "text": this.state.messageText
-                    }
+                    "text": this.state.messageText
                 }
             }
         } else if (buttonData.length) {
@@ -185,9 +183,7 @@ export default class MessageForm extends React.Component {
         } else {
             messageData = {
                 "message": {
-                    "data": {
-                        "text": this.state.messageText
-                    }
+                    "text": this.state.messageText
                 }
             }
         }

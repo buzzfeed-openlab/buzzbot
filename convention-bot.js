@@ -272,7 +272,7 @@ io.on('connection', function (socket) {
         });
     });
 
-    socket.on('get-messages', (options) => {
+    socket.on('get-messages', (options = {}) => {
         Controller.getMessages(options.messageIds).then((messages) => {
             socket.emit('messages', messages.map((m) => m.get({ plain: true })));
         });

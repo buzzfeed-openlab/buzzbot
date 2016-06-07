@@ -58,13 +58,17 @@ export default (db) => {
         },
 
         getMessages(messageIds) {
-            return db.Message.findAll({
-                where: {
-                    id: {
-                        $or: messageIds
+            if (messageIds && messageIds.length) {
+                return db.Message.findAll({
+                    where: {
+                        id: {
+                            $or: messageIds
+                        }
                     }
-                }
-            });
+                });
+            }
+
+            return db.Message.findAll({ where: {} });
         },
 
         createTrigger(tagId, messageIds) {
