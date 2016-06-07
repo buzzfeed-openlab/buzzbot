@@ -54,7 +54,7 @@ export default class SendForm extends React.Component {
 
             return (
                 <option value={mid} key={mid}>
-                    {mid} : {messageText}
+                    {mid}: {messageText}
                 </option>
             );
         });
