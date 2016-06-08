@@ -48,6 +48,15 @@ export default class Dashboard extends React.Component {
             );
         });
 
+        // bump the unassociated column up to the top
+        for (var i = 0; i < responseLists.length; ++i) {
+            if (responseLists[i].key == 'none') {
+                const noneList = responseLists.splice(i, 1);
+                responseLists.splice(0, 0, ...noneList);
+                break;
+            }
+        }
+
         return (
            <div>
                 <Row>
