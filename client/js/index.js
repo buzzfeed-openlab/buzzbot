@@ -7,6 +7,8 @@ import CreateForm from "./CreateForm";
 import SendForm from "./SendForm";
 import Layout from "./Layout";
 
+import './../../node_modules/react-html5video/dist/ReactHtml5Video.css';
+
 import io from 'socket.io-client/socket.io'
 
 const socket = io.connect("ws://" + window.location.hostname + (location.port ? ':' + location.port : ''));

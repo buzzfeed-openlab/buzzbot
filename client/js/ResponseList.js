@@ -25,7 +25,7 @@ export default class ResponseList extends React.Component {
 
         const listBoxStyle = {
             overflow: 'auto',
-            maxHeight: 400,
+            maxHeight: 512,
         };
 
         return (
