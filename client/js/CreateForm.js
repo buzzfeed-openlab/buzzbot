@@ -12,8 +12,8 @@ export default class CreateForm extends React.Component {
     render() {
         return (
             <div>
-                <MessageForm />
-                <TriggerForm />      
+                <MessageForm socket={this.props.route.socket} />
+                <TriggerForm socket={this.props.route.socket} />
             </div>
         );
     }

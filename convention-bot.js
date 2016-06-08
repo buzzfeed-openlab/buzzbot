@@ -106,7 +106,7 @@ function handlePostBack(token, event) {
     Controller.getUser(userId).then((user) => {
         var tagData = parseTag(payload);
 
-        Controller.getTag(tagData.mid, tagData.tag).then((tag) => {
+        Controller.getTag({ messageId: tagData.mid, tag: tagData.tag }).then((tag) => {
             // associate the tag with the user
             user.addTag(tag);
 
@@ -219,7 +219,7 @@ app.post('/messages/', function (req, res) {
     });
 });
 
-app.post('/send', function (req, res) {
+app.post('/send/', function (req, res) {
     if (!req.body.messageId) {
         return res.status(400).json({ message: '`messageId` must be specified in request' });
     }
@@ -240,12 +240,18 @@ app.post('/send', function (req, res) {
 });
 
 app.post('/triggers/', function (req, res) {
-    if (!req.body.triggerTag || !req.body.triggerMessageId || !req.body.messages) {
-        return res.status(400).json({ message: '`triggerTag`, `triggerMessageId`, and `messages` must be specified in request' });
+    if (!(req.body.triggerTagId || (req.body.triggerTag && req.body.triggerMessageId)) || !req.body.messages) {
+        return res.status(400).json({ message: '`triggerTagId` or `triggerTag` + `triggerMessageId` must be specified, along with `messages`' });
     }
 
-    Controller.getTag(req.body.triggerMessageId, req.body.triggerTag).then((tag) => {
-        Controller.createTrigger(tag.id, req.body.messages).then((trigger) => {
+    const tagData = {
+        id: req.body.triggerTagId,
+        messageId: req.body.triggerMessageId,
+        tag: req.body.triggerTag
+    }
+
+    Controller.getTag(tagData).then((tag) => {
+        Controller.getOrCreateTrigger(tag.id, req.body.messages).then((trigger) => {
             console.log('CREATED TRIGGER: ', trigger.get({plain: true}));
             res.sendStatus(200);
         });
@@ -275,6 +281,12 @@ io.on('connection', function (socket) {
     socket.on('get-messages', (options = {}) => {
         Controller.getMessages(options.messageIds).then((messages) => {
             socket.emit('messages', messages.map((m) => m.get({ plain: true })));
+        });
+    });
+
+    socket.on('get-tags', (options) => {
+        Controller.getTags(options).then((tags) => {
+            socket.emit('tags', tags.map((t) => t.get({ plain: true })));
         });
     });
 });

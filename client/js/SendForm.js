@@ -22,7 +22,7 @@ export default class SendForm extends React.Component {
         this.state = {
             messages: {},
             selectedMessage: undefined
-        }
+        };
 
         this.sendMessage = this.sendMessage.bind(this);
         this.handleMessages = this.handleMessages.bind(this);
@@ -65,7 +65,7 @@ export default class SendForm extends React.Component {
                     <Col md={12}>
                         <form onSubmit={this.sendMessage}>
                             <h3>Send a Message</h3>
-                            <FormGroup controlId="formControlsSelect">
+                            <FormGroup controlId="formSendMessageSelect">
                                 <ControlLabel>Select Message to send</ControlLabel>
                                 <FormControl
                                     componentClass="select"
@@ -96,8 +96,6 @@ export default class SendForm extends React.Component {
         }).catch((response) => {
             console.log('ERROR SENDING OUT MESSAGE: ', response);
         });
-
-        return false;
     }
 
     handleMessages(messages) {

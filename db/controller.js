@@ -71,10 +71,10 @@ export default (db) => {
             return db.Message.findAll({ where: {} });
         },
 
-        createTrigger(tagId, messageIds) {
-            return db.Trigger.create({
-                tagId
-            }).then((trigger) => {
+        getOrCreateTrigger(tagId, messageIds) {
+            return db.Trigger.findOrCreate({
+                where: { tagId }
+            }).spread((trigger) => {
                 trigger.addMessages(messageIds);
                 return trigger;
             });
@@ -92,11 +92,21 @@ export default (db) => {
             });
         },
 
-        getTag(messageId, tag) {
+        getTag(options) {
+            if (options.id) {
+                return db.Tag.findOne({ where: {
+                    id: options.id
+                }});
+            }
+
             return db.Tag.findOne({ where: {
-                messageId,
-                tag
+                messageId: options.messageId,
+                tag: options.tag
             } });
+        },
+
+        getTags() {
+            return db.Tag.findAll( { where: {} });
         },
 
         createTag(messageId, tag) {

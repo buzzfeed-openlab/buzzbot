@@ -42,6 +42,8 @@ export default class MessageForm extends React.Component {
 
     render() {
         return (
+            <Row>
+            <Col md={12}>
             <form onSubmit={this.submitMessage}>
                 <h3>Create a Message</h3>
                 <FormGroup
@@ -141,6 +143,8 @@ export default class MessageForm extends React.Component {
                       Submit
                 </Button>
             </form>
+            </Col>
+            </Row>
         );
     }
 
