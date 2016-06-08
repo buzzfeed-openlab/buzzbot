@@ -36,7 +36,6 @@
     "react-bootstrap": "^0.29.4",
     "react-html5video": "^1.2.9",
     "react-list": "^0.7.18",
-    "react-player": "^0.7.2",
     "request": "^2.72.0",
     "sequelize": "^3.23.1",
     "sequelize-cli": "^2.4.0",
