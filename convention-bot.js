@@ -149,10 +149,10 @@ function sendMessage(token, recipient, message) {
         }
     }
 
-    return sendMessageData(token, recipient, messageData);
+    return sendMessageData(token, recipient, message.id, messageData);
 }
 
-function sendMessageData(token, recipient, messageData) {
+function sendMessageData(token, recipient, messageId, messageData) {
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: { access_token:token },
@@ -170,7 +170,7 @@ function sendMessageData(token, recipient, messageData) {
         }
 
         // record that we sent the user this message
-        // users[recipient]['messages'][message.id] = { responses: [] };
+        Controller.createMessageEvent(recipient, messageId);
     });
 }
 

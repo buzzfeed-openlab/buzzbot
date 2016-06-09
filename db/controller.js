@@ -113,6 +113,13 @@ export default (db) => {
             return db.Tag.create({ messageId, tag });
         },
 
+        createMessageEvent(userId, messageId) {
+            return db.MessageEvent.create({
+                userId,
+                messageId
+            });
+        },
+
     }
 
     return controller;
