@@ -7,7 +7,11 @@ export default (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
-        data: DataTypes.JSON
+        data: DataTypes.JSON,
+        unstructuredReply: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        }
     }, {
         classMethods: {
             associate: function(models) {

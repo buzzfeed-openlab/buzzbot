@@ -98,7 +98,8 @@ module.exports = [
                 "id": 6,
                 "data": `{
                     "text": "Heh, sorry about that, could you tell us why you're interested in your own words?"
-                }`
+                }`,
+                "unstructuredReply": true
             }
         },
         // {

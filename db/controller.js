@@ -31,11 +31,14 @@ export default (db) => {
             return db.Response.create(props);
         },
 
-        createMessage(data) {
-            return db.Message.create( { data: JSON.stringify(data) });
+        createMessage(data, unstructuredReply = false) {
+            return db.Message.create({
+                data: JSON.stringify(data),
+                unstructuredReply: unstructuredReply
+            });
         },
 
-        createMessageAndTags(data) {
+        createMessageAndTags(data, unstructuredReply = false) {
             var tags = [];
             if (data.attachment && data.attachment.payload && data.attachment.payload.buttons) {
                 var buttons = data.attachment.payload.buttons;
@@ -44,7 +47,7 @@ export default (db) => {
                 }
             }
 
-            return controller.createMessage(data).then((message) => {
+            return controller.createMessage(data, unstructuredReply).then((message) => {
                 for (var i = 0; i < tags.length; ++i) {
                     controller.createTag(message.id, tags[i]);
                 }
@@ -117,6 +120,16 @@ export default (db) => {
             return db.MessageEvent.create({
                 userId,
                 messageId
+            });
+        },
+
+        getMessageEventsForUser(userId) {
+            return db.MessageEvent.findAll({
+                where: {
+                    userId
+                },
+                order: '"createdAt" DESC',
+                include: [db.Message]
             });
         },
 

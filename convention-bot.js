@@ -74,7 +74,6 @@ function handleIncomingMessage(token, event) {
         const props = {};
 
         if (text) {
-            //sendMessage(token, userId, { id: 0, text: 'DEBUG: ' + text });
             props.text = text;
         }
 
@@ -83,18 +82,24 @@ function handleIncomingMessage(token, event) {
 
             for (var i = 0; i < attachments.length; ++i) {
                 var attachment = attachments[i];
-
-                //sendMessage(token, userId, { id: 0, text: 'DEBUG: ' + attachment.payload.url });
             }
-
         }
 
         if (!text && !attachments) {
             console.log('user:', userId, 'sent event:', event);
         }
 
-        Controller.createResponse(userId, props).then(() => {
-            console.log('PERSISTED RESPONSE');
+        Controller.getMessageEventsForUser(userId).then((messageEvents) => {
+            for (var i = 0; i < messageEvents.length; ++i) {
+                if (messageEvents[i].Message.unstructuredReply) {
+                    props.messageId = messageEvents[i].Message.id;
+                    break;
+                }
+            }
+
+            Controller.createResponse(userId, props).then(() => {
+                console.log('PERSISTED RESPONSE');
+            });
         });
     });
 }
@@ -208,9 +213,10 @@ app.post('/messages/', function (req, res) {
         return res.sendStatus(400);
     }
 
-    var messageData = req.body.message;
+    const messageData = req.body.message;
+    const unstructuredReply = req.body.unstructuredReply || false;
 
-    Controller.createMessageAndTags(messageData).then((message) => {
+    Controller.createMessageAndTags(messageData, unstructuredReply).then((message) => {
         console.log('CREATED MESSAGE:', message.get({plain: true}));
         res.status(200).json(message.get({ plain: true }));
     }).catch((err) => {

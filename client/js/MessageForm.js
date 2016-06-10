@@ -164,12 +164,12 @@ export default class MessageForm extends React.Component {
         }
 
         var messageData;
-        if (this.state.unstructuredReply) {
-            // TODO: send untructured reply signal, whatever that ends up being
+        if (this.state.unstructuredReply || !buttonData.length) {
             messageData = {
                 "message": {
                     "text": this.state.messageText
-                }
+                },
+                "unstructuredReply": this.state.unstructuredReply
             }
         } else if (buttonData.length) {
             messageData = {
@@ -185,11 +185,7 @@ export default class MessageForm extends React.Component {
                 }
             }
         } else {
-            messageData = {
-                "message": {
-                    "text": this.state.messageText
-                }
-            }
+            console.log('ERROR BUILDING MESSAGE DATA');
         }
 
         request.post('/messages', messageData).then((response) => {
