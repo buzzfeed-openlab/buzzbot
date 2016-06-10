@@ -31,12 +31,13 @@ export default class Message extends React.Component {
         }
 
         const messageData = JSON.parse(this.props.message.data);
+        var messageText, buttonList;
 
-        var messageBodyDiv;
         if (messageData.attachment && messageData.attachment.payload) {
             const data = messageData.attachment.payload;
 
-            var buttonList;
+            messageText = data.text;
+
             if (data.buttons) {
                 buttonList = (
                     <p key={'buttonList'} style={{ textAlign: 'center', marginTop: 8, marginBottom: 10.5 }}>
@@ -45,12 +46,8 @@ export default class Message extends React.Component {
                 );
             }
 
-            messageBodyDiv = [
-                <p key={'messageText'}>
-                    {data.text}
-                </p>,
-                buttonList
-            ];
+        } else if (messageData.text) {
+            messageText = messageData.text;
         } else {
             console.log('WARNING unknown message type: ', messageData);
         }
@@ -64,7 +61,10 @@ export default class Message extends React.Component {
             </Row>
             <Row>
                 <Col md={12}>
-                    {messageBodyDiv}
+                    <p key={'messageText'}>
+                        {messageText}
+                    </p>
+                    {buttonList}
                 </Col>
             </Row>
             </div>
