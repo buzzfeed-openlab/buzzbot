@@ -6,19 +6,13 @@ var express = require('express'),
 
 import webpack from 'webpack';
 import webpackConfig from './webpack.config.js';
-import { User, Controller, pg } from './db';
+import { Controller, pg, User, Tag } from './db';
 
 const config = require('./config.js');
 
 var initialMessages = [
     1,
 ];
-
-// var config = {
-//     pageToken: process.env.pageToken,
-//     verifyToken: process.env.verifyToken,
-//     port: process.env.PORT
-// }
 
 // clear user table
 // User.destroy({ where: {} }).then(() => {
@@ -55,6 +49,16 @@ app.use(function (error, req, res, next) {
     next();
   }
 });
+
+function setContainsAll(set, items) {
+    for (var i = 0; i < items.length; ++i) {
+        if (!set.has(items[i])) {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 function parseTag(tag) {
     var tagData = tag.split(':');
@@ -158,6 +162,8 @@ function sendMessage(token, recipient, message) {
 }
 
 function sendMessageData(token, recipient, messageId, messageData) {
+    // TODO: CHECK TO SEE IF THIS MESSAGE HAS BEEN SENT TO THIS USER BEFORE
+
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: { access_token:token },
@@ -230,13 +236,25 @@ app.post('/send/', function (req, res) {
         return res.status(400).json({ message: '`messageId` must be specified in request' });
     }
 
-    Controller.getUsers({
-        attributes: ['id']
-    }).then((users) => {
+    const requiredTags = req.body.tagIds;
+
+    const userQueryOptions = {
+        attributes: ['id'],
+    }
+
+    Controller.getUsers(userQueryOptions).then((users) => {
         Controller.getMessage(req.body.messageId).then((message) => {
             for (var i = 0; i < users.length; ++i) {
-                sendMessage(config.pageToken, users[i].id, message);
+                const user = users[i];
+                user.getTags().then((tags) => {
+                    if (requiredTags && !setContainsAll(new Set(tags.map((t) => t.id)), requiredTags)) {
+                        return;
+                    }
+
+                    sendMessage(config.pageToken, user.id, message);
+                });
             }
+
             res.sendStatus(200);
         });
     }).catch((err) => {

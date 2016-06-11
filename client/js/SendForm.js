@@ -90,7 +90,8 @@ export default class SendForm extends React.Component {
 
     sendMessage() {
         request.post('/send', {
-            messageId: this.state.selectedMessage
+            messageId: this.state.selectedMessage,
+            tagIds: [2, 1]
         }).then((response) => {
             console.log('SENT OUT MESSAGE: ', response);
         }).catch((response) => {
