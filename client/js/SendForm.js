@@ -1,5 +1,7 @@
 import React from "react";
 import update from 'react-addons-update';
+import request from 'axios';
+import Select from 'react-select';
 import ReactBootstrap, {
     Row,
     Col,
@@ -12,8 +14,6 @@ import ReactBootstrap, {
     Button,
 } from 'react-bootstrap';
 
-import request from 'axios';
-
 
 export default class SendForm extends React.Component {
     constructor() {
@@ -21,12 +21,16 @@ export default class SendForm extends React.Component {
 
         this.state = {
             messages: {},
-            selectedMessage: undefined
+            tags: {},
+            selectedMessage: undefined,
+            selectedTags: undefined
         };
 
         this.sendMessage = this.sendMessage.bind(this);
         this.handleMessages = this.handleMessages.bind(this);
+        this.handleTags = this.handleTags.bind(this);
         this.handleMessageChange = this.handleMessageChange.bind(this);
+        this.handleTagChange = this.handleTagChange.bind(this);
         this.validateAll = this.validateAll.bind(this);
     }
 
@@ -34,29 +38,45 @@ export default class SendForm extends React.Component {
         const socket = this.props.route.socket;
 
         socket.on('messages', this.handleMessages);
+        socket.on('tags', this.handleTags);
 
         socket.emit('get-messages');
+        socket.emit('get-tags');
     }
 
     componentWillUnmount() {
         const socket = this.props.route.socket;
 
         socket.removeListener('messages', this.handleMessages);
+        socket.removeListener('tags', this.handleTags);
     }
 
     render() {
-        const messageList = Object.keys(this.state.messages).map((mid) => {
+        const midToText = {};
+        for (var mid in this.state.messages) {
             const message = this.state.messages[mid];
             var messageText = message.data.text;
             if (!messageText && message.data.attachment && message.data.attachment.payload) {
                 messageText = message.data.attachment.payload.text;
             }
 
+            midToText[mid] = messageText;
+        }
+
+        const messageList = Object.keys(midToText).map((mid) => {
             return (
                 <option value={mid} key={mid}>
-                    {mid}: {messageText}
+                    {mid}: {midToText[mid]}
                 </option>
             );
+        });
+
+        const tagList = Object.keys(this.state.tags).map((tagid) => {
+            const tag = this.state.tags[tagid];
+            return {
+                value: tag.id,
+                label: tag.messageId + ': ' + midToText[tag.messageId] + ' => ' + tag.tag
+            };
         });
 
         return (
@@ -75,11 +95,21 @@ export default class SendForm extends React.Component {
                                     {messageList}
                                 </FormControl>
                             </FormGroup>
+                            <FormGroup controlId="formSendTagsSelect">
+                                <ControlLabel>Send only to users with all selected tags</ControlLabel>
+                                <Select
+                                    name="formSendTagsSelect"
+                                    multi={true}
+                                    value={this.state.selectedTags}
+                                    options={tagList}
+                                    onChange={this.handleTagChange}
+                                />
+                            </FormGroup>
                             <Button
                                 type="submit"
                                 disabled={this.validateAll() != 'success'}
                             >
-                                  Send to all
+                                  Send Message
                             </Button>
                         </form>
                     </Col>
@@ -89,9 +119,13 @@ export default class SendForm extends React.Component {
     }
 
     sendMessage() {
+        var tagIds = [];
+        if (this.state.selectedTags) {
+            tagIds = this.state.selectedTags.map((t) => t.value)
+        }
         request.post('/send', {
             messageId: this.state.selectedMessage,
-            tagIds: [2, 1]
+            tagIds: tagIds
         }).then((response) => {
             console.log('SENT OUT MESSAGE: ', response);
         }).catch((response) => {
@@ -118,6 +152,24 @@ export default class SendForm extends React.Component {
         this.setState(newState);
     }
 
+    handleTags(tags) {
+        const tagState = {};
+
+        for (var i = 0; i < tags.length; ++i) {
+            const tag = tags[i];
+
+            tagState[tag.id] = {
+                $set: tag
+            }
+        }
+
+        const newState = update(this.state, {
+            tags: tagState
+        });
+
+        this.setState(newState);
+    }
+
     handleMessageChange(e) {
         const newState = update(this.state, {
             selectedMessage: {
@@ -125,6 +177,16 @@ export default class SendForm extends React.Component {
             }
         });
 
+        this.setState(newState);
+    }
+
+    handleTagChange(tags) {
+        console.log(tags);
+        const newState = update(this.state, {
+            selectedTags: {
+                $set: tags
+            }
+        });
         this.setState(newState);
     }
 

@@ -8,6 +8,7 @@ import SendForm from "./SendForm";
 import Layout from "./Layout";
 
 import './../../node_modules/react-html5video/dist/ReactHtml5Video.css';
+import 'react-select/dist/react-select.css';
 
 import io from 'socket.io-client/socket.io'
 
