@@ -64,17 +64,16 @@ export default class SendForm extends React.Component {
         }
 
         const messageList = Object.keys(midToText).map((mid) => {
-            return (
-                <option value={mid} key={mid}>
-                    {mid}: {midToText[mid]}
-                </option>
-            );
+            return {
+                value: mid,
+                label: mid + ': ' + midToText[mid]
+            }
         });
 
         const tagList = Object.keys(this.state.tags).map((tagid) => {
             const tag = this.state.tags[tagid];
             return {
-                value: tag.id,
+                value: tagid,
                 label: tag.messageId + ': ' + midToText[tag.messageId] + ' => ' + tag.tag
             };
         });
@@ -87,13 +86,12 @@ export default class SendForm extends React.Component {
                             <h3>Send a Message</h3>
                             <FormGroup controlId="formSendMessageSelect">
                                 <ControlLabel>Select Message to send</ControlLabel>
-                                <FormControl
-                                    componentClass="select"
+                                <Select
+                                    name="formSendMessageSelect"
                                     value={this.state.selectedMessage}
+                                    options={messageList}
                                     onChange={this.handleMessageChange}
-                                >
-                                    {messageList}
-                                </FormControl>
+                                />
                             </FormGroup>
                             <FormGroup controlId="formSendTagsSelect">
                                 <ControlLabel>Send only to users with all selected tags</ControlLabel>
@@ -123,8 +121,9 @@ export default class SendForm extends React.Component {
         if (this.state.selectedTags) {
             tagIds = this.state.selectedTags.map((t) => t.value)
         }
+
         request.post('/send', {
-            messageId: this.state.selectedMessage,
+            messageId: this.state.selectedMessage.value,
             tagIds: tagIds
         }).then((response) => {
             console.log('SENT OUT MESSAGE: ', response);
@@ -170,10 +169,10 @@ export default class SendForm extends React.Component {
         this.setState(newState);
     }
 
-    handleMessageChange(e) {
+    handleMessageChange(message) {
         const newState = update(this.state, {
             selectedMessage: {
-                $set: e.target.value
+                $set: message
             }
         });
 
