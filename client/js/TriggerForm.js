@@ -1,5 +1,7 @@
 import React from "react";
 import update from 'react-addons-update';
+import request from 'axios';
+import Select from 'react-select';
 import ReactBootstrap, {
     Row,
     Col,
@@ -11,8 +13,6 @@ import ReactBootstrap, {
     Checkbox,
     Button,
 } from 'react-bootstrap';
-
-import request from 'axios';
 
 
 export default class TriggerForm extends React.Component {
@@ -66,19 +66,17 @@ export default class TriggerForm extends React.Component {
         const tagList = Object.keys(this.state.tags).map((tagid) => {
             const tag = this.state.tags[tagid];
 
-            return (
-                <option value={tagid} key={tagid}>
-                    {tag.messageId}: {midToText[tag.messageId]} => {tag.tag}
-                </option>
-            );
+            return {
+                value: tagid,
+                label: tag.messageId + ': ' + midToText[tag.messageId] + ' => ' + tag.tag
+            }
         });
 
         const messageList = Object.keys(midToText).map((mid) => {
-            return (
-                <option value={mid} key={mid}>
-                    {mid}: {midToText[mid]}
-                </option>
-            );
+            return {
+                value: mid,
+                label: mid + ': ' + midToText[mid]
+            }
         });
 
         return (
@@ -94,25 +92,23 @@ export default class TriggerForm extends React.Component {
                         <Col sm={12} md={6}>
                             <FormGroup controlId="formCreateTriggerTagSelect">
                                 <ControlLabel>Select a trigger Tag</ControlLabel>
-                                <FormControl
-                                    componentClass="select"
+                                <Select
+                                    name="formCreateTriggerTagSelect"
                                     value={this.state.triggerTag}
+                                    options={tagList}
                                     onChange={this.handleTagChange}
-                                >
-                                    {tagList}
-                                </FormControl>
+                                />
                             </FormGroup>
                         </Col>
                         <Col sm={12} md={6}>
                             <FormGroup controlId="formCreateTriggerMessageSelect">
                                 <ControlLabel>Select a message to trigger</ControlLabel>
-                                <FormControl
-                                    componentClass="select"
+                                <Select
+                                    name="formCreateTriggerMessageSelect"
                                     value={this.state.triggeredMessage}
+                                    options={messageList}
                                     onChange={this.handleMessageChange}
-                                >
-                                    {messageList}
-                                </FormControl>
+                                />
                             </FormGroup>
                         </Col>
                     </Row>
@@ -134,8 +130,8 @@ export default class TriggerForm extends React.Component {
 
     createTrigger() {
         request.post('/triggers', {
-            triggerTagId: this.state.triggerTag,
-            messages: [ this.state.triggeredMessage ]
+            triggerTagId: this.state.triggerTag.value,
+            messages: [ this.state.triggeredMessage.value ]
         }).then((response) => {
             console.log('CREATED TRIGGER: ', response);
         }).catch((response) => {
@@ -180,20 +176,20 @@ export default class TriggerForm extends React.Component {
         this.setState(newState);
     }
 
-    handleTagChange(e) {
+    handleTagChange(tag) {
         const newState = update(this.state, {
             triggerTag: {
-                $set: e.target.value
+                $set: tag
             }
         });
 
         this.setState(newState);
     }
 
-    handleMessageChange(e) {
+    handleMessageChange(message) {
         const newState = update(this.state, {
             triggeredMessage: {
-                $set: e.target.value
+                $set: message
             }
         });
 
