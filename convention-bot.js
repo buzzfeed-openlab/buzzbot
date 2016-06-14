@@ -236,7 +236,7 @@ app.post('/send/', function (req, res) {
         return res.status(400).json({ message: '`messageId` must be specified in request' });
     }
 
-    const requiredTags = req.body.tagIds;
+    const requiredTags = req.body.tagIds.map((t) => +t);
 
     const userQueryOptions = {
         attributes: ['id'],

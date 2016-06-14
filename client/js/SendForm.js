@@ -180,7 +180,6 @@ export default class SendForm extends React.Component {
     }
 
     handleTagChange(tags) {
-        console.log(tags);
         const newState = update(this.state, {
             selectedTags: {
                 $set: tags
