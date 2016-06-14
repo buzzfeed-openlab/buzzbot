@@ -10,7 +10,7 @@ module.exports = [
                         "type": "template",
                         "payload": {
                             "template_type": "button",
-                            "text": "Hi! Nice to meet you.\\n\\nWhy are you interested in the Republican convention?",
+                            "text": "Hi! Nice to meet you.\\n\\nWhy are you interested in the Republican convention?\\n\\n(note that text here can be as long as we need but there can only be 3 buttons and 20 characters of text per button)",
                             "buttons": [
                                 {
                                     "title": "I'll be in Cleveland",
