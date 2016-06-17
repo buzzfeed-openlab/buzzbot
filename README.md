@@ -1,5 +1,25 @@
 # Convention Bot
 
+## Architecture overview
+
+### Server (Node JS)
+
+- Provides a webhook that facebook posts messages to
+- Serves up the admin dashboard (static react app)
+- Provides a basic http api for creating messages and triggers, as well as sending messages
+- Provides a websocket api for streaming messages, responses, and other data
+
+### DB (Postgres)
+
+- Stores all bot state
+- Sends notifications to server when new responses are created
+
+### Admin dashboard (React)
+
+- Maintains continuous connection to server over websockets
+- Posts over http to create new messages and triggers
+
+
 ## Development quickstart for OSX
 
 ### Prereqs
@@ -37,7 +57,7 @@
 
 1. Start Forward (or your https forwarding service) and create a url that forwards to `localhost:8000`
 2. Go to your Facebook app dashboard (https://developers.facebook.com/apps/)
-3. Configure a webhook with url from your forwarding service and the `verifyToken` specified in `./config.js`
+3. Configure a webhook with url from your forwarding service + `/hook/` and the `verifyToken` specified in `./config.js`
 4. Verify and save
 
 
@@ -45,6 +65,7 @@
 
 1. Pull up the admin dashboard at `localhost:8000/`
 2. Start a conversation with your bot by visiting your Facebook page and clicking "message" in the top right
+
 
 ## Overview of npm commands
 
