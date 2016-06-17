@@ -45,3 +45,16 @@
 
 1. Pull up the admin dashboard at `localhost:8000/`
 2. Start a conversation with your bot by visiting your Facebook page and clicking "message" in the top right
+
+## Overview of npm commands
+
+- `npm start`: Run convention bot
+- `npm run db:nuke`: Drop all tables and data in the db
+- `npm run db:init`: Initialize db using the models in `./db/models` and create fixtures specified in `./db/fixtures`
+
+- `npm run migrate`: Run all migrations
+- `npm run migration:create`: Create a new migration
+- `npm run migration:undo`: Undo just the last migration
+- `npm run migration:undo:all`: Undo all migrations
+
+Note that there are commands for creating and running migrations, but that the existing migrations are no longer used. All models and relations are created using `sequelize.sync()`. See [here](https://stackoverflow.com/questions/21105748/sequelize-js-how-to-use-migrations-and-sync) for how that could change, unfortunately I have not had time to do it all by hand.
