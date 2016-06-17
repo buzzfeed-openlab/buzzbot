@@ -52,6 +52,8 @@
 - `npm run db:nuke`: Drop all tables and data in the db
 - `npm run db:init`: Initialize db using the models in `./db/models` and create fixtures specified in `./db/fixtures`
 
+=====
+
 - `npm run migrate`: Run all migrations
 - `npm run migration:create`: Create a new migration
 - `npm run migration:undo`: Undo just the last migration
