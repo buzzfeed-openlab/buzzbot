@@ -32,7 +32,7 @@ if (config.env == 'development') {
 }
 
 // serve up the admin interface
-app.use('/', express.static(path.join(__dirname, 'client')));
+app.use('/admin', express.static(path.join(__dirname, 'client')));
 
 // parse application/json
 app.use(bodyParser.json());
