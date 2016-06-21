@@ -23,7 +23,7 @@ module.exports = {
   output: {
     path: __dirname + "/client/",
     filename: "index.min.js",
-    publicPath: '/'
+    publicPath: '/admin'
   },
   plugins: debug ? [] : [
     new webpack.optimize.DedupePlugin(),
