@@ -63,7 +63,7 @@
 
 ### Interact with the bot!
 
-1. Pull up the admin dashboard at `localhost:8000/`
+1. Pull up the admin dashboard at `localhost:8000/admin`
 2. Start a conversation with your bot by visiting your Facebook page and clicking "message" in the top right
 
 
