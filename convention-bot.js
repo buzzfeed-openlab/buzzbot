@@ -10,10 +10,6 @@ import { Controller, pg, User, Tag } from './db';
 
 const config = require('./config.js');
 
-var initialMessages = [
-    1,
-];
-
 // clear user table
 // User.destroy({ where: {} }).then(() => {
 //     console.log('CLEARED USER TABLE');
@@ -139,7 +135,7 @@ function handlePostBack(token, event) {
 function startInitialConversation(token, userId) {
     console.log('starting initial conversation with user:', userId);
 
-    Controller.getMessages(initialMessages).then((messages) => {
+    Controller.getInitialMessages().then((messages) => {
         for (var i = 0; i < messages.length; ++i) {
             sendMessage(token, userId, messages[i]);
         }

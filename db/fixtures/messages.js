@@ -30,7 +30,8 @@ module.exports = [
                             ]
                         }
                     }
-                }`
+                }`,
+                initialMessage: true
             }
         },
         {

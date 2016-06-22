@@ -11,6 +11,10 @@ export default (sequelize, DataTypes) => {
         unstructuredReply: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
+        },
+        initialMessage: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         }
     }, {
         classMethods: {

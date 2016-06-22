@@ -74,6 +74,14 @@ export default (db) => {
             return db.Message.findAll({ where: {} });
         },
 
+        getInitialMessages() {
+            return db.Message.findAll({
+                where: {
+                    initialMessage: true
+                }
+            });
+        },
+
         getOrCreateTrigger(tagId, messageIds) {
             return db.Trigger.findOrCreate({
                 where: { tagId }
