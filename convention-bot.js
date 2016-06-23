@@ -1,9 +1,8 @@
 
-var express = require('express'),
-    bodyParser = require('body-parser'),
-    request = require('request'),
-    path = require('path');
-
+import path from 'path';
+import bodyParser from 'body-parser';
+import express from 'express';
+import request from 'request';
 import webpack from 'webpack';
 import webpackConfig from './webpack.config.js';
 import { Controller, pg, User, Tag } from './db';
@@ -68,6 +67,7 @@ function handleIncomingMessage(token, event) {
 
     Controller.getOrCreateUser(userId).spread((user, created) => {
         if (created) {
+            fetchUserInfo(token, userId);
             startInitialConversation(token, userId);
         }
 
@@ -139,6 +139,33 @@ function startInitialConversation(token, userId) {
         for (var i = 0; i < messages.length; ++i) {
             sendMessage(token, userId, messages[i]);
         }
+    });
+}
+
+function fetchUserInfo(token, userId, attemptsToMake = 5) {
+    var userInfoUrl = `https://graph.facebook.com/v2.6/${userId}?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=${token}`
+
+    request(userInfoUrl, function(err, response, body) {
+        if (err) {
+            console.log('ERROR fetching user info for ' + userId + ', attemptsRemaining ' + attemptsToMake + ': ', err);
+            if (attemptsToMake >= 1) {
+                fetchUserInfo(token, userId, attemptsToMake - 1);
+            }
+            return;
+        }
+
+        body = JSON.parse(body);
+
+        const props = {
+            firstName: body.first_name,
+            lastName: body.last_name,
+            profilePic: body.profile_pic,
+            locale: body.locale,
+            timezone: body.timezone,
+            gender: body.gender
+        };
+
+        Controller.updateUser(userId, props);
     });
 }
 

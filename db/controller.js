@@ -17,6 +17,14 @@ export default (db) => {
             return db.User.findOrCreate({ where: { id } });
         },
 
+        updateUser(id, props) {
+            return db.User.findOne({ where: { id } }).then((user) => {
+                return user.update(props).then(() => {
+                    return user;
+                });
+            });
+        },
+
         getResponse(id) {
             return db.Response.findOne({ where: { id } });
         },
