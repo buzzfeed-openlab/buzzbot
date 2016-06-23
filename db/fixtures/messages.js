@@ -307,7 +307,7 @@ module.exports = [
             "data": {
                 "id": 16,
                 "data": `{
-                    "text": "*** Well you've had better luck than us! ;)"
+                    "text": "*** Well, don't be a stranger, and let us know if you get barred from anything."
                 }`,
                 "unstructuredReply": true
             }
@@ -345,7 +345,7 @@ module.exports = [
             "data": {
                 "id": 19,
                 "data": `{
-                    "text": "*** Great, please tell us about it -- and feel free to send in photos / video as well."
+                    "text": "*** Great, please tell us about it -- and feel free to send us photos / video as well."
                 }`,
                 "unstructuredReply": true
             }
