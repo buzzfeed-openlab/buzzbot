@@ -192,18 +192,23 @@ app.get('/hook/', function (req, res) {
 });
 
 app.post('/hook/', function (req, res) {
-    var messaging_events = req.body.entry[0].messaging,
-        status = 200;
+    var status = 200;
 
-    for (var i = 0; i < messaging_events.length; i++) {
-        var event = req.body.entry[0].messaging[i];
+    const entries = req.body.entry;
 
-        if (event.message) {
-            handleIncomingMessage(config.pageToken, event);
-        } else if (event.postback) {
-            handlePostBack(config.pageToken, event);
-        } else {
-            console.log('unknown event type: ', event);
+    for (var e = 0; e < entries.length; ++e) {
+        var messaging_events = entries[e].messaging;
+
+        for (var i = 0; i < messaging_events.length; i++) {
+            var event = messaging_events[i];
+
+            if (event.message) {
+                handleIncomingMessage(config.pageToken, event);
+            } else if (event.postback) {
+                handlePostBack(config.pageToken, event);
+            } else {
+                console.log('unknown event type: ', event);
+            }
         }
     }
 
