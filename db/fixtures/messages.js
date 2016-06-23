@@ -10,22 +10,52 @@ module.exports = [
                         "type": "template",
                         "payload": {
                             "template_type": "button",
-                            "text": "Hi! Nice to meet you.\\n\\nWhy are you interested in the Republican convention?\\n\\n(note that text here can be as long as we need but there can only be 3 buttons and 20 characters of text per button)",
+                            "text": "Hi there! We’ve finally reached the moment everyone’s been waiting for. Are you at the Convention today?",
                             "buttons": [
                                 {
-                                    "title": "I'll be in Cleveland",
+                                    "title": "Yes!",
                                     "type": "postback",
-                                    "payload": "in-town"
+                                    "payload": "at-convention"
                                 },
                                 {
-                                    "title": "I'm a delegate",
+                                    "title": "No, but I'm watching",
                                     "type": "postback",
-                                    "payload": "delegate"
+                                    "payload": "not-at-convention"
+                                }
+                            ]
+                        }
+                    }
+                }`,
+                initialMessage: true
+            }
+        },
+
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 2,
+                "data": `{
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "button",
+                            "text": "What are you doing at the Convention?",
+                            "buttons": [
+                                {
+                                    "title":"Protesting",
+                                    "type":"postback",
+                                    "payload":"protesting"
                                 },
                                 {
-                                    "title": "For another reason",
-                                    "type": "postback",
-                                    "payload": "other-reason"
+                                    "title":"Attending",
+                                    "type":"postback",
+                                    "payload":"attending"
+                                },
+                                {
+                                    "title":"Reporting",
+                                    "type":"postback",
+                                    "payload":"reporting"
                                 }
                             ]
                         }
@@ -37,22 +67,36 @@ module.exports = [
             "model": "Message",
             "keys": ["id"],
             "data": {
-                "id": 2,
-                "data": `{
-                    "text": "Great, we'll be on the ground as well. We'll push updates your way and reach out with any questions we have."
-                }`
-            }
-        },
-        {
-            "model": "Message",
-            "keys": ["id"],
-            "data": {
                 "id": 3,
                 "data": `{
-                    "text": "Sounds good, we'll push updates your way and reach out with any questions we have."
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "button",
+                            "text": "Cool! What would you like to know more about?",
+                            "buttons": [
+                                {
+                                    "title":"Can Trump be ousted?",
+                                    "type":"postback",
+                                    "payload":"can-trump-be-ousted?"
+                                },
+                                {
+                                    "title":"What's the schedule?",
+                                    "type":"postback",
+                                    "payload":"whats-the-schedule?"
+                                },
+                                {
+                                    "title":"Are there arrests?",
+                                    "type":"postback",
+                                    "payload":"are-there-arrests?"
+                                }
+                            ]
+                        }
+                    }
                 }`
             }
         },
+
         {
             "model": "Message",
             "keys": ["id"],
@@ -63,17 +107,17 @@ module.exports = [
                         "type": "template",
                         "payload": {
                             "template_type": "button",
-                            "text": "Oh? Are you:",
+                            "text": "Would you be willing to send us photos from the scene?",
                             "buttons": [
                                 {
-                                    "title":"Just interested",
+                                    "title":"Yes",
                                     "type":"postback",
-                                    "payload":"remote"
+                                    "payload":"protester-might-send-photos"
                                 },
                                 {
-                                    "title":"For another reason",
+                                    "title":"No",
                                     "type":"postback",
-                                    "payload":"other-reason"
+                                    "payload":"protester-will-not-send-photos"
                                 }
                             ]
                         }
@@ -87,7 +131,25 @@ module.exports = [
             "data": {
                 "id": 5,
                 "data": `{
-                    "text": "Great, we'll push the latest your way"
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "button",
+                            "text": "Would you be willing to send us photos from the scene?",
+                            "buttons": [
+                                {
+                                    "title":"Yes",
+                                    "type":"postback",
+                                    "payload":"attendee-might-send-photos"
+                                },
+                                {
+                                    "title":"No",
+                                    "type":"postback",
+                                    "payload":"attendee-will-not-send-photos"
+                                }
+                            ]
+                        }
+                    }
                 }`
             }
         },
@@ -97,19 +159,206 @@ module.exports = [
             "data": {
                 "id": 6,
                 "data": `{
-                    "text": "Heh, sorry about that, could you tell us why you're interested in your own words?"
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "button",
+                            "text": "Have you been denied access from any events?",
+                            "buttons": [
+                                {
+                                    "title":"Yes",
+                                    "type":"postback",
+                                    "payload":"reporter-has-been-denied-access"
+                                },
+                                {
+                                    "title":"No",
+                                    "type":"postback",
+                                    "payload":"reporter-has-not-been-denied-access"
+                                }
+                            ]
+                        }
+                    }
+                }`
+            }
+        },
+
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 9,
+                "data": `{
+                    "text": "TBD!"
+                }`,
+            }
+        },
+
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 10,
+                "data": `{
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "button",
+                            "text": "Thank you! We need your permission to use your photos. Are you OK with us posting them?",
+                            "buttons": [
+                                {
+                                    "title":"Yes",
+                                    "type":"postback",
+                                    "payload":"protester-confirmed-will-send-photos"
+                                },
+                                {
+                                    "title":"No",
+                                    "type":"postback",
+                                    "payload":"protester-will-not-send-photos"
+                                }
+                            ]
+                        }
+                    }
+                }`
+            }
+        },
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 12,
+                "data": `{
+                    "text": "That’s OK! Use an emoji to tell us how you’re feeling about the Convention today. OR Tell us in a word why you’re protesting today."
+                }`,
+                unstructuredReply: true
+            }
+        },
+
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 13,
+                "data": `{
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "button",
+                            "text": "Thank you! We need your permission to use your photos. Are you OK with us posting them?",
+                            "buttons": [
+                                {
+                                    "title":"Yes",
+                                    "type":"postback",
+                                    "payload":"attendee-confirmed-will-send-photos"
+                                },
+                                {
+                                    "title":"No",
+                                    "type":"postback",
+                                    "payload":"attendee-will-not-send-photos"
+                                }
+                            ]
+                        }
+                    }
+                }`
+            }
+        },
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 14,
+                "data": `{
+                    "text": "That’s OK! Use an emoji to tell us how you’re feeling about the Convention today. OR Tell us in a word why you’re here."
+                }`,
+                unstructuredReply: true
+            }
+        },
+
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 15,
+                "data": `{
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "button",
+                            "text": "Would you feel comfortable sharing your story?",
+                            "buttons": [
+                                {
+                                    "title":"Yes",
+                                    "type":"postback",
+                                    "payload":"journalist-will-share-story"
+                                },
+                                {
+                                    "title":"No",
+                                    "type":"postback",
+                                    "payload":"journalist-will-not-share-story"
+                                }
+                            ]
+                        }
+                    }
+                }`
+            }
+        },
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 16,
+                "data": `{
+                    "text": "*** Well you've had better luck than us! ;)"
                 }`,
                 "unstructuredReply": true
             }
         },
-        // {
-        //     "model": "Message",
-        //     "keys": ["id"],
-        //     "data": {
-        //         "id": ,
-        //         "data": `{
-                    
-        //         }`
-        //     }
-        // },
+
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 17,
+                "data": `{
+                    "text": "Cool! Send us your photos with a description."
+                }`,
+                "unstructuredReply": true
+                // metadata: protesters
+            }
+        },
+
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 18,
+                "data": `{
+                    "text": "Cool! Send us your photos with a description."
+                }`,
+                "unstructuredReply": true
+                // metadata: attendees
+            }
+        },
+
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 19,
+                "data": `{
+                    "text": "*** Great, please tell us about it -- and feel free to send in photos / video as well."
+                }`,
+                "unstructuredReply": true
+            }
+        },
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 20,
+                "data": `{
+                    "text": "That's OK, let's stay in touch though."
+                }`,
+                "unstructuredReply": true
+            }
+        },
     ];
