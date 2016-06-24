@@ -10,9 +10,9 @@ import Layout from "./Layout";
 import './../../node_modules/react-html5video/dist/ReactHtml5Video.css';
 import 'react-select/dist/react-select.css';
 
-import io from 'socket.io-client/socket.io'
+import io from 'socket.io-client/socket.io';
 
-const socket = io.connect("ws://" + window.location.hostname + (location.port ? ':' + location.port : ''));
+const socket = io.connect("wss://" + window.location.hostname + (location.port ? ':' + location.port : ''));
 
 const app = document.getElementById('app');
 
