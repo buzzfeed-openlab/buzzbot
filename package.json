@@ -40,7 +40,9 @@
     "request": "^2.72.0",
     "sequelize": "^3.23.1",
     "sequelize-cli": "^2.4.0",
-    "socket.io": "^1.4.6"
+    "sequelize-fixtures": "^0.5.3",
+    "socket.io": "^1.4.6",
+    "socket.io-client": "^1.4.8"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
