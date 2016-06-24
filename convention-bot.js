@@ -16,6 +16,14 @@ const config = require('./config.js');
 
 var app = express();
 
+app.use(function(req, res, next) {
+    if((!req.secure) && (req.get('X-Forwarded-Proto') !== 'https')) {
+        res.redirect('https://' + req.get('Host') + req.url);
+    }
+    else
+        next();
+});
+
 if (config.env == 'development') {
     const compiler = webpack(webpackConfig);
     app.use(require('webpack-dev-middleware')(compiler, {
