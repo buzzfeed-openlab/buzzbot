@@ -58,8 +58,10 @@ const adminPage = express.static(path.join(__dirname, 'client'));
 
 // serve up the admin interface behind auth in production
 if (config.env === 'development') {
+    console.log('WARNING: NO AUTH FOR ADMIN PAGE 🔓');
     app.use('/admin', adminPage);
 } else {
+    console.log('🔒 Auth is enabled for admin page access')
     app.use('/admin', [ auth,  adminPage ]);
 }
 
@@ -393,7 +395,10 @@ pg.connect(function(err) {
 
 // -------
 
-console.log('STARTING with config:');
-console.log(config);
+console.log('STARTING SERVER 🎉');
+console.log('env: ', config.env);
+console.log('port: ', config.port);
+console.log('-------');
+
 
 server.listen(config.port);
