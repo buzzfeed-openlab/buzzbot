@@ -9,6 +9,17 @@ export default (db) => {
             return db.User.findAll(options);
         },
 
+        getAllActiveUserIds() {
+            return db.User.findAll({
+                where: {
+                    state: {
+                        $not: 'paused'
+                    }
+                },
+                attributes: ['id'],
+            });
+        },
+
         createUser(id) {
             return db.User.create({ id });
         },

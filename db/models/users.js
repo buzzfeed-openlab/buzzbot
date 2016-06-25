@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         gender: {
             type: DataTypes.STRING
+        },
+        state: {
+            type: DataTypes.STRING,
+            defaultValue: 'active'
         }
     }, {
         classMethods: {

@@ -132,6 +132,13 @@ function handleIncomingMessage(token, event) {
                 }
             }
 
+            // look for command words
+            if (!created) {
+                const normalizedText = String(props.text).toUpperCase();
+                Commands[normalizedText] && Commands[normalizedText](token, event, user);
+            }
+
+            // persist the response
             Controller.createResponse(userId, props).then(() => {
                 console.log('PERSISTED RESPONSE');
             });
@@ -144,6 +151,10 @@ function handlePostBack(token, event) {
         payload = event.postback.payload;
 
     Controller.getUser(userId).then((user) => {
+        if (user.state === 'paused') {
+            // until the user resumes, postbacks should not be recorded
+            return;
+        }
         var tagData = parseTag(payload);
 
         Controller.getTag({ messageId: tagData.mid, tag: tagData.tag }).then((tag) => {
@@ -266,11 +277,7 @@ app.post('/send/', function (req, res) {
 
     const requiredTags = req.body.tagIds.map((t) => +t);
 
-    const userQueryOptions = {
-        attributes: ['id'],
-    }
-
-    Controller.getUsers(userQueryOptions).then((users) => {
+    Controller.getAllActiveUserIds().then((users) => {
         Controller.getMessage(req.body.messageId).then((message) => {
             for (var i = 0; i < users.length; ++i) {
                 const user = users[i];

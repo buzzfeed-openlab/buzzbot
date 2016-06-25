@@ -4,6 +4,29 @@ module.exports = [
             "model": "Message",
             "keys": ["id"],
             "data": {
+                "id": 200,
+                "data": `{
+                    "text": "No problem! If you want to get in touch again, just say 'START' or 'RESUME'"
+                }`,
+                "unstructuredReply": true
+            }
+        },
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 201,
+                "data": `{
+                    "text": "Good to hear from you again! Remember you can always say 'STOP' or 'PAUSE'"
+                }`,
+                "unstructuredReply": true
+            }
+        },
+
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
                 "id": 1,
                 "data": `{
                     "attachment": {
