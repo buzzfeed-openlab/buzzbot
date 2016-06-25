@@ -6,6 +6,7 @@ import request from 'request';
 import webpack from 'webpack';
 import webpackConfig from './webpack.config.js';
 import { Controller, pg, User, Tag } from './db';
+import basicAuth from 'basic-auth';
 
 const config = require('./config.js');
 
@@ -34,8 +35,27 @@ if (config.env == 'development') {
     app.use(require('webpack-hot-middleware')(compiler));
 }
 
+function auth(req, res, next) {
+    function unauthorized(res) {
+        res.set('WWW-Authenticate', 'Basic');
+        return res.sendStatus(401);
+    };
+
+    var user = basicAuth(req);
+
+    if (!user || !user.name || !user.pass) {
+        return unauthorized(res);
+    };
+
+    if (user.name === config.auth.user && user.pass === config.auth.password) {
+        return next();
+    } else {
+        return unauthorized(res);
+    };
+};
+
 // serve up the admin interface
-app.use('/admin', express.static(path.join(__dirname, 'client')));
+app.use('/admin', [ auth, express.static(path.join(__dirname, 'client')) ]);
 
 // parse application/json
 app.use(bodyParser.json());
