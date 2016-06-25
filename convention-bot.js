@@ -95,9 +95,7 @@ function parseTag(tag) {
 }
 
 function handleIncomingMessage(token, event) {
-    const userId = event.sender.id,
-        text = event.message.text,
-        attachments = event.message.attachments;
+    const userId = event.sender.id;
 
     Controller.getOrCreateUser(userId).spread((user, created) => {
         if (created) {
@@ -105,25 +103,17 @@ function handleIncomingMessage(token, event) {
             startInitialConversation(token, userId);
         }
 
-        const props = {};
+        const props = {
+            text: event.message.text,
+            attachments: event.message.attachments
+        };
 
-        if (text) {
-            props.text = text;
-        }
-
-        if (attachments) {
-            props.attachments = attachments;
-
-            for (var i = 0; i < attachments.length; ++i) {
-                var attachment = attachments[i];
-            }
-        }
-
-        if (!text && !attachments) {
-            console.log('user:', userId, 'sent event:', event);
+        if (!props.text && !props.attachments) {
+            console.log('WARNING, unknown event. User:', userId, 'Sent event:', event);
         }
 
         Controller.getMessageEventsForUser(userId).then((messageEvents) => {
+            // look for expected unstructured replies
             for (var i = 0; i < messageEvents.length; ++i) {
                 if (messageEvents[i].Message.unstructuredReply) {
                     props.messageId = messageEvents[i].Message.id;
