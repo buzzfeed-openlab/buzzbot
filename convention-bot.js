@@ -25,7 +25,7 @@ app.use(function(req, res, next) {
         next();
 });
 
-if (config.env == 'development') {
+if (config.env === 'development') {
     const compiler = webpack(webpackConfig);
     app.use(require('webpack-dev-middleware')(compiler, {
       noInfo: true,
@@ -54,8 +54,14 @@ function auth(req, res, next) {
     };
 };
 
-// serve up the admin interface
-app.use('/admin', [ auth, express.static(path.join(__dirname, 'client')) ]);
+const adminPage = express.static(path.join(__dirname, 'client'));
+
+// serve up the admin interface behind auth in production
+if (config.env === 'development') {
+    app.use('/admin', adminPage);
+} else {
+    app.use('/admin', [ auth,  adminPage ]);
+}
 
 // parse application/json
 app.use(bodyParser.json());
