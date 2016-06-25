@@ -17,6 +17,9 @@ const config = require('./config.js');
 
 var app = express();
 
+// Middleware -------
+
+// always use https
 app.use(function(req, res, next) {
     if((!req.secure) && (req.get('X-Forwarded-Proto') !== 'https')) {
         res.redirect('https://' + req.get('Host') + req.url);
@@ -25,6 +28,7 @@ app.use(function(req, res, next) {
         next();
 });
 
+// enable webpack hot reloading in development
 if (config.env === 'development') {
     const compiler = webpack(webpackConfig);
     app.use(require('webpack-dev-middleware')(compiler, {
@@ -65,21 +69,22 @@ if (config.env === 'development') {
     app.use('/admin', [ auth,  adminPage ]);
 }
 
-// parse application/json
+// body parsing
 app.use(bodyParser.json());
-
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// error handling
 app.use(function (error, req, res, next) {
-    console.log('called');
-  if (error instanceof SyntaxError) {
-    console.log('ERROR: ', error);
-    sendError(res, 'myCustomErrorMessage');
-  } else {
-    next();
-  }
+    if (error) {
+        console.log('ERROR: ', error);
+    } else {
+        next();
+    }
 });
+
+// -------
+
+// Handler functions -------
 
 function setContainsAll(set, items) {
     for (var i = 0; i < items.length; ++i) {
@@ -234,6 +239,10 @@ function sendMessageData(token, recipient, messageId, messageData) {
     });
 }
 
+// -------
+
+// Routes -------
+
 app.get('/hook/', function (req, res) {
     if (req.query['hub.verify_token'] === config.verifyToken) {
         console.log('success, verified hook!');
@@ -341,7 +350,8 @@ app.post('/triggers/', function (req, res) {
 
 // -------
 
-// set up websockets
+// Websockets -------
+
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
