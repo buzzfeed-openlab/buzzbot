@@ -252,7 +252,8 @@ module.exports = [
                 "data": `{
                     "text": "That’s OK! Use an emoji to tell us how you’re feeling about the Convention today. OR Tell us in a word why you’re protesting today."
                 }`,
-                unstructuredReply: true
+                unstructuredReply: true,
+                poll: "{}"
             }
         },
 
@@ -292,7 +293,8 @@ module.exports = [
                 "data": `{
                     "text": "That’s OK! Use an emoji to tell us how you’re feeling about the Convention today. OR Tell us in a word why you’re here."
                 }`,
-                unstructuredReply: true
+                unstructuredReply: true,
+                poll: "{}"
             }
         },
 

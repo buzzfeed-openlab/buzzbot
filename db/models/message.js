@@ -15,6 +15,9 @@ export default (sequelize, DataTypes) => {
         initialMessage: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
+        },
+        poll: {
+            type: DataTypes.JSON
         }
     }, {
         classMethods: {

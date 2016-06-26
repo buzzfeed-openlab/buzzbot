@@ -108,34 +108,50 @@ function parseTag(tag) {
 function handleIncomingMessage(token, event) {
     const userId = event.sender.id;
 
-    Controller.getOrCreateUser(userId).spread((user, created) => {
-        if (created) {
-            fetchUserInfo(token, userId);
-            startInitialConversation(token, userId);
-        }
-
+    Controller.getOrCreateUser(userId).spread((user, createdUser) => {
         const props = {
             text: event.message.text,
             attachments: event.message.attachments
         };
 
-        if (!props.text && !props.attachments) {
-            console.log('WARNING, unknown event. User:', userId, 'Sent event:', event);
+        !props.text && !props.attachments && console.log('WARNING, unknown event:', event, 'from user:', userId);
+
+        if (createdUser) {
+            fetchUserInfo(token, userId);
+            startInitialConversation(token, userId);
+
+            return Controller.createResponse(userId, props).then(() => { console.log('PERSISTED GREETING'); });
         }
 
         Controller.getMessageEventsForUser(userId).then((messageEvents) => {
-            // look for expected unstructured replies
+            // look for messages expecting unstructured replies
+            var message;
             for (var i = 0; i < messageEvents.length; ++i) {
                 if (messageEvents[i].Message.unstructuredReply) {
-                    props.messageId = messageEvents[i].Message.id;
+                    message = messageEvents[i].Message;
+                    props.messageId = message.id;
                     break;
                 }
             }
 
-            // look for command words
-            if (!created) {
-                const normalizedText = String(props.text).toUpperCase();
-                Commands[normalizedText] && Commands[normalizedText](token, event, user);
+            const normalizedText = String(props.text).toUpperCase();
+
+            // check for special types of responses (commands, polls)
+            if (Commands[normalizedText]) {
+                Commands[normalizedText](token, event, user);
+
+            } else if (message && message.poll && props.text) {
+                Controller.getUserResponsesToMessage(userId, message.id).then((responses) => {
+                    // don't let users vote more than once
+                    if (responses.length) {
+                        return;
+                    }
+
+                    var pollData = JSON.parse(message.poll);
+
+                    pollData[props.text] = (pollData[props.text] || 0) + 1;
+                    message.update({ poll: JSON.stringify(pollData) });
+                });
             }
 
             // persist the response

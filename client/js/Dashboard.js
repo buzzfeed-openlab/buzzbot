@@ -3,6 +3,7 @@ import ReactBootstrap, { Row, Col } from 'react-bootstrap';
 import update from 'react-addons-update';
 
 import ResponseList from './ResponseList';
+import PollView from './PollView';
 
 export default class Dashboard extends React.Component {
     constructor() {
@@ -38,11 +39,21 @@ export default class Dashboard extends React.Component {
 
     render() {
         const responseLists = Object.keys(this.state.responses).map((listKey) => {
+            const message = this.state.messages[listKey];
+
+            if (message && message.poll) {
+                return (
+                    <Col sm={12} md={6} key={listKey}>
+                        <PollView message={message} />
+                    </Col>
+                );
+            }
+
             return (
                 <Col sm={12} md={6} key={listKey}>
                     <ResponseList
                         responses={this.state.responses[listKey]}
-                        message={this.state.messages[listKey]}
+                        message={message}
                     />
                 </Col>
             );

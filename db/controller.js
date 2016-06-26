@@ -50,6 +50,15 @@ export default (db) => {
             return db.Response.create(props);
         },
 
+        getUserResponsesToMessage(userId, messageId) {
+            return db.Response.findAll({
+                where: {
+                    messageId,
+                    userId
+                }
+            });
+        },
+
         createMessage(data, unstructuredReply = false) {
             return db.Message.create({
                 data: JSON.stringify(data),
