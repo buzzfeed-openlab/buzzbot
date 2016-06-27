@@ -169,6 +169,15 @@ export default (db) => {
             });
         },
 
+        getMessageEventsForUserAndMessage(userId, messageId) {
+            return db.MessageEvent.findAll({
+                where: {
+                    userId,
+                    messageId
+                }
+            });
+        },
+
     }
 
     return controller;

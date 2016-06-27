@@ -18,25 +18,29 @@ export function sendMessage(token, recipient, message) {
 }
 
 export function sendMessageData(token, recipient, messageId, messageData) {
-    // TODO: CHECK TO SEE IF THIS MESSAGE HAS BEEN SENT TO THIS USER BEFORE
-
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: { access_token:token },
-        method: 'POST',
-        json: {
-            recipient: { id:recipient },
-            message: messageData,
+    Controller.getMessageEventsForUserAndMessage(recipient, messageId).then((messageEvents) => {
+        if (messageEvents.length) {
+            return console.log('NOT SENDING because user: ' + recipient + ' has already received: ' + messageId);
         }
 
-    }, function(error, response, body) {
-        if (error) {
-            console.log('ERROR: sending message: ', error);
-        } else if (response.body.error) {
-            console.log('ERROR: ', response.body.error);
-        }
+        request({
+            url: 'https://graph.facebook.com/v2.6/me/messages',
+            qs: { access_token:token },
+            method: 'POST',
+            json: {
+                recipient: { id:recipient },
+                message: messageData,
+            }
 
-        // record that we sent the user this message
-        Controller.createMessageEvent(recipient, messageId);
+        }, function(error, response, body) {
+            if (error) {
+                console.log('ERROR: sending message: ', error);
+            } else if (response.body.error) {
+                console.log('ERROR: ', response.body.error);
+            }
+
+            // record that we sent the user this message
+            Controller.createMessageEvent(recipient, messageId);
+        });
     });
 }
