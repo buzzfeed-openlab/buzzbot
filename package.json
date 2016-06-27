@@ -6,6 +6,7 @@
   "scripts": {
     "start": "npm run babel-node -- ./convention-bot.js",
     "babel-node": "babel-node --presets es2015 --ignore node_modules",
+    "init": "webpack",
     "db:init": "npm run babel-node -- ./db/init.js",
     "db:nuke": "npm run babel-node -- ./db/nuke.js",
     "sequelize": "sequelize",
