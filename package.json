@@ -7,7 +7,7 @@
     "start": "npm run babel-node -- ./convention-bot.js",
     "babel-node": "babel-node --presets es2015 --ignore node_modules",
     "db:init": "npm run babel-node -- ./db/init.js",
-    "db:nuke": "dropdb convention_bot_development && createdb convention_bot_development",
+    "db:nuke": "npm run babel-node -- ./db/nuke.js",
     "sequelize": "sequelize",
     "migrate": "npm run sequelize -- db:migrate",
     "migration:create": "npm run sequelize -- migration:create",
