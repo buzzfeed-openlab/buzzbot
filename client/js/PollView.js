@@ -82,7 +82,14 @@ export default class PollView extends React.Component {
 
         return (
             <ListGroupItem key={result.result}>
-                {result.result} {result.count}
+                <Row>
+                <Col sm={6} md={6}>
+                    <h3 style={{ textAlign: 'center' }}>{result.result}</h3>
+                </Col>
+                <Col sm={6} md={6}>
+                    <h3 style={{ textAlign: 'center' }}>{result.count}</h3>
+                </Col>
+                </Row>
             </ListGroupItem>
         );
     }
