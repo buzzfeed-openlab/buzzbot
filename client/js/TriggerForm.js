@@ -133,7 +133,7 @@ export default class TriggerForm extends React.Component {
             triggerTagId: this.state.triggerTag.value,
             messages: [ this.state.triggeredMessage.value ]
         }).then((response) => {
-            console.log('CREATED TRIGGER: ', response);
+            window.location.reload();
         }).catch((response) => {
             console.log('ERROR CREATING TRIGGER: ', response);
         });

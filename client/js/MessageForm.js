@@ -149,8 +149,6 @@ export default class MessageForm extends React.Component {
     }
 
     submitMessage() {
-        console.log('SUBMIT!');
-
         var buttonData = [];
         for (var i = 0; i < this.state.buttons.length; ++i) {
             if (this.state.buttons[i].text) {
@@ -189,7 +187,7 @@ export default class MessageForm extends React.Component {
         }
 
         request.post('/messages', messageData).then((response) => {
-            console.log('POSTED NEW MESSAGE: ', response);
+            window.location.reload();
         }).catch((response) => {
             console.log('ERROR POSTING NEW MESSAGE: ', response);
         });

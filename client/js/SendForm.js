@@ -126,7 +126,7 @@ export default class SendForm extends React.Component {
             messageId: this.state.selectedMessage.value,
             tagIds: tagIds
         }).then((response) => {
-            console.log('SENT OUT MESSAGE: ', response);
+            window.location.reload();
         }).catch((response) => {
             console.log('ERROR SENDING OUT MESSAGE: ', response);
         });
