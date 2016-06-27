@@ -50,6 +50,7 @@ export default class PollView extends React.Component {
                         itemRenderer={this.renderPollResults}
                         length={this.state.pollResults.length}
                         type='variable'
+                        updateWhenThisChanges={this.state.pollResults}
                     />
                 </ListGroup>
             </div>
@@ -80,7 +81,7 @@ export default class PollView extends React.Component {
         const result = this.state.pollResults[i];
 
         return (
-            <ListGroupItem key={key}>
+            <ListGroupItem key={result.result}>
                 {result.result} {result.count}
             </ListGroupItem>
         );
