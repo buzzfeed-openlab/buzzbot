@@ -23,7 +23,9 @@ export default class Message extends React.Component {
                 </Row>
                 <Row>
                     <Col md={12}>
-                        <p>The responses below are unprompted. People may be reaching out with something to share, or just saying hi.</p>
+                        <h5 style={{ textAlign: 'left', marginTop: 8, marginBottom: 10.5 }}>
+                            The responses below are unprompted. People may be reaching out with something to share, or just saying hi.
+                        </h5>
                     </Col>
                 </Row>
                 </div>
@@ -40,9 +42,9 @@ export default class Message extends React.Component {
 
             if (data.buttons) {
                 buttonList = (
-                    <p key={'buttonList'} style={{ textAlign: 'center', marginTop: 8, marginBottom: 10.5 }}>
+                    <h5 style={{ textAlign: 'left', marginTop: 8, marginBottom: 10.5 }}>
                         {data.buttons.map((b) => b.title).join('  |  ')}
-                    </p>
+                    </h5>
                 );
             }
 
@@ -56,15 +58,21 @@ export default class Message extends React.Component {
             <div style={this.props.style}>
             <Row>
                 <Col md={12}>
-                    <h3>Message id: {this.props.message.id}</h3>
-                </Col>
-            </Row>
-            <Row>
-                <Col md={12}>
-                    <p key={'messageText'}>
-                        {messageText}
-                    </p>
-                    {buttonList}
+                    <Row>
+                    <Col md={12}>
+                        <h3>{messageText}</h3>
+                    </Col>
+                    </Row>
+                    <Row>
+                    <Col sm={8} md={8}>
+                        {buttonList}
+                    </Col>
+                    <Col sm={4} md={4}>
+                        <h5 style={{ textAlign: 'right', marginTop: 8, marginBottom: 10.5 }}>
+                            Message Id: {this.props.message.id}
+                        </h5>
+                    </Col>
+                    </Row>
                 </Col>
             </Row>
             </div>
