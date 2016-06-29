@@ -394,11 +394,16 @@ pg.connect(function(err) {
                     });
                 }
             });
+        } else if (msg.channel == 'users') {
+            Controller.getUser(payloadData[2]).then((user) => {
+                io.emit('users', [ user.get({ plain: true }) ]);
+            });
         } else {
             return console.log('UNKNOWN DB EVENT: ', msg);
         }
     });
-    var query = pg.query("LISTEN responses");
+    var responsesQuery = pg.query("LISTEN responses");
+    var usersQuery = pg.query("LISTEN users");
 });
 
 // -------
