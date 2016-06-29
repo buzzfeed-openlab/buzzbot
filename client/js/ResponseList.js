@@ -36,6 +36,7 @@ export default class ResponseList extends React.Component {
                         itemRenderer={this.renderResponse}
                         length={this.props.responses.length}
                         type='variable'
+                        updateWhenThisChanges={this.props.users}
                     />
                 </ListGroup>
             </div>
@@ -43,9 +44,14 @@ export default class ResponseList extends React.Component {
     }
 
     renderResponse(i, key) {
+        const response = this.props.responses[i];
+
         return (
             <ListGroupItem key={key}>
-                <Response response={this.props.responses[i]} />
+                <Response
+                    response={response}
+                    user={this.props.users[response.userId]}
+                />
             </ListGroupItem>
         );
     }

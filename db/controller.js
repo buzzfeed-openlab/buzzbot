@@ -5,8 +5,18 @@ export default (db) => {
             return db.User.findOne({ where: { id } });
         },
 
-        getUsers(options = { where: {} }) {
-            return db.User.findAll(options);
+        getUsers(userIds) {
+            if (userIds && userIds.length) {
+                return db.User.findAll({
+                    where: {
+                        id: {
+                            $or: userIds
+                        }
+                    }
+                });
+            }
+
+            return db.User.findAll({ where: {} });
         },
 
         getAllActiveUserIds() {

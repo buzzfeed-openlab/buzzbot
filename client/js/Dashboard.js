@@ -11,12 +11,14 @@ export default class Dashboard extends React.Component {
 
         this.state = {
             responses: {},
-            messages: {}
+            messages: {},
+            users: {}
         }
 
         this.handleResponses = this.handleResponses.bind(this);
         this.handleNewResponse = this.handleNewResponse.bind(this);
         this.handleMessages = this.handleMessages.bind(this);
+        this.handleUsers = this.handleUsers.bind(this);
     }
 
     componentWillMount() {
@@ -25,6 +27,7 @@ export default class Dashboard extends React.Component {
         socket.on('responses', this.handleResponses);
         socket.on('new-response', this.handleNewResponse);
         socket.on('messages', this.handleMessages);
+        socket.on('users', this.handleUsers);
 
         socket.emit('get-responses', { limit: 1000 });
     }
@@ -35,6 +38,7 @@ export default class Dashboard extends React.Component {
         socket.removeListener('responses', this.handleResponses);
         socket.removeListener('new-response', this.handleNewResponse);
         socket.removeListener('messages', this.handleMessages);
+        socket.removeListener('users', this.handleUsers);
     }
 
     render() {
@@ -54,6 +58,7 @@ export default class Dashboard extends React.Component {
                     <ResponseList
                         responses={this.state.responses[listKey]}
                         message={message}
+                        users={this.state.users}
                     />
                 </Col>
             );
@@ -78,8 +83,9 @@ export default class Dashboard extends React.Component {
     }
 
     handleResponses(responses) {
-        const responseState = {};
-        const mesageIds = [];
+        const responseState = {},
+            mesageIds = [],
+            userIds = [];
 
         for (var i = 0; i < responses.length; ++i) {
             const response = responses[i];
@@ -93,13 +99,23 @@ export default class Dashboard extends React.Component {
                 mesageIds.push(messageId);
             }
 
+            userIds.push(response.userId);
+
             responseState[messageId].push(response);
         }
 
+        // fetch the message data relevant to these responses
         if (mesageIds.length) {
             this.props.route.socket.emit('get-messages', {
-                messageIds: [...new Set(mesageIds)]
+                messageIds: [ ...new Set(mesageIds) ]
             });
+        }
+
+        // fetch the user data relevant to these responses
+        if (userIds.length) {
+            this.props.route.socket.emit('get-users', {
+                userIds: [ ...new Set(userIds) ]
+            })
         }
 
         const newState = update(this.state, {
@@ -139,6 +155,24 @@ export default class Dashboard extends React.Component {
 
         const newState = update(this.state, {
             messages: messageState
+        });
+
+        this.setState(newState);
+    }
+
+    handleUsers(users) {
+        const userState = {};
+
+        for (var i = 0; i < users.length; ++i) {
+            const user = users[i];
+
+            userState[user.id] = {
+                $set: user
+            }
+        }
+
+        const newState = update(this.state, {
+            users: userState
         });
 
         this.setState(newState);

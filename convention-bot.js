@@ -365,6 +365,16 @@ io.on('connection', function (socket) {
             socket.emit('tags', tags.map((t) => t.get({ plain: true })));
         });
     });
+
+    socket.on('get-users', (options = {}) => {
+        Controller.getUsers(options.userIds).then((users) => {
+            socket.emit('users', users.map((u) => u.get({ plain: true })));
+        });
+    });
+
+    socket.on('error', (err) => {
+        console.log('SOCKET ERROR: ', err);
+    });
 });
 
 pg.connect(function(err) {

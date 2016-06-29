@@ -67,6 +67,11 @@ export default class Response extends React.Component {
             );
         }
 
+        var userLabel = this.props.response.userId;
+        if (this.props.user) {
+            userLabel = this.props.user.firstName + ' ' + this.props.user.lastName;
+        }
+
         return (
             <div>
                 <Row>
@@ -74,7 +79,7 @@ export default class Response extends React.Component {
                         Response id: {this.props.response.id}
                     </Col>
                     <Col md={6}>
-                        user: {this.props.response.userId}
+                        User: {userLabel}
                     </Col>
                 </Row>
                 {textRow}
