@@ -8,8 +8,13 @@ import webpackConfig from './webpack.config.js';
 import basicAuth from 'basic-auth';
 
 import { Controller, pg, User, Tag } from './db';
-import { sendMessage, sendMessageData } from './src/send-message';
 import Commands from './src/commands';
+import {
+    sendMessage,
+    sendMessageData,
+    fetchUserInfo,
+    markSeen,
+} from './src/messenger-interface';
 
 const config = require('./config.js');
 
@@ -158,6 +163,8 @@ function handleIncomingMessage(token, event) {
             Controller.createResponse(userId, props).then(() => {
                 console.log('PERSISTED RESPONSE');
             });
+
+            markSeen(token, userId);
         });
     });
 }
@@ -184,6 +191,8 @@ function handlePostBack(token, event) {
                 tagId: tag.id
             });
 
+            markSeen(token, userId);
+
             // trigger additional messages
             Controller.getMessagesForTriggerFromTag(tag).then((triggeredMessages) => {
                 for (var i = 0; i < triggeredMessages.length; ++i) {
@@ -201,33 +210,6 @@ function startInitialConversation(token, userId) {
         for (var i = 0; i < messages.length; ++i) {
             sendMessage(token, userId, messages[i]);
         }
-    });
-}
-
-function fetchUserInfo(token, userId, attemptsToMake = 5) {
-    var userInfoUrl = `https://graph.facebook.com/v2.6/${userId}?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=${token}`
-
-    request(userInfoUrl, function(err, response, body) {
-        if (err) {
-            console.log('ERROR fetching user info for ' + userId + ', attemptsRemaining ' + attemptsToMake + ': ', err);
-            if (attemptsToMake >= 1) {
-                fetchUserInfo(token, userId, attemptsToMake - 1);
-            }
-            return;
-        }
-
-        body = JSON.parse(body);
-
-        const props = {
-            firstName: body.first_name,
-            lastName: body.last_name,
-            profilePic: body.profile_pic,
-            locale: body.locale,
-            timezone: body.timezone,
-            gender: body.gender
-        };
-
-        Controller.updateUser(userId, props);
     });
 }
 

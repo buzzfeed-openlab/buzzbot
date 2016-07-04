@@ -1,6 +1,6 @@
 
 import { Controller } from '../db';
-import { sendMessage } from './send-message';
+import { sendMessage } from './messenger-interface';
 
 function pauseForUser(token, event, user) {
     Controller.updateUser(user.id, { state: 'paused' }).then((user) => {
