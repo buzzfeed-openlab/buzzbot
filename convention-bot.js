@@ -12,6 +12,7 @@ import Commands from './src/commands';
 import {
     sendMessage,
     sendMessageData,
+    sendMessagesSequentially,
     fetchUserInfo,
     markSeen,
 } from './src/messenger-interface';
@@ -207,9 +208,7 @@ function startInitialConversation(token, userId) {
     console.log('starting initial conversation with user:', userId);
 
     Controller.getInitialMessages().then((messages) => {
-        for (var i = 0; i < messages.length; ++i) {
-            sendMessage(token, userId, messages[i]);
-        }
+        sendMessagesSequentially(token, userId, messages);
     });
 }
 

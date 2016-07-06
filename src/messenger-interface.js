@@ -2,7 +2,7 @@
 import request from 'request';
 import { Controller } from '../db';
 
-export function sendMessage(token, recipient, message) {
+export function sendMessage(token, recipient, message, cb) {
     var messageData = JSON.parse(message.data);
 
     // special case for template messages so that we have more info when we get
@@ -14,10 +14,10 @@ export function sendMessage(token, recipient, message) {
         }
     }
 
-    return sendMessageData(token, recipient, message.id, messageData);
+    return sendMessageData(token, recipient, message.id, messageData, cb);
 }
 
-export function sendMessageData(token, recipient, messageId, messageData) {
+export function sendMessageData(token, recipient, messageId, messageData, cb) {
     Controller.getMessageEventsForUserAndMessage(recipient, messageId).then((messageEvents) => {
         if (messageEvents.length) {
             return console.log('NOT SENDING because user: ' + recipient + ' has already received: ' + messageId);
@@ -37,12 +37,29 @@ export function sendMessageData(token, recipient, messageId, messageData) {
                 console.log('ERROR sending message: ', error);
             } else if (response.body.error) {
                 console.log('ERROR: ', response.body.error);
+            } else {
+                // record that we sent the user this message
+                Controller.createMessageEvent(recipient, messageId);
             }
 
-            // record that we sent the user this message
-            Controller.createMessageEvent(recipient, messageId);
+            cb && cb(error, response, body);
         });
     });
+}
+
+export function sendMessagesSequentially(token, recipient, messages) {
+    if (!messages.length) {
+        return;
+    }
+
+    const message = messages.shift();
+
+    sendMessage(
+        token,
+        recipient,
+        message,
+        sendMessagesSequentially.bind(null, token, recipient, messages)
+    );
 }
 
 export function fetchUserInfo(token, userId, attemptsToMake = 5) {

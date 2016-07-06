@@ -27,7 +27,23 @@ module.exports = [
             "model": "Message",
             "keys": ["id"],
             "data": {
-                "id": 1,
+                "id": 300,
+                "data": `{
+                    "attachment": {
+                        "type": "image",
+                        "payload":{
+                            "url":"https://img.buzzfeed.com/buzzfeed-static/static/2014-07/18/8/enhanced/webdr09/anigif_enhanced-buzz-32587-1405685331-4.gif"
+                        }
+                    }
+                }`,
+                "initialMessage": true
+            }
+        },
+        {
+            "model": "Message",
+            "keys": ["id"],
+            "data": {
+                "id": 301,
                 "data": `{
                     "attachment": {
                         "type": "template",

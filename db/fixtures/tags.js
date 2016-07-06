@@ -4,7 +4,7 @@ module.exports = [
         data: {
             id: 1,
             tag: 'at-convention',
-            messageId: 1
+            messageId: 301
         }
     },
     {
@@ -12,7 +12,7 @@ module.exports = [
         data: {
             id: 2,
             tag: 'not-at-convention',
-            messageId: 1
+            messageId: 301
         }
     },
 
