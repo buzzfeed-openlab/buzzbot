@@ -28,10 +28,12 @@ export default class MessageForm extends React.Component {
         this.handleMessageTextChange = this.handleMessageTextChange.bind(this);
         this.handleButtonChange = this.handleButtonChange.bind(this);
         this.handleUnstructuredChange = this.handleUnstructuredChange.bind(this);
+        this.handlePollChange = this.handlePollChange.bind(this);
 
         this.state = {
             messageText: '',
             unstructuredReply: false,
+            poll: false,
             buttons: [
                 { text: '', tag: '' },
                 { text: '', tag: '' },
@@ -67,6 +69,13 @@ export default class MessageForm extends React.Component {
                     Expect unstructured reply
                 </Checkbox>
 
+                <Checkbox
+                    checked={this.state.poll}
+                    onChange={this.handlePollChange}
+                >
+                    Poll question
+                </Checkbox>
+
                 <Form componentClass="fieldset" inline>
                     <FormGroup controlId="formButton1Text" validationState={this.validateButton(0)}>
                         <ControlLabel>Button 1: </ControlLabel>
@@ -76,7 +85,7 @@ export default class MessageForm extends React.Component {
                             value={this.state.buttons[0].text}
                             placeholder="button text"
                             onChange={this.handleButtonChange.bind(this, 0, 'text')}
-                            disabled={this.state.unstructuredReply}
+                            disabled={this.state.unstructuredReply || this.state.poll}
                         />
                         <FormControl.Feedback />
                         {' '}
@@ -85,7 +94,7 @@ export default class MessageForm extends React.Component {
                             value={this.state.buttons[0].tag}
                             placeholder="button tag"
                             onChange={this.handleButtonChange.bind(this, 0, 'tag')}
-                            disabled={this.state.unstructuredReply}
+                            disabled={this.state.unstructuredReply || this.state.poll}
                         />
                         <FormControl.Feedback />
                     </FormGroup>
@@ -99,7 +108,7 @@ export default class MessageForm extends React.Component {
                             value={this.state.buttons[1].text}
                             placeholder="button text"
                             onChange={this.handleButtonChange.bind(this, 1, 'text')}
-                            disabled={this.state.unstructuredReply}
+                            disabled={this.state.unstructuredReply || this.state.poll}
                         />
                         <FormControl.Feedback />
                         {' '}
@@ -108,7 +117,7 @@ export default class MessageForm extends React.Component {
                             value={this.state.buttons[1].tag}
                             placeholder="button tag"
                             onChange={this.handleButtonChange.bind(this, 1, 'tag')}
-                            disabled={this.state.unstructuredReply}
+                            disabled={this.state.unstructuredReply || this.state.poll}
                         />
                         <FormControl.Feedback />
                     </FormGroup>
@@ -122,7 +131,7 @@ export default class MessageForm extends React.Component {
                             value={this.state.buttons[2].text}
                             placeholder="button text"
                             onChange={this.handleButtonChange.bind(this, 2, 'text')}
-                            disabled={this.state.unstructuredReply}
+                            disabled={this.state.unstructuredReply || this.state.poll}
                         />
                         <FormControl.Feedback />
                         {' '}
@@ -131,7 +140,7 @@ export default class MessageForm extends React.Component {
                             value={this.state.buttons[2].tag}
                             placeholder="button tag"
                             onChange={this.handleButtonChange.bind(this, 2, 'tag')}
-                            disabled={this.state.unstructuredReply}
+                            disabled={this.state.unstructuredReply || this.state.poll}
                         />
                         <FormControl.Feedback />
                     </FormGroup>
@@ -161,16 +170,17 @@ export default class MessageForm extends React.Component {
             }
         }
 
-        var messageData;
-        if (this.state.unstructuredReply || !buttonData.length) {
-            messageData = {
+        var messageBody;
+        if (this.state.unstructuredReply || this.state.poll || !buttonData.length) {
+            messageBody = {
                 "message": {
                     "text": this.state.messageText
                 },
-                "unstructuredReply": this.state.unstructuredReply
+                "unstructuredReply": this.state.unstructuredReply,
+                "poll": this.state.poll
             }
         } else if (buttonData.length) {
-            messageData = {
+            messageBody = {
                 "message": {
                     "attachment": {
                         "type":"template",
@@ -186,7 +196,7 @@ export default class MessageForm extends React.Component {
             console.log('ERROR BUILDING MESSAGE DATA');
         }
 
-        request.post('/messages', messageData).then((response) => {
+        request.post('/messages', messageBody).then((response) => {
             window.location.reload();
         }).catch((response) => {
             console.log('ERROR POSTING NEW MESSAGE: ', response);
@@ -272,6 +282,19 @@ export default class MessageForm extends React.Component {
 
     handleUnstructuredChange(e) {
         const newState = update(this.state, {
+            unstructuredReply: {
+                $set: e.target.checked
+            }
+        });
+
+        this.setState(newState);
+    }
+
+    handlePollChange(e) {
+        const newState = update(this.state, {
+            poll: {
+                $set: e.target.checked
+            },
             unstructuredReply: {
                 $set: e.target.checked
             }

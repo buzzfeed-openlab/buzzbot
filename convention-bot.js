@@ -257,9 +257,15 @@ app.post('/messages/', function (req, res) {
     }
 
     const messageData = req.body.message;
-    const unstructuredReply = req.body.unstructuredReply || false;
+    var unstructuredReply = req.body.unstructuredReply || false;
+    var poll = req.body.poll ? '{}' : undefined;
 
-    Controller.createMessageAndTags(messageData, unstructuredReply).then((message) => {
+    if (poll && !unstructuredReply) {
+        console.log('received request to create poll message with unstructuredReply == false, setting it to true...');
+        unstructuredReply = true;
+    }
+
+    Controller.createMessageAndTags(messageData, unstructuredReply, poll).then((message) => {
         console.log('CREATED MESSAGE:', message.get({plain: true}));
         res.status(200).json(message.get({ plain: true }));
     }).catch((err) => {
