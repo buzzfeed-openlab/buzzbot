@@ -9,6 +9,7 @@ db.sequelize.sync().then(() => {
         './db/fixtures/messages.js',
         './db/fixtures/tags.js',
         './db/fixtures/triggers.js',
+        './db/fixtures/menu-commands.js'
     ], db).then(function() {
         const seqScript = fs.readFileSync('./db/scripts/init-seq-ids.sql').toString();
         const triggerScript = fs.readFileSync('./db/scripts/init-triggers.sql').toString();

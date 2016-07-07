@@ -185,6 +185,14 @@ export default (db) => {
             });
         },
 
+        getActiveMenuCommands() {
+            return db.MenuCommand.findAll({
+                where: {
+                    active: true
+                }
+            });
+        }
+
     }
 
     return controller;

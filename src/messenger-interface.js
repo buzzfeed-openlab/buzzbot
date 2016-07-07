@@ -107,3 +107,33 @@ export function markSeen(token, userId) {
             }
         });
 }
+
+export function updatePersistentMenu(token) {
+    Controller.getActiveMenuCommands().then((commands) => {
+        // sort the commands acording to their order
+        commands.sort((c1, c2) => {
+            return c1.order - c2.order;
+        });
+
+        const callToActions = commands.map((c) => JSON.parse(c.data));
+
+        request({
+            url: 'https://graph.facebook.com/v2.6/me/thread_settings',
+            qs: { access_token: token },
+            method: 'POST',
+            json: {
+                setting_type: 'call_to_actions',
+                thread_state: 'existing_thread',
+                call_to_actions: callToActions
+            }
+        }, function(error, response, body) {
+            if (error) {
+                console.log('ERROR marking seen: ', error);
+            } else if (response.body.error) {
+                console.log('ERROR: ', response.body.error);
+            }
+
+            console.log(body);
+        });
+    });
+}

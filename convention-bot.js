@@ -15,6 +15,7 @@ import {
     sendMessagesSequentially,
     fetchUserInfo,
     markSeen,
+    updatePersistentMenu,
 } from './src/messenger-interface';
 
 const config = require('./config.js');
@@ -23,6 +24,8 @@ const config = require('./config.js');
 // User.destroy({ where: {} }).then(() => {
 //     console.log('CLEARED USER TABLE');
 // });
+
+updatePersistentMenu(config.pageToken);
 
 var app = express();
 
@@ -111,6 +114,10 @@ function parseTag(tag) {
     return { mid: tagData[0], tag: tagData[1] };
 }
 
+function normalizeText(text) {
+    return String(text).toUpperCase();
+}
+
 function handleIncomingMessage(token, event) {
     const userId = event.sender.id;
 
@@ -123,7 +130,6 @@ function handleIncomingMessage(token, event) {
         !props.text && !props.attachments && console.log('WARNING, unknown event:', event, 'from user:', userId);
 
         if (createdUser) {
-            fetchUserInfo(token, userId);
             startInitialConversation(token, userId);
 
             return Controller.createResponse(userId, props).then(() => { console.log('PERSISTED GREETING'); });
@@ -140,7 +146,7 @@ function handleIncomingMessage(token, event) {
                 }
             }
 
-            const normalizedText = String(props.text).toUpperCase();
+            const normalizedText = normalizeText(props.text);
 
             // check for special types of responses (commands, polls)
             if (Commands[normalizedText]) {
@@ -174,18 +180,42 @@ function handlePostBack(token, event) {
     var userId = event.sender.id,
         payload = event.postback.payload;
 
-    Controller.getUser(userId).then((user) => {
-        if (user.state === 'paused') {
-            // until the user resumes, postbacks should not be recorded
-            return;
-        }
+    Controller.getOrCreateUser(userId).spread((user, createdUser) => {
         var tagData = parseTag(payload);
 
+        // check for new users, start conversation and ignore initial postback
+        if (createdUser) {
+            startInitialConversation(token, userId);
+
+            return Controller.createResponse(userId, {
+                text: tagData.tag
+            });
+        }
+
+        // check for paused, until the user resumes postbacks should not be recorded
+        if (user.state === 'paused') {
+            return;
+        }
+
+        // check for command postback
+        if (tagData.mid === 'command') {
+            const normalizedCommand = normalizeText(tagData.tag);
+
+            if (Commands[normalizedCommand]) {
+                Commands[normalizedCommand](token, event, user);
+
+                Controller.createResponse(userId, {
+                    text: tagData.tag
+                });
+
+                return;
+            }
+        }
+
+        // otherwise, handle message postback
         Controller.getTag({ messageId: tagData.mid, tag: tagData.tag }).then((tag) => {
-            // associate the tag with the user
             user.addTag(tag);
 
-            // save the response
             Controller.createResponse(userId, {
                 text: tagData.tag,
                 messageId: tagData.mid,
@@ -206,6 +236,8 @@ function handlePostBack(token, event) {
 
 function startInitialConversation(token, userId) {
     console.log('starting initial conversation with user:', userId);
+
+    fetchUserInfo(token, userId);
 
     Controller.getInitialMessages().then((messages) => {
         sendMessagesSequentially(token, userId, messages);
