@@ -53,7 +53,8 @@ if (config.env === 'development') {
 }
 
 function auth(req, res, next) {
-    function unauthorized(res) {
+    function unauthorized(res, user) {
+        console.log('WARNING, unauthorized attempt by user:', user, 'to access route:', req.originalUrl);
         res.set('WWW-Authenticate', 'Basic');
         return res.sendStatus(401);
     }
@@ -61,13 +62,13 @@ function auth(req, res, next) {
     var user = basicAuth(req);
 
     if (!user || !user.name || !user.pass) {
-        return unauthorized(res);
+        return unauthorized(res, user);
     }
 
     if (user.name === config.auth.user && user.pass === config.auth.password) {
         return next();
     } else {
-        return unauthorized(res);
+        return unauthorized(res, user);
     }
 };
 
@@ -282,6 +283,7 @@ app.post('/hook/', function (req, res) {
     res.sendStatus(status);
 });
 
+config.env != 'development' && app.use('/messages/', auth);
 app.post('/messages/', function (req, res) {
     if (!req.body.message) {
         return res.sendStatus(400);
@@ -305,6 +307,7 @@ app.post('/messages/', function (req, res) {
     });
 });
 
+config.env != 'development' && app.use('/send/', auth);
 app.post('/send/', function (req, res) {
     if (!req.body.messageId) {
         return res.status(400).json({ message: '`messageId` must be specified in request' });
@@ -333,6 +336,7 @@ app.post('/send/', function (req, res) {
     });
 });
 
+config.env != 'development' && app.use('/triggers/', auth);
 app.post('/triggers/', function (req, res) {
     if (!(req.body.triggerTagId || (req.body.triggerTag && req.body.triggerMessageId)) || !req.body.messages) {
         return res.status(400).json({ message: '`triggerTagId` or `triggerTag` + `triggerMessageId` must be specified, along with `messages`' });
