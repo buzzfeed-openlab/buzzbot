@@ -366,6 +366,17 @@ app.post('/triggers/', function (req, res) {
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+// auth for websockets
+if (config.env != 'development') {
+    io.use((socket, next) => {
+        var user = basicAuth(socket.request);
+        if (!user || user.name !== config.auth.user || user.pass !== config.auth.password) {
+            return console.log('WARNING, unauthorized websocket connection attempt:', user);
+        }
+        next && next();
+    });
+}
+
 io.on('connection', function (socket) {
     socket.on('get-responses', (options) => {
         Controller.getResponses({
