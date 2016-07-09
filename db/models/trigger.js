@@ -12,6 +12,10 @@ module.exports = function(sequelize, DataTypes) {
                 Trigger.belongsTo(models.Tag, {
                     foreignKey: 'tagId'
                 });
+                Trigger.belongsTo(models.Message, {
+                    as: 'triggerMessage',
+                    foreignKey: 'triggerMessageId'
+                });
                 Trigger.belongsToMany(models.Message, {
                     through: 'MessageTrigger',
                     foreignKey: 'triggerId',

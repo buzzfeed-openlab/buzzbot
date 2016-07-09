@@ -173,6 +173,15 @@ function handleIncomingMessage(token, event) {
             });
 
             markSeen(token, userId);
+
+            // trigger additional messages
+            if (message) {
+                Controller.getMessagesForTriggerFromMessage(message).then((triggeredMessages) => {
+                    for (var i = 0; i < triggeredMessages.length; ++i) {
+                        sendMessage(token, userId, triggeredMessages[i]);
+                    }
+                });
+            }
         });
     });
 }
@@ -338,25 +347,41 @@ app.post('/send/', function (req, res) {
 
 config.env != 'development' && app.use('/triggers/', auth);
 app.post('/triggers/', function (req, res) {
-    if (!(req.body.triggerTagId || (req.body.triggerTag && req.body.triggerMessageId)) || !req.body.messages) {
-        return res.status(400).json({ message: '`triggerTagId` or `triggerTag` + `triggerMessageId` must be specified, along with `messages`' });
+
+    const triggerTagId = req.body.triggerTagId,
+        triggerTag = req.body.triggerTag,
+        triggerMessageId = req.body.triggerMessageId,
+        messages = req.body.messages;
+
+    if (!(triggerTagId || triggerMessageId || (triggerTag && triggerMessageId)) || !messages) {
+        return res.status(400).json({ message: '`triggerTagId` or `triggerMessageId` or `triggerTag` + `triggerMessageId` must be specified, along with `messages`' });
     }
 
-    const tagData = {
-        id: req.body.triggerTagId,
-        messageId: req.body.triggerMessageId,
-        tag: req.body.triggerTag
-    }
+    if (triggerTagId || triggerTag) {
+        const tagData = {
+            id: req.body.triggerTagId,
+            messageId: req.body.triggerMessageId,
+            tag: req.body.triggerTag
+        }
 
-    Controller.getTag(tagData).then((tag) => {
-        Controller.getOrCreateTrigger(tag.id, req.body.messages).then((trigger) => {
+        Controller.getTag(tagData).then((tag) => {
+            Controller.getOrCreateTriggerWithTag(tag.id, rmessages).then((trigger) => {
+                console.log('CREATED TRIGGER: ', trigger.get({plain: true}));
+                res.sendStatus(200);
+            });
+        }).catch((err) => {
+            console.log('ERROR creating trigger with tag: ', err);
+            res.status(500).json(err);
+        });
+    } else if (triggerMessageId) {
+        Controller.getOrCreateTriggerWithMessage(triggerMessageId, messages).then((trigger) => {
             console.log('CREATED TRIGGER: ', trigger.get({plain: true}));
             res.sendStatus(200);
+        }).catch((err) => {
+            console.log('ERROR creating trigger with message', err);
+            res.status(500).json(err);
         });
-    }).catch((err) => {
-        console.log('ERROR creating trigger: ', err);
-        res.status(500).json(err);
-    });
+    }
 });
 
 // -------

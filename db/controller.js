@@ -117,9 +117,18 @@ export default (db) => {
             });
         },
 
-        getOrCreateTrigger(tagId, messageIds) {
+        getOrCreateTriggerWithTag(tagId, messageIds) {
             return db.Trigger.findOrCreate({
                 where: { tagId }
+            }).spread((trigger) => {
+                trigger.addMessages(messageIds);
+                return trigger;
+            });
+        },
+
+        getOrCreateTriggerWithMessage(triggerMessageId, messageIds) {
+            return db.Trigger.findOrCreate({
+                where: { triggerMessageId }
             }).spread((trigger) => {
                 trigger.addMessages(messageIds);
                 return trigger;
@@ -130,11 +139,15 @@ export default (db) => {
             return db.Trigger.findOne({ where: {
                 tagId: tag.id
             } }).then((trigger) => {
-                if (trigger) {
-                    return trigger.getMessages();
-                }
+                return trigger ? trigger.getMessages() : [];
+            });
+        },
 
-                return [];
+        getMessagesForTriggerFromMessage(message) {
+            return db.Trigger.findOne({ where: {
+                triggerMessageId: message.id
+            } }).then((trigger) => {
+                return trigger ? trigger.getMessages() : [];
             });
         },
 

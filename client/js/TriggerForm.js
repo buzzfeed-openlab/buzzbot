@@ -23,6 +23,7 @@ export default class TriggerForm extends React.Component {
             messages: {},
             tags: {},
             triggerTag: undefined,
+            triggerMessage: undefined,
             triggeredMessage: undefined,
         };
 
@@ -31,6 +32,7 @@ export default class TriggerForm extends React.Component {
         this.handleMessages = this.handleMessages.bind(this);
         this.handleTagChange = this.handleTagChange.bind(this);
         this.handleMessageChange = this.handleMessageChange.bind(this);
+        this.handleTriggerMessageChange = this.handleTriggerMessageChange.bind(this);
         this.validateAll = this.validateAll.bind(this);
     }
 
@@ -53,6 +55,7 @@ export default class TriggerForm extends React.Component {
 
     render() {
         const midToText = {};
+        const triggerMidToText = {};
         for (var mid in this.state.messages) {
             const message = this.state.messages[mid];
             var messageText = message.data.text;
@@ -61,6 +64,12 @@ export default class TriggerForm extends React.Component {
             }
 
             midToText[mid] = messageText;
+
+            // if the message expects an unstructured reply, it can be
+            // a trigger message
+            if (message.unstructuredReply) {
+                triggerMidToText[mid] = messageText;
+            }
         }
 
         const tagList = Object.keys(this.state.tags).map((tagid) => {
@@ -76,6 +85,13 @@ export default class TriggerForm extends React.Component {
             return {
                 value: mid,
                 label: mid + ': ' + midToText[mid]
+            }
+        });
+
+        const triggerMessageList = Object.keys(triggerMidToText).map((mid) => {
+            return {
+                value: mid,
+                label: mid + ': ' + triggerMidToText[mid]
             }
         });
 
@@ -98,13 +114,20 @@ export default class TriggerForm extends React.Component {
                                     options={tagList}
                                     onChange={this.handleTagChange}
                                 />
+                                <ControlLabel>OR Select a trigger Message</ControlLabel>
+                                <Select
+                                    name="formCreateTriggerMessageSelect"
+                                    value={this.state.triggerMessage}
+                                    options={triggerMessageList}
+                                    onChange={this.handleTriggerMessageChange}
+                                />
                             </FormGroup>
                         </Col>
                         <Col sm={12} md={6}>
-                            <FormGroup controlId="formCreateTriggerMessageSelect">
+                            <FormGroup controlId="formCreateTriggeredMessageSelect">
                                 <ControlLabel>Select a message to trigger</ControlLabel>
                                 <Select
-                                    name="formCreateTriggerMessageSelect"
+                                    name="formCreateTriggeredMessageSelect"
                                     value={this.state.triggeredMessage}
                                     options={messageList}
                                     onChange={this.handleMessageChange}
@@ -129,10 +152,17 @@ export default class TriggerForm extends React.Component {
     }
 
     createTrigger() {
-        request.post('/triggers', {
-            triggerTagId: this.state.triggerTag.value,
-            messages: [ this.state.triggeredMessage.value ]
-        }).then((response) => {
+        const data = {
+            messages: [this.state.triggeredMessage.value]
+        }
+
+        if (this.state.triggerTag) {
+            data.triggerTagId = this.state.triggerTag.value;
+        } else if (this.state.triggerMessage) {
+            data.triggerMessageId = this.state.triggerMessage.value;
+        }
+
+        request.post('/triggers', data).then((response) => {
             window.location.reload();
         }).catch((response) => {
             console.log('ERROR CREATING TRIGGER: ', response);
@@ -196,8 +226,18 @@ export default class TriggerForm extends React.Component {
         this.setState(newState);
     }
 
+    handleTriggerMessageChange(message) {
+        const newState = update(this.state, {
+            triggerMessage: {
+                $set: message
+            }
+        });
+
+        this.setState(newState);
+    }
+
     validateAll() {
-        if (this.state.triggerTag && this.state.triggeredMessage) {
+        if ((this.state.triggerTag || this.state.triggerMessage) && this.state.triggeredMessage) {
             return 'success';
         }
 
