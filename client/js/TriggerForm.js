@@ -237,7 +237,10 @@ export default class TriggerForm extends React.Component {
     }
 
     validateAll() {
-        if ((this.state.triggerTag || this.state.triggerMessage) && this.state.triggeredMessage) {
+        if (((this.state.triggerTag && !this.state.triggerMessage) ||
+            (!this.state.triggerTag && this.state.triggerMessage)) &&
+            this.state.triggeredMessage) {
+
             return 'success';
         }
 
