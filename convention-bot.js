@@ -177,9 +177,7 @@ function handleIncomingMessage(token, event) {
             // trigger additional messages
             if (message) {
                 Controller.getMessagesForTriggerFromMessage(message).then((triggeredMessages) => {
-                    for (var i = 0; i < triggeredMessages.length; ++i) {
-                        sendMessage(token, userId, triggeredMessages[i]);
-                    }
+                    sendMessagesSequentially(token, userId, triggeredMessages);
                 });
             }
         });
@@ -236,9 +234,7 @@ function handlePostBack(token, event) {
 
             // trigger additional messages
             Controller.getMessagesForTriggerFromTag(tag).then((triggeredMessages) => {
-                for (var i = 0; i < triggeredMessages.length; ++i) {
-                    sendMessage(token, userId, triggeredMessages[i]);
-                }
+                sendMessagesSequentially(token, userId, triggeredMessages);
             });
         });
     });
