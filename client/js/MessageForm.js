@@ -66,14 +66,14 @@ export default class MessageForm extends React.Component {
                     checked={this.state.unstructuredReply}
                     onChange={this.handleUnstructuredChange}
                 >
-                    Expect unstructured reply
+                    Expect unstructured reply &nbsp;&nbsp;(users will be able to respond with arbitray text or media)
                 </Checkbox>
 
                 <Checkbox
                     checked={this.state.poll}
                     onChange={this.handlePollChange}
                 >
-                    Poll question
+                    Poll question &nbsp;&nbsp;(must expect unstructured reply)
                 </Checkbox>
 
                 <Form componentClass="fieldset" inline>

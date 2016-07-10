@@ -94,7 +94,7 @@ export default class SendForm extends React.Component {
                                 />
                             </FormGroup>
                             <FormGroup controlId="formSendTagsSelect">
-                                <ControlLabel>Send only to users with all selected tags</ControlLabel>
+                                <ControlLabel>Send only to users with ALL selected Tags</ControlLabel>
                                 <Select
                                     name="formSendTagsSelect"
                                     multi={true}

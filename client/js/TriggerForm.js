@@ -102,6 +102,7 @@ export default class TriggerForm extends React.Component {
                     <Row>
                         <Col md={12}>
                             <h3>Create a Trigger</h3>
+                            <h5>When users respond to something, trigger a new message to be sent.</h5>
                         </Col>
                     </Row>
                     <Row>
@@ -125,7 +126,7 @@ export default class TriggerForm extends React.Component {
                         </Col>
                         <Col sm={12} md={6}>
                             <FormGroup controlId="formCreateTriggeredMessageSelect">
-                                <ControlLabel>Select a message to trigger</ControlLabel>
+                                <ControlLabel>Select a Message to trigger</ControlLabel>
                                 <Select
                                     name="formCreateTriggeredMessageSelect"
                                     value={this.state.triggeredMessage}
