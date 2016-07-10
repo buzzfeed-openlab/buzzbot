@@ -26,6 +26,7 @@ export default class MessageForm extends React.Component {
         this.validateAll = this.validateAll.bind(this);
 
         this.handleMessageTextChange = this.handleMessageTextChange.bind(this);
+        this.handleMetadataTextChange = this.handleMetadataTextChange.bind(this);
         this.handleButtonChange = this.handleButtonChange.bind(this);
         this.handleUnstructuredChange = this.handleUnstructuredChange.bind(this);
         this.handlePollChange = this.handlePollChange.bind(this);
@@ -56,11 +57,19 @@ export default class MessageForm extends React.Component {
                     <FormControl
                         type="text"
                         value={this.state.messageText}
-                        placeholder="enter text"
+                        placeholder="message text"
                         onChange={this.handleMessageTextChange}
                     />
                     <FormControl.Feedback />
                 </FormGroup>
+
+                <ControlLabel>Metadata (only visible in amdin interface):</ControlLabel>
+                <FormControl
+                    type="text"
+                    value={this.state.metadata}
+                    placeholder="metadata text"
+                    onChange={this.handleMetadataTextChange}
+                />
 
                 <Checkbox
                     checked={this.state.unstructuredReply}
@@ -196,6 +205,10 @@ export default class MessageForm extends React.Component {
             console.log('ERROR BUILDING MESSAGE DATA');
         }
 
+        if (this.state.metadata) {
+            messageBody.metadata = this.state.metadata;
+        }
+
         request.post('/messages', messageBody).then((response) => {
             window.location.reload();
         }).catch((response) => {
@@ -259,6 +272,16 @@ export default class MessageForm extends React.Component {
     handleMessageTextChange(e) {
         const newState = update(this.state, {
             messageText: {
+                $set: e.target.value
+            }
+        });
+
+        this.setState(newState);
+    }
+
+    handleMetadataTextChange(e) {
+        const newState = update(this.state, {
+            metadata: {
                 $set: e.target.value
             }
         });

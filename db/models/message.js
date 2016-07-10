@@ -18,6 +18,9 @@ export default (sequelize, DataTypes) => {
         },
         poll: {
             type: DataTypes.JSON
+        },
+        metadata: {
+            type: DataTypes.TEXT
         }
     }, {
         classMethods: {

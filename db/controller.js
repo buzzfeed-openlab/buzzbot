@@ -73,7 +73,7 @@ export default (db) => {
             return db.Message.create(Object.assign({ data: JSON.stringify(data) }, props));
         },
 
-        createMessageAndTags(data, unstructuredReply = false, poll = undefined) {
+        createMessageAndTags(data, unstructuredReply = false, poll = undefined, metadata = undefined) {
             var tags = [];
             if (data.attachment && data.attachment.payload && data.attachment.payload.buttons) {
                 var buttons = data.attachment.payload.buttons;
@@ -82,7 +82,7 @@ export default (db) => {
                 }
             }
 
-            return controller.createMessage(data, { unstructuredReply, poll }).then((message) => {
+            return controller.createMessage(data, { unstructuredReply, poll, metadata }).then((message) => {
                 for (var i = 0; i < tags.length; ++i) {
                     controller.createTag(message.id, tags[i]);
                 }
