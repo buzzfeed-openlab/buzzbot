@@ -35,7 +35,7 @@ export default class ResponseList extends React.Component {
                     <ReactList
                         itemRenderer={this.renderResponse}
                         length={this.props.responses.length}
-                        type='variable'
+                        type='simple'
                         updateWhenThisChanges={this.props.users}
                     />
                 </ListGroup>
