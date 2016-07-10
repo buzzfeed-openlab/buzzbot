@@ -14,6 +14,10 @@ import ReactBootstrap, {
     Button,
 } from 'react-bootstrap';
 
+import {
+    formatMessageInfo
+} from './formatting';
+
 
 export default class TriggerForm extends React.Component {
     constructor() {
@@ -54,21 +58,28 @@ export default class TriggerForm extends React.Component {
     }
 
     render() {
+        const messages = this.state.messages;
+
+        // message text can mean different things based on the type
+        // of the message -- resolve the text once for use below
         const midToText = {};
-        const triggerMidToText = {};
-        for (var mid in this.state.messages) {
-            const message = this.state.messages[mid];
+        const midToMetadata = {};
+        const triggerMids = [];
+        for (var mid in messages) {
+            const message = messages[mid];
+
             var messageText = message.data.text;
             if (!messageText && message.data.attachment && message.data.attachment.payload) {
                 messageText = message.data.attachment.payload.text;
             }
 
             midToText[mid] = messageText;
+            midToMetadata[mid] = message.metadata;
 
             // if the message expects an unstructured reply, it can be
             // a trigger message
             if (message.unstructuredReply) {
-                triggerMidToText[mid] = messageText;
+                triggerMids.push(mid);
             }
         }
 
@@ -77,21 +88,21 @@ export default class TriggerForm extends React.Component {
 
             return {
                 value: tagid,
-                label: tag.messageId + ': ' + midToText[tag.messageId] + ' => ' + tag.tag
+                label: formatMessageInfo(tag.messageId, midToText[tag.messageId], midToMetadata[tag.messageId], tag.tag)
             }
         });
 
         const messageList = Object.keys(midToText).map((mid) => {
             return {
                 value: mid,
-                label: mid + ': ' + midToText[mid]
+                label: formatMessageInfo(mid, midToText[mid], midToMetadata[mid])
             }
         });
 
-        const triggerMessageList = Object.keys(triggerMidToText).map((mid) => {
+        const triggerMessageList = triggerMids.map((mid) => {
             return {
                 value: mid,
-                label: mid + ': ' + triggerMidToText[mid]
+                label: formatMessageInfo(mid, midToText[mid], midToMetadata[mid])
             }
         });
 

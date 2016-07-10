@@ -54,6 +54,10 @@ export default class Message extends React.Component {
             console.log('WARNING unknown message type: ', messageData);
         }
 
+        if (this.props.message.metadata) {
+            messageText += ` [metadata: ${this.props.message.metadata}]`
+        }
+
         return (
             <div style={this.props.style}>
             <Row>

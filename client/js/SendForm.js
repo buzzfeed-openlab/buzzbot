@@ -14,6 +14,10 @@ import ReactBootstrap, {
     Button,
 } from 'react-bootstrap';
 
+import {
+    formatMessageInfo
+} from './formatting';
+
 
 export default class SendForm extends React.Component {
     constructor() {
@@ -53,20 +57,23 @@ export default class SendForm extends React.Component {
 
     render() {
         const midToText = {};
+        const midToMetadata = {};
         for (var mid in this.state.messages) {
             const message = this.state.messages[mid];
+
             var messageText = message.data.text;
             if (!messageText && message.data.attachment && message.data.attachment.payload) {
                 messageText = message.data.attachment.payload.text;
             }
 
             midToText[mid] = messageText;
+            midToMetadata[mid] = message.metadata;
         }
 
         const messageList = Object.keys(midToText).map((mid) => {
             return {
                 value: mid,
-                label: mid + ': ' + midToText[mid]
+                label: formatMessageInfo(mid, midToText[mid], midToMetadata[mid])
             }
         });
 
@@ -74,7 +81,7 @@ export default class SendForm extends React.Component {
             const tag = this.state.tags[tagid];
             return {
                 value: tagid,
-                label: tag.messageId + ': ' + midToText[tag.messageId] + ' => ' + tag.tag
+                label: formatMessageInfo(tag.messageId, midToText[tag.messageId], midToMetadata[tag.messageId], tag.tag)
             };
         });
 
