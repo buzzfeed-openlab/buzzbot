@@ -15,7 +15,8 @@ import ReactBootstrap, {
 } from 'react-bootstrap';
 
 import {
-    formatMessageInfo
+    formatMessageInfo,
+    getMessageText
 } from './formatting';
 
 
@@ -60,11 +61,7 @@ export default class SendForm extends React.Component {
         const midToMetadata = {};
         for (var mid in this.state.messages) {
             const message = this.state.messages[mid];
-
-            var messageText = message.data.text;
-            if (!messageText && message.data.attachment && message.data.attachment.payload) {
-                messageText = message.data.attachment.payload.text;
-            }
+            const messageText = getMessageText(message);
 
             midToText[mid] = messageText;
             midToMetadata[mid] = message.metadata;

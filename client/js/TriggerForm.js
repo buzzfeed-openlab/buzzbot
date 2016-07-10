@@ -15,7 +15,8 @@ import ReactBootstrap, {
 } from 'react-bootstrap';
 
 import {
-    formatMessageInfo
+    formatMessageInfo,
+    getMessageText
 } from './formatting';
 
 
@@ -67,11 +68,7 @@ export default class TriggerForm extends React.Component {
         const triggerMids = [];
         for (var mid in messages) {
             const message = messages[mid];
-
-            var messageText = message.data.text;
-            if (!messageText && message.data.attachment && message.data.attachment.payload) {
-                messageText = message.data.attachment.payload.text;
-            }
+            const messageText = getMessageText(message);
 
             midToText[mid] = messageText;
             midToMetadata[mid] = message.metadata;
