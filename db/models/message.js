@@ -8,6 +8,9 @@ export default (sequelize, DataTypes) => {
             autoIncrement: true
         },
         data: DataTypes.JSON,
+        metadata: {
+            type: DataTypes.TEXT
+        },
         unstructuredReply: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
@@ -16,12 +19,14 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
+        surpriseMe: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },
         poll: {
             type: DataTypes.JSON
-        },
-        metadata: {
-            type: DataTypes.TEXT
         }
+
     }, {
         classMethods: {
             associate: function(models) {

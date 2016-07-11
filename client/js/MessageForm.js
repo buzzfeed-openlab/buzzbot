@@ -23,6 +23,7 @@ export default class MessageForm extends React.Component {
 
         this.submitMessage = this.submitMessage.bind(this);
 
+        this.shouldDisableButtons = this.shouldDisableButtons.bind(this);
         this.validateMessageText = this.validateMessageText.bind(this);
         this.validateButton = this.validateButton.bind(this);
         this.validateAll = this.validateAll.bind(this);
@@ -32,12 +33,14 @@ export default class MessageForm extends React.Component {
         this.handleButtonChange = this.handleButtonChange.bind(this);
         this.handleUnstructuredChange = this.handleUnstructuredChange.bind(this);
         this.handlePollChange = this.handlePollChange.bind(this);
+        this.handleSurpriseMeChange = this.handleSurpriseMeChange.bind(this);
 
         this.state = {
             messageText: '',
             mediaType: 'text',
             unstructuredReply: false,
             poll: false,
+            surpriseMe: false,
             buttons: [
                 { text: '', tag: '' },
                 { text: '', tag: '' },
@@ -117,6 +120,13 @@ export default class MessageForm extends React.Component {
                     Poll question &nbsp;&nbsp;(must expect unstructured reply)
                 </Checkbox>
 
+                <Checkbox
+                    checked={this.state.surpriseMe}
+                    onChange={this.handleSurpriseMeChange}
+                >
+                    "Surprise Me" Message &nbsp;&nbsp;(must expect unstructured reply)
+                </Checkbox>
+
                 <Form componentClass="fieldset" inline>
                     <FormGroup controlId="formButton1Text" validationState={this.validateButton(0)}>
                         <ControlLabel>Button 1: </ControlLabel>
@@ -126,7 +136,7 @@ export default class MessageForm extends React.Component {
                             value={this.state.buttons[0].text}
                             placeholder="button text"
                             onChange={this.handleButtonChange.bind(this, 0, 'text')}
-                            disabled={this.state.unstructuredReply || this.state.poll}
+                            disabled={this.shouldDisableButtons()}
                         />
                         <FormControl.Feedback />
                         {' '}
@@ -135,7 +145,7 @@ export default class MessageForm extends React.Component {
                             value={this.state.buttons[0].tag}
                             placeholder="button tag"
                             onChange={this.handleButtonChange.bind(this, 0, 'tag')}
-                            disabled={this.state.unstructuredReply || this.state.poll}
+                            disabled={this.shouldDisableButtons()}
                         />
                         <FormControl.Feedback />
                     </FormGroup>
@@ -149,7 +159,7 @@ export default class MessageForm extends React.Component {
                             value={this.state.buttons[1].text}
                             placeholder="button text"
                             onChange={this.handleButtonChange.bind(this, 1, 'text')}
-                            disabled={this.state.unstructuredReply || this.state.poll}
+                            disabled={this.shouldDisableButtons()}
                         />
                         <FormControl.Feedback />
                         {' '}
@@ -158,7 +168,7 @@ export default class MessageForm extends React.Component {
                             value={this.state.buttons[1].tag}
                             placeholder="button tag"
                             onChange={this.handleButtonChange.bind(this, 1, 'tag')}
-                            disabled={this.state.unstructuredReply || this.state.poll}
+                            disabled={this.shouldDisableButtons()}
                         />
                         <FormControl.Feedback />
                     </FormGroup>
@@ -172,7 +182,7 @@ export default class MessageForm extends React.Component {
                             value={this.state.buttons[2].text}
                             placeholder="button text"
                             onChange={this.handleButtonChange.bind(this, 2, 'text')}
-                            disabled={this.state.unstructuredReply || this.state.poll}
+                            disabled={this.shouldDisableButtons()}
                         />
                         <FormControl.Feedback />
                         {' '}
@@ -181,7 +191,7 @@ export default class MessageForm extends React.Component {
                             value={this.state.buttons[2].tag}
                             placeholder="button tag"
                             onChange={this.handleButtonChange.bind(this, 2, 'tag')}
-                            disabled={this.state.unstructuredReply || this.state.poll}
+                            disabled={this.shouldDisableButtons()}
                         />
                         <FormControl.Feedback />
                     </FormGroup>
@@ -246,6 +256,7 @@ export default class MessageForm extends React.Component {
 
             messageBody.unstructuredReply = this.state.unstructuredReply;
             messageBody.poll = this.state.poll;
+            messageBody.surpriseMe = this.state.surpriseMe;
 
         } else if (buttonData.length) {
             messageBody = {
@@ -273,6 +284,10 @@ export default class MessageForm extends React.Component {
         }).catch((response) => {
             console.log('ERROR POSTING NEW MESSAGE: ', response);
         });
+    }
+
+    shouldDisableButtons() {
+        return this.state.unstructuredReply || this.state.poll || this.state.surpriseMe;
     }
 
     validateMessageText() {
@@ -385,6 +400,19 @@ export default class MessageForm extends React.Component {
     handlePollChange(e) {
         const newState = update(this.state, {
             poll: {
+                $set: e.target.checked
+            },
+            unstructuredReply: {
+                $set: e.target.checked
+            }
+        });
+
+        this.setState(newState);
+    }
+
+    handleSurpriseMeChange(e) {
+        const newState = update(this.state, {
+            surpriseMe: {
                 $set: e.target.checked
             },
             unstructuredReply: {

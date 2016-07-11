@@ -298,13 +298,14 @@ app.post('/messages/', function (req, res) {
     const metadata = req.body.metadata;
     var unstructuredReply = req.body.unstructuredReply || false;
     var poll = req.body.poll ? '{}' : undefined;
+    var surpriseMe = req.body.surpriseMe || false;
 
-    if (poll && !unstructuredReply) {
-        console.log('received request to create poll message with unstructuredReply == false, setting it to true...');
+    if ((poll && !unstructuredReply) || (surpriseMe && !unstructuredReply)) {
+        console.log('WARNING: received request to create poll or "surprise me" message with unstructuredReply == false, setting it to true...');
         unstructuredReply = true;
     }
 
-    Controller.createMessageAndTags(messageData, unstructuredReply, poll, metadata).then((message) => {
+    Controller.createMessageAndTags(messageData, unstructuredReply, poll, surpriseMe, metadata).then((message) => {
         console.log('CREATED MESSAGE:', message.get({plain: true}));
         res.status(200).json(message.get({ plain: true }));
     }).catch((err) => {
