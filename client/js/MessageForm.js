@@ -10,6 +10,8 @@ import ReactBootstrap, {
     Form,
     Checkbox,
     Button,
+    Radio,
+    InputGroup
 } from 'react-bootstrap';
 
 import request from 'axios';
@@ -33,6 +35,7 @@ export default class MessageForm extends React.Component {
 
         this.state = {
             messageText: '',
+            mediaType: 'text',
             unstructuredReply: false,
             poll: false,
             buttons: [
@@ -53,14 +56,43 @@ export default class MessageForm extends React.Component {
                     controlId="formMessageText"
                     validationState={this.validateMessageText()}
                 >
-                    <ControlLabel>Message text:</ControlLabel>
+                    <ControlLabel>Message text (or media url):</ControlLabel>
                     <FormControl
                         type="text"
                         value={this.state.messageText}
-                        placeholder="message text"
+                        placeholder="message text (or media url)"
                         onChange={this.handleMessageTextChange}
                     />
                     <FormControl.Feedback />
+
+                    <FormGroup>
+                        <Radio 
+                            name={'mediaType'}
+                            checked={this.state.mediaType == 'text' }
+                            onChange={this.handleMediaTypeChange.bind(this, 'text')}
+                            inline
+                        >
+                            Text
+                        </Radio>
+                        {' '}
+                        <Radio
+                            name={'mediaType'}
+                            checked={this.state.mediaType == 'image' }
+                            onChange={this.handleMediaTypeChange.bind(this, 'image')}
+                            inline
+                        >
+                            Image URL
+                        </Radio>
+                        {' '}
+                        <Radio
+                            name={'mediaType'}
+                            checked={this.state.mediaType == 'video' }
+                            onChange={this.handleMediaTypeChange.bind(this, 'video')}
+                            inline
+                        >
+                            Video URL
+                        </Radio>
+                    </FormGroup>
                 </FormGroup>
 
                 <ControlLabel>Metadata (only visible in amdin interface):</ControlLabel>
@@ -181,13 +213,40 @@ export default class MessageForm extends React.Component {
 
         var messageBody;
         if (this.state.unstructuredReply || this.state.poll || !buttonData.length) {
-            messageBody = {
-                "message": {
-                    "text": this.state.messageText
-                },
-                "unstructuredReply": this.state.unstructuredReply,
-                "poll": this.state.poll
+            const mediaType = this.state.mediaType;
+            if (mediaType == 'text') {
+                messageBody = {
+                    "message": {
+                        "text": this.state.messageText
+                    },
+                }
+            } else if (mediaType == 'image') {
+                messageBody = {
+                    "message": {
+                        "attachment": {
+                            "type":"image",
+                            "payload": {
+                                "url": this.state.messageText
+                            }
+                        }
+                    }
+                }
+            } else if (mediaType == 'video') {
+                messageBody = {
+                    "message": {
+                        "attachment": {
+                            "type":"video",
+                            "payload": {
+                                "url": this.state.messageText
+                            }
+                        }
+                    }
+                }
             }
+
+            messageBody.unstructuredReply = this.state.unstructuredReply;
+            messageBody.poll = this.state.poll;
+
         } else if (buttonData.length) {
             messageBody = {
                 "message": {
@@ -273,6 +332,16 @@ export default class MessageForm extends React.Component {
         const newState = update(this.state, {
             messageText: {
                 $set: e.target.value
+            }
+        });
+
+        this.setState(newState);
+    }
+
+    handleMediaTypeChange(type, e) {
+        const newState = update(this.state, {
+            mediaType: {
+                $set: type
             }
         });
 
