@@ -51,7 +51,8 @@
 2. Change `verifyToken` in `./config.js` to a secret string that only your app and Facebook will know (I recommend generating a UUID or something similar)
 3. Make sure the user and database inside `./db/sequelize_config.js` match the user and database you created
 4. `npm run db:init`
-5. `npm start`
+5. `npm run init`
+6. `npm start`
 
 ### Verify Facebook webhook
 
