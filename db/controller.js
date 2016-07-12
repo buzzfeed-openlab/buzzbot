@@ -117,6 +117,14 @@ export default (db) => {
             });
         },
 
+        getAllSurpriseMeMessages() {
+            return db.Message.findAll({
+                where: {
+                    surpriseMe: true
+                }
+            });
+        },
+
         getOrCreateTriggerWithTag(tagId, messageIds) {
             return db.Trigger.findOrCreate({
                 where: { tagId }
@@ -189,11 +197,13 @@ export default (db) => {
             });
         },
 
-        getMessageEventsForUserAndMessage(userId, messageId) {
+        getMessageEventsForUserAndMessages(userId, messageIds) {
             return db.MessageEvent.findAll({
                 where: {
-                    userId,
-                    messageId
+                    userId: userId,
+                    messageId: {
+                        $in: messageIds
+                    }
                 }
             });
         },

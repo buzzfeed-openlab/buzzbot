@@ -18,7 +18,7 @@ export function sendMessage(token, recipient, message, cb) {
 }
 
 export function sendMessageData(token, recipient, messageId, messageData, cb) {
-    Controller.getMessageEventsForUserAndMessage(recipient, messageId).then((messageEvents) => {
+    Controller.getMessageEventsForUserAndMessages(recipient, [ messageId ]).then((messageEvents) => {
         if (messageEvents.length) {
             return console.log('NOT SENDING because user: ' + recipient + ' has already received: ' + messageId);
         }
