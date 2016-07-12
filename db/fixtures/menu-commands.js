@@ -11,7 +11,7 @@ module.exports = [
                 "url": "https://www.buzzfeed.com/news"
             }`,
             "active": true,
-            "order": 2
+            "order": 5
         }
     },
     {
@@ -26,6 +26,20 @@ module.exports = [
             }`,
             "active": true,
             "order": 1
+        }
+    },
+    {
+        "model": "MenuCommand",
+        "keys": ["id"],
+        "data": {
+            "id": 120,
+            "data": `{
+                "type": "postback",
+                "title": "Surprise Me!",
+                "payload": "command:surprise"
+            }`,
+            "active": true,
+            "order": 2
         }
     },
 ]
