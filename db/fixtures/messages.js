@@ -29,10 +29,10 @@ module.exports = [
             "data": {
                 "id": 210,
                 "data": `{
-                    "text": "Surprise, I'm out of surprises! :P\n\nBut check back later and maybe I'll have something new, I NEVER SLEEP"
+                    "text": "Surprise, I'm out of surprises! :P\\n\\nBut check back later and maybe I'll have something new, I NEVER SLEEP"
                 }`,
                 "unstructuredReply": true,
-                "surpriseMe": true
+                "repeatable": true
             }
         },
 

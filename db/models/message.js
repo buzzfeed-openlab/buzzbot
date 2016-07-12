@@ -23,6 +23,10 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
+        repeatable: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },
         poll: {
             type: DataTypes.JSON
         }

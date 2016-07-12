@@ -14,15 +14,12 @@ export function sendMessage(token, recipient, message, cb) {
         }
     }
 
-    return sendMessageData(token, recipient, message.id, messageData, cb);
+    return sendMessageData(token, recipient, message.id, messageData, message.repeatable, cb);
 }
 
-export function sendMessageData(token, recipient, messageId, messageData, cb) {
-    Controller.getMessageEventsForUserAndMessages(recipient, [ messageId ]).then((messageEvents) => {
-        if (messageEvents.length) {
-            return console.log('NOT SENDING because user: ' + recipient + ' has already received: ' + messageId);
-        }
+export function sendMessageData(token, recipient, messageId, messageData, repeatable, cb) {
 
+    function internalSend() {
         request({
             url: 'https://graph.facebook.com/v2.6/me/messages',
             qs: { access_token: token },
@@ -44,7 +41,20 @@ export function sendMessageData(token, recipient, messageId, messageData, cb) {
 
             cb && cb(error, response, body);
         });
-    });
+    }
+
+    if (repeatable) {
+        internalSend();
+
+    } else {
+        Controller.getMessageEventsForUserAndMessages(recipient, [ messageId ]).then((messageEvents) => {
+            if (messageEvents.length) {
+                return console.log('NOT SENDING because user: ' + recipient + ' has already received: ' + messageId);
+            }
+
+            internalSend();
+        });
+    }
 }
 
 export function sendMessagesSequentially(token, recipient, messages) {

@@ -11,7 +11,6 @@ import { Controller, pg, User, Tag } from './db';
 import Commands from './src/commands';
 import {
     sendMessage,
-    sendMessageData,
     sendMessagesSequentially,
     fetchUserInfo,
     markSeen,

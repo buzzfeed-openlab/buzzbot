@@ -34,6 +34,7 @@ function surpriseForUser(token, event, user) {
                 // pick any of these messages to send
                 const randomMessage = messages[Math.floor(Math.random() * messages.length)];
                 sendMessage(token, user.id, randomMessage);
+
             } else {
                 Controller.getMessage(210).then((message) => {
                     sendMessage(token, user.id, message);
@@ -50,8 +51,13 @@ export default {
     RESUME: resumeForUser,
     START: resumeForUser,
 
-    SURPRISE: surpriseForUser,
+    'SURPRISE': surpriseForUser,
     'SURPRISE ME': surpriseForUser,
-    SUPRISE: surpriseForUser,
+    'SURPRISE!': surpriseForUser,
+    'SURPRISE ME!': surpriseForUser,
+    'SURPRISE ME': surpriseForUser,
+    'SUPRISE': surpriseForUser,
     'SUPRISE ME': surpriseForUser,
+    'SUPRISE!': surpriseForUser,
+    'SUPRISE ME!': surpriseForUser,
 };
