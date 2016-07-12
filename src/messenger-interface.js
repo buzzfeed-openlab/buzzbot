@@ -147,3 +147,28 @@ export function updatePersistentMenu(token) {
         });
     });
 }
+
+export function turnOnGetStartedButton(token) {
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/thread_settings',
+        qs: { access_token: token },
+        method: 'POST',
+        json: {
+            setting_type: 'call_to_actions',
+            thread_state: 'new_thread',
+            call_to_actions: [
+                {
+                    "payload":"command:get-started"
+                }
+            ]
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('ERROR turning on "get started" button: ', error);
+        } else if (response.body.error) {
+            console.log('ERROR: ', response.body.error);
+        }
+
+        console.log(body);
+    });
+}

@@ -15,6 +15,7 @@ import {
     fetchUserInfo,
     markSeen,
     updatePersistentMenu,
+    turnOnGetStartedButton,
 } from './src/messenger-interface';
 
 const config = require('./config.js');
@@ -25,6 +26,7 @@ const config = require('./config.js');
 // });
 
 updatePersistentMenu(config.pageToken);
+turnOnGetStartedButton(config.pageToken);
 
 var app = express();
 
@@ -214,9 +216,9 @@ function handlePostBack(token, event) {
                 Controller.createResponse(userId, {
                     text: tagData.tag
                 });
-
-                return;
             }
+
+            return;
         }
 
         // otherwise, handle message postback
