@@ -1,0 +1,65 @@
+{
+  "config": {
+    "target": "https://openlab.fwd.wf",
+    "phases": [
+      {"duration": 3, "arrivalRate": 5},
+      {"duration": 5, "arrivalRate": 5, "rampTo": 10},
+      {"duration": 10, "arrivalRate": 10}
+    ],
+    "payload": {
+      "path": "./users.csv",
+      "fields": ["userId"],
+      "order": "sequence"
+    }
+  },
+  "scenarios": [
+    {
+      "name": "get started and send a message",
+      "flow": [
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "postback": { "payload": "command:get-started" }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        { "think": 60 },
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "message": {
+                        "text": "HIIIIIIII from {{ userId }}"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
