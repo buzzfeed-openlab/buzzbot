@@ -7,7 +7,7 @@ import webpack from 'webpack';
 import webpackConfig from './webpack.config.js';
 import basicAuth from 'basic-auth';
 
-import { Controller, pg, User, Tag } from './db';
+import db, { Controller, pg, User, Tag } from './db';
 import Commands from './src/commands';
 import {
     sendMessage,
@@ -254,6 +254,20 @@ function startInitialConversation(token, userId) {
 // -------
 
 // Routes -------
+
+app.get('/health', function (req, res) {
+    db.Message.findOne({ where: {} }).then((user) => {
+        res.status(200).json({
+            api: 200,
+            db: 200
+        });
+    }).catch((err) => {
+        res.status(503).json({
+            api: 200,
+            db:503
+        });
+    });
+});
 
 app.get('/hook/', function (req, res) {
     if (req.query['hub.verify_token'] === config.verifyToken) {
