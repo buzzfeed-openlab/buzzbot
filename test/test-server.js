@@ -25,8 +25,6 @@ app.use(function (error, req, res, next) {
 
 // Routes -------
 
-
-
 app.get('/:userId', function (req, res) {
     var userId = req.params.userId;
 

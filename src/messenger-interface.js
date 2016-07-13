@@ -34,9 +34,10 @@ export function sendMessageData(token, recipient, messageId, messageData, repeat
         }, function(error, response, body) {
             if (error) {
                 console.log('ERROR sending message: ', error);
-            } else if (response.body.error) {
-                console.log('ERROR: ', response.body.error);
+            } else if (body && body.error) {
+                console.log('ERROR: ', body.error);
             } else {
+                console.log('INFO: send message response code', response.statusCode)
                 // record that we sent the user this message
                 Controller.createMessageEvent(recipient, messageId);
             }
@@ -114,8 +115,10 @@ export function markSeen(token, userId) {
         }, function(error, response, body) {
             if (error) {
                 console.log('ERROR marking seen: ', error);
-            } else if (response.body.error) {
-                console.log('ERROR: ', response.body.error);
+            } else if (body && body.error) {
+                console.log('ERROR marking seen: ', body.error);
+            } else {
+                console.log('INFO: mark seen response code ', response.statusCode);
             }
         });
 }
@@ -141,8 +144,8 @@ export function updatePersistentMenu(token) {
         }, function(error, response, body) {
             if (error) {
                 console.log('ERROR marking seen: ', error);
-            } else if (response.body.error) {
-                console.log('ERROR: ', response.body.error);
+            } else if (body && body.error) {
+                console.log('ERROR: ', body.error);
             }
 
             console.log(body);
@@ -167,8 +170,8 @@ export function turnOnGetStartedButton(token) {
     }, function(error, response, body) {
         if (error) {
             console.log('ERROR turning on "get started" button: ', error);
-        } else if (response.body.error) {
-            console.log('ERROR: ', response.body.error);
+        } else if (body && body.error) {
+            console.log('ERROR: ', body.error);
         }
 
         console.log(body);
