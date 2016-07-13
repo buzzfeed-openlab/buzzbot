@@ -18,7 +18,7 @@ import {
     turnOnGetStartedButton,
 } from './src/messenger-interface';
 
-const config = require('./config.js');
+import config from './config.js';
 
 // clear user table
 // User.destroy({ where: {} }).then(() => {
@@ -269,6 +269,9 @@ app.post('/hook/', function (req, res) {
     var status = 200;
 
     const entries = req.body.entry;
+    if (!entries) {
+        return res.sendStatus(400);
+    }
 
     for (var e = 0; e < entries.length; ++e) {
         var messaging_events = entries[e].messaging;

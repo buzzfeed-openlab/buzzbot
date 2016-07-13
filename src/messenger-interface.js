@@ -2,6 +2,8 @@
 import request from 'request';
 import { Controller } from '../db';
 
+import config from '../config.js';
+
 export function sendMessage(token, recipient, message, cb) {
     var messageData = JSON.parse(message.data);
 
@@ -21,7 +23,7 @@ export function sendMessageData(token, recipient, messageId, messageData, repeat
 
     function internalSend() {
         request({
-            url: 'https://graph.facebook.com/v2.6/me/messages',
+            url: config.baseFbUrl + '/me/messages',
             qs: { access_token: token },
             method: 'POST',
             json: {
@@ -73,7 +75,7 @@ export function sendMessagesSequentially(token, recipient, messages) {
 }
 
 export function fetchUserInfo(token, userId, attemptsToMake = 5) {
-    const userInfoUrl = `https://graph.facebook.com/v2.6/${userId}?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=${token}`
+    const userInfoUrl = `${config.baseFbUrl}/${userId}?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=${token}`
 
     request(userInfoUrl, function(err, response, body) {
         if (err) {
@@ -101,7 +103,7 @@ export function fetchUserInfo(token, userId, attemptsToMake = 5) {
 
 export function markSeen(token, userId) {
     request({
-            url: 'https://graph.facebook.com/v2.6/me/messages',
+            url: config.baseFbUrl + '/me/messages',
             qs: { access_token: token },
             method: 'POST',
             json: {
@@ -128,7 +130,7 @@ export function updatePersistentMenu(token) {
         const callToActions = commands.map((c) => JSON.parse(c.data));
 
         request({
-            url: 'https://graph.facebook.com/v2.6/me/thread_settings',
+            url: config.baseFbUrl + '/me/thread_settings',
             qs: { access_token: token },
             method: 'POST',
             json: {
@@ -150,7 +152,7 @@ export function updatePersistentMenu(token) {
 
 export function turnOnGetStartedButton(token) {
     request({
-        url: 'https://graph.facebook.com/v2.6/me/thread_settings',
+        url: config.baseFbUrl + '/me/thread_settings',
         qs: { access_token: token },
         method: 'POST',
         json: {
