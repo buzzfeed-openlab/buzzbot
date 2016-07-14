@@ -11,37 +11,56 @@ export default class Dashboard extends React.Component {
 
         this.state = {
             responses: {},
+            responsesQueue: [],
             messages: {},
-            users: {}
+            users: {},
+            usersQueue: [],
+            renderCounter: 1
         }
 
         this.handleResponses = this.handleResponses.bind(this);
-        this.handleNewResponse = this.handleNewResponse.bind(this);
         this.handleMessages = this.handleMessages.bind(this);
-        this.handleUsers = this.handleUsers.bind(this);
+        this.queueResponse = this.queueResponse.bind(this);
+        this.queueUsers = this.queueUsers.bind(this);
     }
 
     componentWillMount() {
         const socket = this.props.route.socket;
 
         socket.on('responses', this.handleResponses);
-        socket.on('new-response', this.handleNewResponse);
+        socket.on('new-response', this.queueResponse);
         socket.on('messages', this.handleMessages);
-        socket.on('users', this.handleUsers);
+        socket.on('users', this.queueUsers);
 
         socket.emit('get-responses', { limit: 1000 });
+
+        this.intervals = [
+            setInterval(this.processResponseAndUserQueues.bind(this), 10000)
+        ];
     }
 
     componentWillUnmount() {
         const socket = this.props.route.socket;
 
         socket.removeListener('responses', this.handleResponses);
-        socket.removeListener('new-response', this.handleNewResponse);
+        socket.removeListener('new-response', this.queueResponse);
         socket.removeListener('messages', this.handleMessages);
-        socket.removeListener('users', this.handleUsers);
+        socket.removeListener('users', this.queueUsers);
+
+        this.intervals.forEach(clearInterval);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state.renderCounter == nextState.renderCounter) {
+            return false;
+        }
+
+        return true;
     }
 
     render() {
+        console.log('RENDER DASHBOARD');
+
         const responseLists = Object.keys(this.state.responses).map((listKey) => {
             const message = this.state.messages[listKey];
 
@@ -115,66 +134,112 @@ export default class Dashboard extends React.Component {
         if (userIds.length) {
             this.props.route.socket.emit('get-users', {
                 userIds: [ ...new Set(userIds) ]
-            })
+            });
         }
 
-        const newState = update(this.state, {
+        this.setState(update(this.state, {
             responses: {
                 $set: responseState
+            },
+            renderCounter: {
+                $set: this.state.renderCounter + 1
             }
-        });
-
-        this.setState(newState);
-    }
-
-    handleNewResponse(response) {
-        const messageId = response.messageId || 'none';
-        const responseList = this.state.responses[messageId] || [];
-
-        const newState = update(this.state, {
-            responses: {
-                [messageId]: {
-                    $set: [ response ].concat(responseList)
-                }
-            }
-        });
-
-        this.setState(newState);
+        }));
     }
 
     handleMessages(messages) {
         const messageState = {};
+        var shouldUpdate = false;
 
         for (var i = 0; i < messages.length; ++i) {
             const message = messages[i];
 
-            messageState[message.id] = {
-                $set: message
+            // only update state if this is actually a
+            // new question
+            if (!this.state.messages[message.id]) {
+                shouldUpdate = true;
+
+                messageState[message.id] = {
+                    $set: message
+                }
             }
         }
 
+        if (shouldUpdate) {
+            this.setState(update(this.state, {
+                messages: messageState,
+                renderCounter: {
+                    $set: this.state.renderCounter + 1
+                }
+            }));
+        }
+    }
+
+    queueUsers(users) {
         const newState = update(this.state, {
-            messages: messageState
+            usersQueue: {
+                $push: users
+            }
         });
 
         this.setState(newState);
     }
 
-    handleUsers(users) {
-        const userState = {};
+    queueResponse(response) {
+        // if we don't have the data for this message, request it
+        if (response.messageId && !this.state.messages[response.messageId]) {
+            this.props.route.socket.emit('get-messages', {
+                messageIds: [ response.messageId ]
+            });
+        }
 
-        for (var i = 0; i < users.length; ++i) {
-            const user = users[i];
+        // queue the response
+        const newState = update(this.state, {
+            responsesQueue: {
+                $push: [response]
+            }
+        });
+
+        this.setState(newState);
+    }
+
+    processResponseAndUserQueues() {
+        const responseState = {},
+            userState = {};
+
+        console.log(this.state.responsesQueue.length, 'NEW RESPONSES')
+        console.log(this.state.usersQueue.length, 'NEW USERS')
+
+        for (var i = 0; i < this.state.responsesQueue.length; ++i) {
+            const response = this.state.responsesQueue[i];
+            const messageId = response.messageId || 'none';
+
+            var updateKey = this.state.responses[messageId] ? '$unshift' : '$set';
+            if (!responseState[messageId]) {
+                responseState[messageId] = {
+                    [updateKey]: []
+                };
+            }
+
+            responseState[messageId][updateKey].unshift(response);
+        }
+
+        for (var i = 0; i < this.state.usersQueue.length; ++i) {
+            const user = this.state.usersQueue[i];
 
             userState[user.id] = {
                 $set: user
             }
         }
 
-        const newState = update(this.state, {
-            users: userState
-        });
-
-        this.setState(newState);
+        this.setState(update(this.state, {
+            responses: responseState,
+            users: userState,
+            responsesQueue: { $set: [] },
+            usersQueue: { $set: [] },
+            renderCounter: {
+                $set: this.state.renderCounter + 1
+            }
+        }));
     }
 }

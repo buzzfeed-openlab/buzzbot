@@ -448,12 +448,6 @@ pg.connect(function(err) {
         if (msg.channel == 'responses') {
             Controller.getResponse(payloadData[2]).then((response) => {
                 io.emit('new-response', response.get({ plain: true }));
-
-                if (response.messageId) {
-                    Controller.getMessage(response.messageId).then((message) => {
-                        io.emit('messages', [ message.get({ plain: true }) ]);
-                    });
-                }
             });
         } else if (msg.channel == 'users') {
             Controller.getUser(payloadData[2]).then((user) => {
