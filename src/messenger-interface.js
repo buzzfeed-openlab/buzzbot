@@ -87,18 +87,37 @@ export function fetchUserInfo(token, userId, attemptsToMake = 5) {
             return;
         }
 
-        body = JSON.parse(body);
+        if (!body) {
+            console.log('ERROR no body when fetching user info for ' + userId + ', attemptsRemaining ' + attemptsToMake);
 
-        const props = {
-            firstName: body.first_name,
-            lastName: body.last_name,
-            profilePic: body.profile_pic,
-            locale: body.locale,
-            timezone: body.timezone,
-            gender: body.gender
-        };
+            if (attemptsToMake >= 1) {
+                fetchUserInfo(token, userId, attemptsToMake - 1);
+            }
+            return;
+        }
 
-        Controller.updateUser(userId, props);
+        try {
+            body = JSON.parse(body);
+
+            const props = {
+                firstName: body.first_name,
+                lastName: body.last_name,
+                profilePic: body.profile_pic,
+                locale: body.locale,
+                timezone: body.timezone,
+                gender: body.gender
+            };
+
+            Controller.updateUser(userId, props);
+
+        } catch(err) {
+            console.log('ERROR json parse error fetching info for ' + userId + ', attemptsRemaining ' + attemptsToMake + ': ', err);
+
+            if (attemptsToMake >= 1) {
+                fetchUserInfo(token, userId, attemptsToMake - 1);
+            }
+            return;
+        }
     });
 }
 

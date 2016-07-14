@@ -2,9 +2,9 @@
   "config": {
     "target": "https://openlab.fwd.wf",
     "phases": [
-      {"duration": 10, "arrivalRate": 10},
-      {"duration": 10, "arrivalRate": 10, "rampTo": 20},
-      {"duration": 20, "arrivalRate": 20}
+      {"duration": 20, "arrivalRate": 15},
+      {"duration": 20, "arrivalRate": 15, "rampTo": 35},
+      {"duration": 40, "arrivalRate": 35}
     ],
     "payload": {
       "path": "./users.csv",
