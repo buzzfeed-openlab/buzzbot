@@ -5,6 +5,6 @@ module.exports = {
     baseFbUrl: process.env.NODE_ENV || "https://graph.facebook.com/v2.6",
     pageToken: process.env.FB_PAGE_TOKEN,
     verifyToken: process.env.VERIFY_TOKEN || "beep boop bop",
-    port: CB_PORT || 8080,
+    port: process.env.CB_PORT || 8080,
     auth: { user: process.env.AUTH_USER, password: process.env.AUTH_PASSWORD }
 };
