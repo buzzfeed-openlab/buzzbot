@@ -10,6 +10,6 @@ RUN npm install
 COPY . /usr/src/app
 
 EXPOSE 8080
-CMD ["npm", "run", "db:init"]
+
 CMD ["npm", "run", "init"]
 CMD [ "npm", "start" ]
