@@ -32,16 +32,6 @@ var app = express();
 
 // Middleware -------
 
-// always use https
-app.use(function(req, res, next) {
-    if((!req.secure) && (req.get('X-Forwarded-Proto') !== 'https')) {
-        res.redirect('https://' + req.get('Host') + req.url);
-    }
-    else {
-        next();
-    }
-});
-
 // enable webpack hot reloading in development
 if (config.env === 'development') {
     const compiler = webpack(webpackConfig);
