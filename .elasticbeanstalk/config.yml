@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: dev-conventionbot
+    environment: prod-conventionbot
     group_suffix: null
 global:
   application_name: conventionbot
