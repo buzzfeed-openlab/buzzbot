@@ -2,6 +2,8 @@
 import request from 'request';
 import { Controller } from '../db';
 
+import config from '../config.js';
+
 export function sendMessage(token, recipient, message, cb) {
     var messageData = JSON.parse(message.data);
 
@@ -21,7 +23,7 @@ export function sendMessageData(token, recipient, messageId, messageData, repeat
 
     function internalSend() {
         request({
-            url: 'https://graph.facebook.com/v2.6/me/messages',
+            url: config.baseFbUrl + '/me/messages',
             qs: { access_token: token },
             method: 'POST',
             json: {
@@ -32,9 +34,10 @@ export function sendMessageData(token, recipient, messageId, messageData, repeat
         }, function(error, response, body) {
             if (error) {
                 console.log('ERROR sending message: ', error);
-            } else if (response.body.error) {
-                console.log('ERROR: ', response.body.error);
+            } else if (body && body.error) {
+                console.log('ERROR: ', body.error);
             } else {
+                console.log('INFO: send message response code', response.statusCode)
                 // record that we sent the user this message
                 Controller.createMessageEvent(recipient, messageId);
             }
@@ -73,7 +76,7 @@ export function sendMessagesSequentially(token, recipient, messages) {
 }
 
 export function fetchUserInfo(token, userId, attemptsToMake = 5) {
-    const userInfoUrl = `https://graph.facebook.com/v2.6/${userId}?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=${token}`
+    const userInfoUrl = `${config.baseFbUrl}/${userId}?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=${token}`
 
     request(userInfoUrl, function(err, response, body) {
         if (err) {
@@ -84,24 +87,43 @@ export function fetchUserInfo(token, userId, attemptsToMake = 5) {
             return;
         }
 
-        body = JSON.parse(body);
+        if (!body) {
+            console.log('ERROR no body when fetching user info for ' + userId + ', attemptsRemaining ' + attemptsToMake);
 
-        const props = {
-            firstName: body.first_name,
-            lastName: body.last_name,
-            profilePic: body.profile_pic,
-            locale: body.locale,
-            timezone: body.timezone,
-            gender: body.gender
-        };
+            if (attemptsToMake >= 1) {
+                fetchUserInfo(token, userId, attemptsToMake - 1);
+            }
+            return;
+        }
 
-        Controller.updateUser(userId, props);
+        try {
+            body = JSON.parse(body);
+
+            const props = {
+                firstName: body.first_name,
+                lastName: body.last_name,
+                profilePic: body.profile_pic,
+                locale: body.locale,
+                timezone: body.timezone,
+                gender: body.gender
+            };
+
+            Controller.updateUser(userId, props);
+
+        } catch(err) {
+            console.log('ERROR json parse error fetching info for ' + userId + ', attemptsRemaining ' + attemptsToMake + ': ', err);
+
+            if (attemptsToMake >= 1) {
+                fetchUserInfo(token, userId, attemptsToMake - 1);
+            }
+            return;
+        }
     });
 }
 
 export function markSeen(token, userId) {
     request({
-            url: 'https://graph.facebook.com/v2.6/me/messages',
+            url: config.baseFbUrl + '/me/messages',
             qs: { access_token: token },
             method: 'POST',
             json: {
@@ -112,8 +134,10 @@ export function markSeen(token, userId) {
         }, function(error, response, body) {
             if (error) {
                 console.log('ERROR marking seen: ', error);
-            } else if (response.body.error) {
-                console.log('ERROR: ', response.body.error);
+            } else if (body && body.error) {
+                console.log('ERROR marking seen: ', body.error);
+            } else {
+                console.log('INFO: mark seen response code ', response.statusCode);
             }
         });
 }
@@ -128,7 +152,7 @@ export function updatePersistentMenu(token) {
         const callToActions = commands.map((c) => JSON.parse(c.data));
 
         request({
-            url: 'https://graph.facebook.com/v2.6/me/thread_settings',
+            url: config.baseFbUrl + '/me/thread_settings',
             qs: { access_token: token },
             method: 'POST',
             json: {
@@ -139,8 +163,8 @@ export function updatePersistentMenu(token) {
         }, function(error, response, body) {
             if (error) {
                 console.log('ERROR marking seen: ', error);
-            } else if (response.body.error) {
-                console.log('ERROR: ', response.body.error);
+            } else if (body && body.error) {
+                console.log('ERROR: ', body.error);
             }
 
             console.log(body);
@@ -150,7 +174,7 @@ export function updatePersistentMenu(token) {
 
 export function turnOnGetStartedButton(token) {
     request({
-        url: 'https://graph.facebook.com/v2.6/me/thread_settings',
+        url: config.baseFbUrl + '/me/thread_settings',
         qs: { access_token: token },
         method: 'POST',
         json: {
@@ -165,8 +189,8 @@ export function turnOnGetStartedButton(token) {
     }, function(error, response, body) {
         if (error) {
             console.log('ERROR turning on "get started" button: ', error);
-        } else if (response.body.error) {
-            console.log('ERROR: ', response.body.error);
+        } else if (body && body.error) {
+            console.log('ERROR: ', body.error);
         }
 
         console.log(body);

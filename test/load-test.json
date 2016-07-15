@@ -1,0 +1,252 @@
+{
+  "config": {
+    "target": "https://openlab.fwd.wf",
+    "phases": [
+      {"duration": 20, "arrivalRate": 5},
+      {"duration": 20, "arrivalRate": 5, "rampTo": 5},
+      {"duration": 40, "arrivalRate": 5}
+    ],
+    "payload": {
+      "path": "./users.csv",
+      "fields": ["userId"],
+      "order": "sequence"
+    }
+  },
+  "scenarios": [
+    {
+      "name": "send a message",
+      "flow": [
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "postback": { "payload": "command:get-started" }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        { "think": 8 },
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "message": {
+                        "text": "HIIIIIIII from {{ userId }}"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+
+
+    {
+      "name": "surprise me twice",
+      "flow": [
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "postback": { "payload": "command:get-started" }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        { "think": 8 },
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "postback": { "payload": "command:surprise" }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        { "think": 8 },
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "message": {
+                        "text": "surprise me!"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+
+
+    {
+      "name": "answer intro questions and poll",
+      "flow": [
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "postback": { "payload": "command:get-started" }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        { "think": 8 },
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "postback": { "payload": "301:at-convention" }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        { "think": 8 },
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "postback": { "payload": "2:protesting" }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        { "think": 8 },
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "postback": { "payload": "4:protester-will-not-send-photos" }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        { "think": 18 },
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "message": {
+                        "text": "🐯"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+
+
+
+  ]
+}
