@@ -149,30 +149,21 @@ export default class Dashboard extends React.Component {
 
     handleMessages(messages) {
         const messageState = {};
-        var shouldUpdate = false;
 
         for (var i = 0; i < messages.length; ++i) {
             const message = messages[i];
 
-            // only update state if this is actually a
-            // new question
-            if (!this.state.messages[message.id]) {
-                shouldUpdate = true;
-
-                messageState[message.id] = {
-                    $set: message
-                }
+            messageState[message.id] = {
+                $set: message
             }
         }
 
-        if (shouldUpdate) {
-            this.setState(update(this.state, {
-                messages: messageState,
-                renderCounter: {
-                    $set: this.state.renderCounter + 1
-                }
-            }));
-        }
+        this.setState(update(this.state, {
+            messages: messageState,
+            renderCounter: {
+                $set: this.state.renderCounter + 1
+            }
+        }));
     }
 
     queueUsers(users) {
@@ -205,10 +196,11 @@ export default class Dashboard extends React.Component {
 
     processResponseAndUserQueues() {
         const responseState = {},
-            userState = {};
+            userState = {},
+            messagesToUpdate = [];
 
-        console.log(this.state.responsesQueue.length, 'NEW RESPONSES')
-        console.log(this.state.usersQueue.length, 'NEW USERS')
+        console.log(this.state.responsesQueue.length, 'NEW RESPONSES');
+        console.log(this.state.usersQueue.length, 'NEW USERS');
 
         for (var i = 0; i < this.state.responsesQueue.length; ++i) {
             const response = this.state.responsesQueue[i];
@@ -222,6 +214,15 @@ export default class Dashboard extends React.Component {
             }
 
             responseState[messageId][updateKey].unshift(response);
+
+            // If this response was to a poll message, our message data is
+            // out of date. Re request it! Done while processing to avoid
+            // constant re-rendering.
+            if (this.state.messages[messageId] &&
+                this.state.messages[messageId].poll) {
+
+                messagesToUpdate.push(messageId);
+            }
         }
 
         for (var i = 0; i < this.state.usersQueue.length; ++i) {
@@ -230,6 +231,13 @@ export default class Dashboard extends React.Component {
             userState[user.id] = {
                 $set: user
             }
+        }
+
+        // update messages
+        if (messagesToUpdate.length) {
+            this.props.route.socket.emit('get-messages', {
+                messageIds: [ ...new Set(messagesToUpdate) ]
+            });
         }
 
         this.setState(update(this.state, {
