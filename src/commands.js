@@ -36,7 +36,7 @@ function surpriseForUser(token, event, user) {
                 sendMessage(token, user.id, randomMessage);
 
             } else {
-                Controller.getMessage(53).then((message) => {
+                Controller.getMessage(52).then((message) => {
                     sendMessage(token, user.id, message);
                 });
             }
