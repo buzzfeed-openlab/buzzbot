@@ -102,7 +102,7 @@ module.exports = [
                                 "payload": "attending-convention"
                             },
                             {
-                                "title": "I’m out with the protesters",
+                                "title": "I’m protesting",
                                 "type": "postback",
                                 "payload": "protesting-convention"
                             },
@@ -165,7 +165,7 @@ module.exports = [
                                 "payload": "attending-might-send-media"
                             },
                             {
-                                "title": "I probably won’t want to",
+                                "title": "I won’t want to",
                                 "type": "postback",
                                 "payload": "attending-wont-send-media"
                             }
@@ -193,7 +193,7 @@ module.exports = [
                                 "payload": "protesting-might-send-media"
                             },
                             {
-                                "title": "I probably won’t want to",
+                                "title": "I won’t want to",
                                 "type": "postback",
                                 "payload": "protesting-wont-send-media"
                             }
@@ -296,7 +296,7 @@ module.exports = [
         data: {
             id: 170,
             data: `{
-                "text": "W00t. How should we credit you? Respond with something like: “BuzzBot for BuzzFeed News” or "Jon Snow." You probably just want to use your full name. 😊"
+                "text": "W00t. How should we credit you? Respond with something like: \\"BuzzBot for BuzzFeed News\\" or \\"Jon Snow.\\" You probably just want to use your full name. 😊"
             }`,
             unstructuredReply: true,
             metadata: "attending-convention"
@@ -308,7 +308,7 @@ module.exports = [
         data: {
             id: 171,
             data: `{
-                "text": "W00t. How should we credit you? Respond with something like: “BuzzBot for BuzzFeed News” or "Jon Snow." You probably just want to use your full name. 😊"
+                "text": "W00t. How should we credit you? Respond with something like: \\"BuzzBot for BuzzFeed News\\" or \\"Jon Snow.\\" You probably just want to use your full name. 😊"
             }`,
             unstructuredReply: true,
             metadata: "protesting-convention"
