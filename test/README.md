@@ -1,6 +1,7 @@
 ## Load Testing
 
 There are 3 main pieces:
+
 1. The deployment your testing (the load balancer, node servers, and pg db)
 2. The mock FB server (`convention-bot/test/test-server.js`)
 3. The load test script (`convention-bot/test/load-test.json`)
