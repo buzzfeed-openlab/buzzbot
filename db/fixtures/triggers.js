@@ -1,180 +1,226 @@
 module.exports = [
-    // 1 (initial) Hi there! We’ve finally reached the moment everyone’s been waiting for. Are you at the Convention today?
+    // msg 110 not-following-convention
     {
         model: 'Trigger',
         data: {
-            id: 1,
-            tagId: 1,
-            messages: [2]
+            id: 110,
+            tagId: 110,
+            messages: [120]
         }
     },
+    // msg 110 following-from-cleveland
     {
         model: 'Trigger',
         data: {
-            id: 2,
-            tagId: 2,
-            messages: [3]
+            id: 111,
+            tagId: 111,
+            messages: [121]
         }
     },
-
-    // 2 (at convention) What are you doing at the Convention?
+    // msg 110 following-from-home
     {
         model: 'Trigger',
         data: {
-            id: 3,
-            tagId: 3,
-            messages: [4]
-        }
-    },
-    {
-        model: 'Trigger',
-        data: {
-            id: 4,
-            tagId: 4,
-            messages: [5]
-        }
-    },
-    {
-        model: 'Trigger',
-        data: {
-            id: 5,
-            tagId: 5,
-            messages: [6]
+            id: 112,
+            tagId: 112,
+            messages: [122]
         }
     },
 
 
-    // 3 (not at convention) Cool! What would you like to know more about?
+    // msg 121 attending-convention
     {
         model: 'Trigger',
         data: {
-            id: 6,
-            tagId: 6,
-            messages: [9]
+            id: 120,
+            tagId: 120,
+            messages: [140]
         }
     },
+    // msg 121 protesting-convention
     {
         model: 'Trigger',
         data: {
-            id: 7,
-            tagId: 7,
-            messages: [9]
+            id: 121,
+            tagId: 121,
+            messages: [141]
         }
     },
+    // msg 121 lives-in-cleveland
     {
         model: 'Trigger',
         data: {
-            id: 8,
-            tagId: 8,
-            messages: [9]
-        }
-    },
-
-    // 4 (protesting) Would you be willing to send us photos from the scene?
-    {
-        model: 'Trigger',
-        data: {
-            id: 9,
-            tagId: 9,
-            messages: [10]
-        }
-    },
-    {
-        model: 'Trigger',
-        data: {
-            id: 10,
-            tagId: 10,
-            messages: [12]
+            id: 122,
+            tagId: 122,
+            messages: [132]
         }
     },
 
-    // 5 (attending) Would you be willing to send us photos from the scene?
+
+    // msg 140 attending-might-send-media
     {
         model: 'Trigger',
         data: {
-            id: 11,
-            tagId: 11,
-            messages: [13]
+            id: 140,
+            tagId: 140,
+            messages: [160]
         }
     },
+    // msg 140 attending-wont-send-media
     {
         model: 'Trigger',
         data: {
-            id: 12,
-            tagId: 12,
-            messages: [14]
+            id: 141,
+            tagId: 141,
+            messages: [150]
         }
     },
 
-    // 6 (reporter) Have you been denied access from any events?
+
+    // msg 141 protesting-might-send-media
     {
         model: 'Trigger',
         data: {
-            id: 13,
-            tagId: 13,
-            messages: [15]
+            id: 142,
+            tagId: 142,
+            messages: [161]
         }
     },
+    // msg 141 protesting-wont-send-media
     {
         model: 'Trigger',
         data: {
-            id: 14,
-            tagId: 14,
-            messages: [16]
+            id: 143,
+            tagId: 143,
+            messages: [151]
         }
     },
 
-    // 10 (protesting) Thank you! We need your permission to use your photos. Are you OK with us posting them?
+
+    // msg 160 attending-confirmed-will-send-media
     {
         model: 'Trigger',
         data: {
-            id: 15,
-            tagId: 15,
-            messages: [17]
+            id: 160,
+            tagId: 160,
+            messages: [170]
         }
     },
+    // msg 160 attending-wont-send-media
     {
         model: 'Trigger',
         data: {
-            id: 16,
-            tagId: 16,
-            messages: [12]
+            id: 161,
+            tagId: 161,
+            messages: [150]
         }
     },
 
-    // 13 (attending) Thank you! We need your permission to use your photos. Are you OK with us posting them?
+
+    // msg 161 protesting-confirmed-will-send-media
     {
         model: 'Trigger',
         data: {
-            id: 17,
-            tagId: 17,
-            messages: [18]
+            id: 162,
+            tagId: 162,
+            messages: [171]
         }
     },
+    // msg 161 protesting-wont-send-media
     {
         model: 'Trigger',
         data: {
-            id: 18,
-            tagId: 18,
-            messages: [14]
+            id: 163,
+            tagId: 163,
+            messages: [151]
         }
     },
 
-    // 15 (reporter) Would you feel comfortable sharing your story?
+
+    // msg 170 [attending] how should we credit u? 
     {
         model: 'Trigger',
         data: {
-            id: 19,
-            tagId: 19,
-            messages: [19]
+            id: 170,
+            triggerMessageId: 170,
+            messages: [180]
         }
     },
+
+
+    // msg 171 [protesting] how should we credit u? 
     {
         model: 'Trigger',
         data: {
-            id: 20,
-            tagId: 20,
-            messages: [20]
+            id: 171,
+            triggerMessageId: 171,
+            messages: [181]
         }
     },
+
+
+    // msg 180 [attending] emoji poll
+    {
+        model: 'Trigger',
+        data: {
+            id: 180,
+            triggerMessageId: 180,
+            messages: [190]
+        }
+    },
+
+
+    // msg 181 [protesting] emoji poll
+    {
+        model: 'Trigger',
+        data: {
+            id: 181,
+            triggerMessageId: 181,
+            messages: [191]
+        }
+    },
+
+
+    // msg 122 [following-from-home] emoji poll
+    {
+        model: 'Trigger',
+        data: {
+            id: 123,
+            triggerMessageId: 122,
+            messages: [192]
+        }
+    },
+
+
+    // msg 132 [lives-in-cleveland] emoji poll
+    {
+        model: 'Trigger',
+        data: {
+            id: 132,
+            triggerMessageId: 132,
+            messages: [192]
+        }
+    },
+
+
+    // msg 150 [attending-convention] emoji poll
+    {
+        model: 'Trigger',
+        data: {
+            id: 150,
+            triggerMessageId: 150,
+            messages: [190]
+        }
+    },
+
+
+    // msg 151 [protesting-convention] emoji poll
+    {
+        model: 'Trigger',
+        data: {
+            id: 151,
+            triggerMessageId: 151,
+            messages: [191]
+        }
+    }
 ]
