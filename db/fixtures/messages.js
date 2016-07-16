@@ -62,7 +62,7 @@ module.exports = [
                                 "title": "Yes, from home",
                                 "type": "postback",
                                 "payload": "following-from-home"
-                            },
+                            }
                         ]
                     }
                 }
@@ -110,7 +110,7 @@ module.exports = [
                                 "title": "I just live here",
                                 "type": "postback",
                                 "payload": "lives-in-cleveland"
-                            },
+                            }
                         ]
                     }
                 }
