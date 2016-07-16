@@ -1,10 +1,10 @@
 {
   "config": {
-    "target": "https://openlab.fwd.wf",
+    "target": "http://beta-conventionbot.us-east-1.elasticbeanstalk.com",
     "phases": [
-      {"duration": 20, "arrivalRate": 5},
-      {"duration": 20, "arrivalRate": 5, "rampTo": 5},
-      {"duration": 40, "arrivalRate": 5}
+      {"duration": 30, "arrivalRate": 50},
+      {"duration": 30, "arrivalRate": 50, "rampTo": 500},
+      {"duration": 60, "arrivalRate": 500}
     ],
     "payload": {
       "path": "./users.csv",
