@@ -1,170 +1,125 @@
+
 module.exports = [
     {
         model: 'Tag',
         data: {
-            id: 1,
-            tag: 'at-convention',
-            messageId: 301
+            id: 110,
+            tag: 'not-following-convention',
+            messageId: 110
         }
     },
     {
         model: 'Tag',
         data: {
-            id: 2,
-            tag: 'not-at-convention',
-            messageId: 301
+            id: 111,
+            tag: 'following-from-cleveland',
+            messageId: 110
         }
     },
+    {
+        model: 'Tag',
+        data: {
+            id: 112,
+            tag: 'following-from-home',
+            messageId: 110
+        }
+    },
+
 
     {
         model: 'Tag',
         data: {
-            id: 3,
-            tag: 'protesting',
-            messageId: 2
+            id: 120,
+            tag: 'attending-convention',
+            messageId: 121
         }
     },
     {
         model: 'Tag',
         data: {
-            id: 4,
-            tag: 'attending',
-            messageId: 2
+            id: 121,
+            tag: 'protesting-convention',
+            messageId: 121
         }
     },
     {
         model: 'Tag',
         data: {
-            id: 5,
-            tag: 'reporting',
-            messageId: 2
+            id: 122,
+            tag: 'lives-in-cleveland',
+            messageId: 121
         }
     },
+
 
     {
         model: 'Tag',
         data: {
-            id: 6,
-            tag: 'can-trump-be-ousted?',
-            messageId: 3
+            id: 140,
+            tag: 'attending-might-send-media',
+            messageId: 140
         }
     },
     {
         model: 'Tag',
         data: {
-            id: 7,
-            tag: 'whats-the-schedule?',
-            messageId: 3
+            id: 141,
+            tag: 'attending-wont-send-media',
+            messageId: 140
         }
     },
-    {
-        model: 'Tag',
-        data: {
-            id: 8,
-            tag: 'are-there-arrests?',
-            messageId: 3
-        }
-    },
+
 
     {
         model: 'Tag',
         data: {
-            id: 9,
-            tag: 'protester-might-send-photos',
-            messageId: 4
+            id: 142,
+            tag: 'protesting-might-send-media',
+            messageId: 141
         }
     },
     {
         model: 'Tag',
         data: {
-            id: 10,
-            tag: 'protester-will-not-send-photos',
-            messageId: 4
+            id: 143,
+            tag: 'protesting-wont-send-media',
+            messageId: 141
         }
     },
+
 
     {
         model: 'Tag',
         data: {
-            id: 11,
-            tag: 'attendee-might-send-photos',
-            messageId: 5
+            id: 160,
+            tag: 'attending-confirmed-will-send-media',
+            messageId: 160
         }
     },
     {
         model: 'Tag',
         data: {
-            id: 12,
-            tag: 'attendee-will-not-send-photos',
-            messageId: 5
+            id: 161,
+            tag: 'attending-wont-send-media',
+            messageId: 160
         }
     },
+
 
     {
         model: 'Tag',
         data: {
-            id: 13,
-            tag: 'reporter-has-been-denied-access',
-            messageId: 6
+            id: 162,
+            tag: 'protesting-confirmed-will-send-media',
+            messageId: 161
         }
     },
     {
         model: 'Tag',
         data: {
-            id: 14,
-            tag: 'reporter-has-not-been-denied-access',
-            messageId: 6
+            id: 163,
+            tag: 'protesting-wont-send-media',
+            messageId: 161
         }
-    },
-
-    {
-        model: 'Tag',
-        data: {
-            id: 15,
-            tag: 'protester-confirmed-will-send-photos',
-            messageId: 10
-        }
-    },
-    {
-        model: 'Tag',
-        data: {
-            id: 16,
-            tag: 'protester-will-not-send-photos',
-            messageId: 10
-        }
-    },
-
-    {
-        model: 'Tag',
-        data: {
-            id: 17,
-            tag: 'attendee-confirmed-will-send-photos',
-            messageId: 13
-        }
-    },
-    {
-        model: 'Tag',
-        data: {
-            id: 18,
-            tag: 'attendee-will-not-send-photos',
-            messageId: 13
-        }
-    },
-
-    {
-        model: 'Tag',
-        data: {
-            id: 19,
-            tag: 'journalist-will-share-story',
-            messageId: 15
-        }
-    },
-    {
-        model: 'Tag',
-        data: {
-            id: 20,
-            tag: 'journalist-will-not-share-story',
-            messageId: 15
-        }
-    },
+    }
 ]

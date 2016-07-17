@@ -4,8 +4,8 @@ import { sendMessage } from './messenger-interface';
 
 function pauseForUser(token, event, user) {
     Controller.updateUser(user.id, { state: 'paused' }).then((user) => {
-        // the pause message has id 200
-        Controller.getMessage(200).then((message) => {
+        // the pause message has id 50
+        Controller.getMessage(50).then((message) => {
             sendMessage(token, user.id, message);
         });
     });
@@ -13,8 +13,8 @@ function pauseForUser(token, event, user) {
 
 function resumeForUser(token, event, user) {
     Controller.updateUser(user.id, { state: 'active' }).then((user) => {
-        // the resume message has id 201
-        Controller.getMessage(201).then((message) => {
+        // the resume message has id 51
+        Controller.getMessage(51).then((message) => {
             sendMessage(token, user.id, message);
         });
     });
@@ -36,7 +36,7 @@ function surpriseForUser(token, event, user) {
                 sendMessage(token, user.id, randomMessage);
 
             } else {
-                Controller.getMessage(210).then((message) => {
+                Controller.getMessage(52).then((message) => {
                     sendMessage(token, user.id, message);
                 });
             }

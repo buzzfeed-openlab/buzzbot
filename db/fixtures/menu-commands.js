@@ -4,24 +4,24 @@ module.exports = [
         "model": "MenuCommand",
         "keys": ["id"],
         "data": {
-            "id": 100,
+            "id": 50,
             "data": `{
                 "type": "web_url",
                 "title": "View BuzzFeed News",
                 "url": "https://www.buzzfeed.com/news"
             }`,
             "active": true,
-            "order": 5
+            "order": 3
         }
     },
     {
         "model": "MenuCommand",
         "keys": ["id"],
         "data": {
-            "id": 110,
+            "id": 51,
             "data": `{
                 "type": "postback",
-                "title": "Stop",
+                "title": "Stop messaging me",
                 "payload": "command:stop"
             }`,
             "active": true,
@@ -32,14 +32,14 @@ module.exports = [
         "model": "MenuCommand",
         "keys": ["id"],
         "data": {
-            "id": 120,
+            "id": 52,
             "data": `{
                 "type": "postback",
-                "title": "Surprise Me!",
+                "title": "Surprise me!",
                 "payload": "command:surprise"
             }`,
             "active": true,
-            "order": 2
+            "order": 5
         }
     },
 ]
