@@ -191,7 +191,7 @@
                     {
                       "sender": { "id": "{{ userId }}" },
                       "recipient": { "id": "253345735019636" },
-                      "postback": { "payload": "2:protesting" }
+                      "postback": { "payload": "110:following-from-cleveland" }
                     }
                   ]
                 }
@@ -212,7 +212,28 @@
                     {
                       "sender": { "id": "{{ userId }}" },
                       "recipient": { "id": "253345735019636" },
-                      "postback": { "payload": "4:protester-will-not-send-photos" }
+                      "postback": { "payload": "121:protesting-convention" }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        { "think": 8 },
+        {
+          "post": {
+            "url": "/hook",
+            "json": {
+              "object": "page",
+              "entry": [
+                {
+                  "id": "253345735019636",
+                  "messaging": [
+                    {
+                      "sender": { "id": "{{ userId }}" },
+                      "recipient": { "id": "253345735019636" },
+                      "postback": { "payload": "141:protesting-wont-send-media" }
                     }
                   ]
                 }
