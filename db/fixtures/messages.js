@@ -597,22 +597,5 @@ module.exports = [
             unstructuredReply: true,
             surpriseMe: true
         }
-    },
-    {
-        model: "Message",
-        keys: ["id"],
-        data: {
-            id: 518,
-            data: `{
-                "attachment": {
-                    "type": "video",
-                    "payload":{
-                        "url":"https://video-lax3-1.xx.fbcdn.net/v/t42.1790-2/13754048_1477417398951005_1699825636_n.mp4"
-                    }
-                }
-            }`,
-            unstructuredReply: true,
-            surpriseMe: true
-        }
     }
 ]
