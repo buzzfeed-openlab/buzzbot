@@ -35,6 +35,7 @@ module.exports = [
         }
     },
 
+    // -------
 
     {
         model: "Message",
@@ -376,6 +377,242 @@ module.exports = [
             }`,
             unstructuredReply: true,
             metadata: "at-home"
+        }
+    },
+
+    // -------
+
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 500,
+            data: `{
+                "text": "These Words Have Been Tested By Science To Get You To Vote: https://www.buzzfeed.com/peteraldhous/science-hacks-the-vote"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 501,
+            data: `{
+                "text": "27 Of The Best Campaign Buttons From U.S. Presidential History: https://www.buzzfeed.com/gabrielsanchez/best-campaign-buttons"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 502,
+            data: `{
+                "text": "A British Person Tries To Explain The Electoral College: https://www.buzzfeed.com/hannahjewell/a-british-person-tries-to-explain-the-electoral-college"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 503,
+            data: `{
+                "text": "8 Big Decisions That Will Be Made By Whoever Wins The Election: https://www.buzzfeed.com/venessawong/eight-big-decisions-that-will-be-made-by-whoever-wins-the-el"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 504,
+            data: `{
+                "text": "18 “The West Wing” Moments That Will Give You Hope: https://www.buzzfeed.com/adambvary/the-west-wing-moments-that-will-give-you-hope"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 505,
+            data: `{
+                "text": "Why Do People, Who Say They Want To Vote, Not Vote?: https://www.buzzfeed.com/evanmcsan/why-do-people-who-say-they-want-to-vote-not-vote"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 506,
+            data: `{
+                "text": "Can You Match The President With His Pet?: https://www.buzzfeed.com/chelseamarshall/can-you-match-the-president-with-his-pet"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 507,
+            data: `{
+                "text": "A Ranking Of The Hottest U.S. Presidents: https://www.buzzfeed.com/jessicamisener/pilfs"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 508,
+            data: `{
+                "text": "Can You Pick If Donald Trump Or The Joker Said These Quotes?: https://www.buzzfeed.com/spenceralthouse/donald-trump-or-the-joker"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 509,
+            data: `{
+                "text": "If Donald Trump were a contestant on \\"The Bachelorette\\": https://www.buzzfeed.com/jenlewis/if-donald-trump-were-on-the-bachelorette"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 510,
+            data: `{
+                "text": "We’ve Seen Donald Trump’s Press Secretary Before — On A Gossip Girl Book Cover: https://www.buzzfeed.com/jarrylee/xoxo-hope-hicks"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 511,
+            data: `{
+                "text": "This 1996 \\"Simpsons\\" Political Parody Is Still Scarily Relevant: https://www.buzzfeed.com/louispeitzman/the-best-simpsons-political-parody-is-still-scarily-relevant"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 512,
+            data: `{
+                "text": "15 Actual Donald Trump Quotes Spoken By Villains: https://www.buzzfeed.com/jamiejones/a-big-fat-dose-of-global-warming"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 513,
+            data: `{
+                "text": "People Think Donald Trump Actually Looks Like This New Pokemon: https://www.buzzfeed.com/samstryker/donald-trump-pokemon"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 514,
+            data: `{
+                "text": "This Guy Reimagined The Presidential Candidates As Pokémon And It’s As Awesome As You Think: https://www.buzzfeed.com/krishrach/this-guy-reimagined-the-presidential-candidates-as-pokemon-a"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 515,
+            data: `{
+                "text": "Donald Trump vs Sea Level Rise: https://www.buzzfeed.com/peteraldhous/trump-buildings-underwater"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 516,
+            data: `{
+                "text": "Hillary Clinton's comments on the \\"Superpredator\\" theory of crime: https://www.buzzfeed.com/danvergano/superpredator-theory"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 517,
+            data: `{
+                "text": "5 Things That Made No Sense In Trump’s Big Energy Speech: https://www.buzzfeed.com/danvergano/trumps-energy-speech"
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 518,
+            data: `{
+                "attachment": {
+                    "type": "video",
+                    "payload":{
+                        "url":"https://video-lax3-1.xx.fbcdn.net/v/t42.1790-2/13754048_1477417398951005_1699825636_n.mp4"
+                    }
+                }
+            }`,
+            unstructuredReply: true,
+            surpriseMe: true
         }
     }
 ]
