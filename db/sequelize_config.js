@@ -19,6 +19,7 @@ module.exports = {
     password: process.env.PGPASSWORD,
     database: process.env.PGDB || 'convention_bot_production',
     host: process.env.PGHOST,
-    dialect: 'postgres'
+    dialect: 'postgres',
+    logging: false
   }
 };
