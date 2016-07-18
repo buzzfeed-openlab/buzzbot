@@ -43,7 +43,7 @@ if (config.env === 'development') {
 }
 
 // serve up the admin page
-app.use('/admin', express.static(path.join(__dirname, 'client'));
+app.use('/admin', express.static(path.join(__dirname, 'client')));
 
 // body parsing
 app.use(bodyParser.json());
