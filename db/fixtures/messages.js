@@ -215,7 +215,8 @@ module.exports = [
             }`,
             unstructuredReply: true,
             poll: "{}",
-            metadata: "attending-convention"
+            metadata: "attending-convention",
+            repeatable: true
         }
     },
     {
@@ -228,7 +229,8 @@ module.exports = [
             }`,
             unstructuredReply: true,
             poll: "{}",
-            metadata: "protesting-convention"
+            metadata: "protesting-convention",
+            repeatable: true
         }
     },
 
@@ -352,7 +354,8 @@ module.exports = [
                 "text": "Nice emoji 👀. I’ll be in touch."
             }`,
             unstructuredReply: true,
-            metadata: "attending-convention"
+            metadata: "attending-convention",
+            repeatable: true
         }
     },
     {
@@ -364,7 +367,8 @@ module.exports = [
                 "text": "Nice emoji 👀. I’ll be in touch."
             }`,
             unstructuredReply: true,
-            metadata: "protesting-convention"
+            metadata: "protesting-convention",
+            repeatable: true
         }
     },
     {
@@ -376,7 +380,8 @@ module.exports = [
                 "text": "Nice emoji 👀. I’ll be in touch."
             }`,
             unstructuredReply: true,
-            metadata: "at-home"
+            metadata: "at-home",
+            repeatable: true
         }
     },
 
