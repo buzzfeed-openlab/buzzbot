@@ -5,7 +5,6 @@ import bodyParser from 'body-parser';
 import request from 'request';
 import webpack from 'webpack';
 import webpackConfig from './webpack.config.js';
-import basicAuth from 'basic-auth';
 
 import db, { Controller, pg, User, Tag } from './db';
 import Commands from './src/commands';
@@ -43,36 +42,8 @@ if (config.env === 'development') {
     app.use(require('webpack-hot-middleware')(compiler));
 }
 
-function auth(req, res, next) {
-    function unauthorized(res, user) {
-        console.log('WARNING, unauthorized attempt by user:', user, 'to access route:', req.originalUrl);
-        res.set('WWW-Authenticate', 'Basic');
-        return res.sendStatus(401);
-    }
-
-    var user = basicAuth(req);
-
-    if (!user || !user.name || !user.pass) {
-        return unauthorized(res, user);
-    }
-
-    if (user.name === config.auth.user && user.pass === config.auth.password) {
-        return next();
-    } else {
-        return unauthorized(res, user);
-    }
-};
-
-const adminPage = express.static(path.join(__dirname, 'client'));
-
-// serve up the admin interface behind auth in production
-if (config.env === 'development') {
-    console.log('WARNING: NO AUTH FOR ADMIN PAGE 🔓');
-    app.use('/admin', adminPage);
-} else {
-    console.log('🔒 Auth is enabled for admin page access')
-    app.use('/admin', [ auth,  adminPage ]);
-}
+// serve up the admin page
+app.use('/admin', express.static(path.join(__dirname, 'client')));
 
 // body parsing
 app.use(bodyParser.json());
@@ -296,7 +267,6 @@ app.post('/hook/', function (req, res) {
     res.sendStatus(status);
 });
 
-config.env != 'development' && app.use('/messages/', auth);
 app.post('/messages/', function (req, res) {
     if (!req.body.message) {
         return res.sendStatus(400);
@@ -322,7 +292,6 @@ app.post('/messages/', function (req, res) {
     });
 });
 
-config.env != 'development' && app.use('/send/', auth);
 app.post('/send/', function (req, res) {
     if (!req.body.messageId) {
         return res.status(400).json({ message: '`messageId` must be specified in request' });
@@ -351,7 +320,6 @@ app.post('/send/', function (req, res) {
     });
 });
 
-config.env != 'development' && app.use('/triggers/', auth);
 app.post('/triggers/', function (req, res) {
 
     const triggerTagId = req.body.triggerTagId,
@@ -396,17 +364,6 @@ app.post('/triggers/', function (req, res) {
 
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-
-// auth for websockets
-if (config.env != 'development') {
-    io.use((socket, next) => {
-        var user = basicAuth(socket.request);
-        if (!user || user.name !== config.auth.user || user.pass !== config.auth.password) {
-            return console.log('WARNING, unauthorized websocket connection attempt:', user);
-        }
-        next && next();
-    });
-}
 
 io.on('connection', function (socket) {
     socket.on('get-responses', (options) => {
