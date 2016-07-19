@@ -371,7 +371,7 @@ app.post('/triggers/', function (req, res) {
         }
 
         Controller.getTag(tagData).then((tag) => {
-            Controller.getOrCreateTriggerWithTag(tag.id, rmessages).then((trigger) => {
+            Controller.getOrCreateTriggerWithTag(tag.id, messages).then((trigger) => {
                 console.log('CREATED TRIGGER: ', trigger.get({plain: true}));
                 res.sendStatus(200);
             });
