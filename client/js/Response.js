@@ -39,7 +39,7 @@ export default class Response extends React.Component {
                         <Col md={12} key={attachment.payload.url}>
                             <img
                                 src={attachment.payload.url}
-                                width={400}
+                                style={{maxWidth: 400}}
                             />
                         </Col>
                     );
