@@ -180,6 +180,20 @@ export default (db) => {
             return db.Tag.create({ messageId, tag });
         },
 
+        countUsersWithTag(tagId) {
+            return db.Tag.findOne({
+                where: { id: tagId }
+            }).then((tag) => {
+                console.log(tagId, tag);
+                return tag.getUsers().then((users) => {
+                    if (users && users.length) {
+                        return users.length;
+                    }
+                    return 0;
+                });
+            });
+        },
+
         createMessageEvent(userId, messageId) {
             return db.MessageEvent.create({
                 userId,
