@@ -7,8 +7,9 @@ const sequelize_fixtures = require('sequelize-fixtures');
 db.sequelize.sync().then(() => {
     sequelize_fixtures.loadFiles([
         './db/fixtures/messages-dnc.js',
-        // './db/fixtures/tags-dnc.js',
+        './db/fixtures/tags-dnc.js',
         // './db/fixtures/triggers-dnc.js',
+        // './db/fixtures/users.js',
         './db/fixtures/menu-commands-dnc.js'
     ], db).then(function() {
         const seqScript = fs.readFileSync('./db/scripts/init-seq-ids.sql').toString();
