@@ -20,6 +20,12 @@ function resumeForUser(token, event, user) {
     });
 }
 
+function getTheLatest(token, event, user) {
+    Controller.getMessage(53).then((message) => {
+        sendMessage(token, user.id, message);
+    });
+}
+
 function surpriseForUser(token, event, user) {
     Controller.getAllSurpriseMeMessages().then((messages) => {
         var messageIds = messages.map((m) => m.id);
@@ -53,8 +59,20 @@ export default {
     'PLEASE STOP MESSAGING ME': pauseForUser,
     'PLEASE STOP': pauseForUser,
 
-    RESUME: resumeForUser,
-    START: resumeForUser,
+    'RESUME': resumeForUser,
+    'START': resumeForUser,
+
+    'WHAT\'S THE LATEST?': getTheLatest,
+    'WHATS THE LATEST?': getTheLatest,
+    'WHAT\'S THE LATEST': getTheLatest,
+    'WHATS THE LATEST': getTheLatest,
+    'UPDATE': getTheLatest,
+    'WHAT\'S UP?': getTheLatest,
+    'WHATS UP?': getTheLatest,
+    'WHAT\'S UP': getTheLatest,
+    'WHATS UP': getTheLatest,
+    'LATEST': getTheLatest,
+    'LATEST?': getTheLatest,
 
     'SURPRISE': surpriseForUser,
     'SURPRISE ME': surpriseForUser,
