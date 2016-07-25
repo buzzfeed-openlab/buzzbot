@@ -45,8 +45,13 @@ function surpriseForUser(token, event, user) {
 }
 
 export default {
-    PAUSE: pauseForUser,
-    STOP: pauseForUser,
+    'PAUSE': pauseForUser,
+    'STOP': pauseForUser,
+    'UNSUBSCRIBE': pauseForUser,
+    'QUIT': pauseForUser,
+    'STOP MESSAGING ME': pauseForUser,
+    'PLEASE STOP MESSAGING ME': pauseForUser,
+    'PLEASE STOP': pauseForUser,
 
     RESUME: resumeForUser,
     START: resumeForUser,
