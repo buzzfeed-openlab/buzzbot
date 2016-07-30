@@ -36,7 +36,7 @@ export default class Nav extends React.Component {
           <div class={"navbar-collapse " + navClass} id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li class={dashboardClass}>
-                <IndexLink to="/" onClick={this.toggleCollapse.bind(this)}>Convention Bot Dashboard</IndexLink>
+                <IndexLink to="/" onClick={this.toggleCollapse.bind(this)}>BuzzBot Dashboard</IndexLink>
               </li>
               <li class={messageFormClass}>
                 <Link to="create-messages" onClick={this.toggleCollapse.bind(this)}>Create Messages</Link>

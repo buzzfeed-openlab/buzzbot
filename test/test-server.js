@@ -32,7 +32,7 @@ app.get('/:userId', function (req, res) {
     return res.status(200).json({
         first_name: 'user',
         last_name: userId,
-        profile_pic: 'http://i0.kym-cdn.com/photos/images/masonry/000/056/238/brock20110724-22047-utv7m1.jpg',
+        profile_pic: 'https://i.imgur.com/5tCHDqml.jpg',
         locale: 'earth',
         timezone: 1,
         gender: 'n/a'

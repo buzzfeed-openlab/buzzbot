@@ -1,4 +1,4 @@
-# Convention Bot
+# BuzzBot
 
 ## Architecture overview
 
@@ -28,17 +28,17 @@
 - Node JS ([see install instructions ](https://nodejs.org/en/download/package-manager/#osx))
 - Forward, or another https forwarding service ([try forward here](https://forwardhq.com/))
 
-### Setup Convention Bot
+### Setup BuzzBot
 
-1. `git clone git@github.com:buzzfeed-openlab/convention-bot.git && cd convention-bot`
+1. `git clone git@github.com:buzzfeed-openlab/buzzbot.git && cd buzzbot`
 2. `npm install`
 3. `cp sample-config.js config.js` (we'll customize this more later)
 4. `cp db/sample_sequelize_config.js db/sequelize_config.js` (we'll customize this more later)
 
 ### Create a database
 
-1. `createuser --no-password conventionbot` (for development only!)
-2. `createdb -O conventionbot convention_bot_development`
+1. `createuser --no-password buzzbot` (for development only!)
+2. `createdb -O buzzbot buzzbot_development`
 3. `postgres -D /usr/local/var/postgres`
 
 ### Create a Facebook App and Page
@@ -70,7 +70,7 @@
 
 ## Overview of npm commands
 
-- `npm start`: Run convention bot
+- `npm start`: Run buzzbot
 - `npm run db:nuke`: Drop all tables and data in the db
 - `npm run db:init`: Initialize db using the models in `./db/models` and create fixtures specified in `./db/fixtures`
 - `npm run migrate`: Run all migrations

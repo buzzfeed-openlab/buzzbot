@@ -1,10 +1,10 @@
 {
-  "name": "convention-bot",
+  "name": "buzzbot",
   "version": "1.0.0",
   "description": "",
-  "main": "convention-bot.js",
+  "main": "buzzbot.js",
   "scripts": {
-    "start": "npm run babel-node -- ./convention-bot.js",
+    "start": "npm run babel-node -- ./buzzbot.js",
     "babel-node": "babel-node --presets es2015 --ignore node_modules",
     "init": "webpack",
     "db:init": "npm run babel-node -- ./db/init.js",
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/buzzfeed-openlab/convention-bot.git"
+    "url": "git+https://github.com/buzzfeed-openlab/buzzbot.git"
   },
   "author": "Westley Argentum Hennigh-Palermo",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/buzzfeed-openlab/convention-bot/issues"
+    "url": "https://github.com/buzzfeed-openlab/buzzbot/issues"
   },
-  "homepage": "https://github.com/buzzfeed-openlab/convention-bot#readme",
+  "homepage": "https://github.com/buzzfeed-openlab/buzzbot#readme",
   "dependencies": {
     "axios": "^0.12.0",
     "basic-auth": "^1.0.4",

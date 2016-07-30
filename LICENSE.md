@@ -1,4 +1,4 @@
-Copyright (c) 2015 Buzzfeed Open Lab and [contributors](https://github.com/buzzfeed-openlab/convention-bot/graphs/contributors)
+Copyright (c) 2015 Buzzfeed Open Lab and [contributors](https://github.com/buzzfeed-openlab/buzzbot/graphs/contributors)
 
 
 ```
