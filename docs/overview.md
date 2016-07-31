@@ -6,18 +6,18 @@ BuzzBot is an experiment, designed to help journalists connect with people on th
 
 The user facing side of BuzzBot is a Facebook Messenger bot that plugs into a Facebook Page. Users search for the page:
 
-![Search for FB Page](./assets/search-for-fb-page.png)
+<img src="./assets/search-for-fb-page.png" alt="Search for FB Page" width="256"></img>
 
 Or scan the page's Messenger Code:
 
-![Scan FB Page Code](./assets/scan-fb-page-code.jpg)
+<img src="./assets/scan-fb-page-code.jpg" alt="Scan FB Page Code" width="256"></img>
 
 And then start a conversation with BuzzBot by pressing "Get Started" or sending a message:
 
-![Send message to BuzzBot](./assets/send-message-to-buzzbot.jpg)
+<img src="./assets/send-message-to-buzzbot.jpg" alt="Send message to BuzzBot" width="256"></img>
 
 BuzzBot will then message them back and start a conversation!
 
-![BuzzBot messages back](./assets/buzzbot-messages-back.jpg)
+<img src="./assets/buzzbot-messages-back.jpg" alt="BuzzBot messages back" width="256"></img>
 
 ### Admin interface
