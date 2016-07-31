@@ -10,7 +10,6 @@ BuzzBot is an experiment, designed to help journalists connect with people on th
 
 - [Overview](./docs/overview.md)
 - [Architecture](./docs/architecture.md)
-- [Database Structure](./docs/database-structure.md)
 - [Installation](./docs/installation.md)
 
 =======
