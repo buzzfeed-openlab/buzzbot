@@ -14,10 +14,10 @@ BuzzBot is an experiment, designed to help journalists connect with people on th
 - [Installation](./docs/installation.md)
 
 
-##### Written by [Westley Argentum Hennigh-Palermo](mailto:WestleyArgentum@gmail.com) at the [Open Lab](https://BuzzFeed.com/OpenLab)
+##### Written by [Westley Argentum Hennigh-Palermo](mailto:WestleyArgentum@gmail.com) at the [Open Lab](https://www.buzzfeed.com/openlab)
 
 The Open Lab for Journalism, Technology, and the Arts is a workshop in BuzzFeed’s San Francisco bureau. We offer fellowships to artists and programmers and storytellers to spend a year making new work in a collaborative environment
 
-<div align="center">
-<img src="https://github.com/buzzfeed-openlab/buzzbot/blob/master/docs/open-lab-logo.png?raw=true" alt="OpenLab" width="200" height="200"></img>
+<div align="left">
+<img src="https://github.com/buzzfeed-openlab/buzzbot/blob/master/docs/open-lab-logo.png?raw=true" alt="OpenLab" width="128" height="128"></img>
 </div>
