@@ -6,11 +6,10 @@ const sequelize_fixtures = require('sequelize-fixtures');
 
 db.sequelize.sync().then(() => {
     sequelize_fixtures.loadFiles([
-        './db/fixtures/messages-dnc.js',
-        './db/fixtures/tags-dnc.js',
-        // './db/fixtures/triggers-dnc.js',
-        // './db/fixtures/users.js',
-        './db/fixtures/menu-commands-dnc.js'
+        './db/fixtures/example-messages.js',
+        './db/fixtures/example-tags.js',
+        './db/fixtures/example-triggers.js',
+        './db/fixtures/example-menu-commands.js'
     ], db).then(function() {
         const seqScript = fs.readFileSync('./db/scripts/init-seq-ids.sql').toString();
         const triggerScript = fs.readFileSync('./db/scripts/init-triggers.sql').toString();

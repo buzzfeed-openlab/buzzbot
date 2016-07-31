@@ -7,7 +7,7 @@ module.exports = [
             "id": 50,
             "data": `{
                 "type": "web_url",
-                "title": "View BuzzFeed News",
+                "title": "BuzzFeed News",
                 "url": "https://www.buzzfeed.com/news"
             }`,
             "active": true,
@@ -25,7 +25,7 @@ module.exports = [
                 "payload": "command:stop"
             }`,
             "active": true,
-            "order": 1
+            "order": 5
         }
     },
     {
@@ -39,7 +39,8 @@ module.exports = [
                 "payload": "command:surprise"
             }`,
             "active": true,
-            "order": 5
+            "order": 1
         }
     },
+
 ]
