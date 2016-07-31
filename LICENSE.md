@@ -1,5 +1,6 @@
-Copyright (c) 2015 Buzzfeed Open Lab and [contributors](https://github.com/buzzfeed-openlab/buzzbot/graphs/contributors)
+### The MIT License (MIT)
 
+Copyright (c) 2015 Buzzfeed Open Lab and [contributors](https://github.com/buzzfeed-openlab/buzzbot/graphs/contributors)
 
 ```
 Permission is hereby granted, free of charge, to any person obtaining a copy
