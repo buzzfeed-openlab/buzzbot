@@ -10,7 +10,6 @@
 
 1. `git clone git@github.com:buzzfeed-openlab/buzzbot.git && cd buzzbot`
 2. `npm install`
-3. `cp sample-config.js config.js` (we'll customize this more later)
 
 ### Create a database
 
