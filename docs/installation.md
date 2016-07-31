@@ -11,7 +11,6 @@
 1. `git clone git@github.com:buzzfeed-openlab/buzzbot.git && cd buzzbot`
 2. `npm install`
 3. `cp sample-config.js config.js` (we'll customize this more later)
-4. `cp db/sample_sequelize_config.js db/sequelize_config.js` (we'll customize this more later)
 
 ### Create a database
 
@@ -25,11 +24,11 @@
 
 ### Config and run
 
-1. Change `pageToken` in `./config.js` to the token for your Facebook page
-2. Change `verifyToken` in `./config.js` to a secret string that only your app and Facebook will know (I recommend generating a UUID or something similar)
+1. `export FB_PAGE_TOKEN=XXX` using the token for your Facebook page
+2. `export VERIFY_TOKEN=XXX` using a secret string that only your app and Facebook will know (I recommend generating a UUID or something similar)
 3. Make sure the user and database inside `./db/sequelize_config.js` match the user and database you created
-4. `npm run db:init` (Creates fixtures and populates db. Done only once, manually! Don't add to docker script.)
-5. `npm run init` (Webpack build, needs to be run during every build. Should be added to docker script.)
+4. `npm run db:init` (Creates fixtures and populates db. Done only once, manually!)
+5. `npm run init` (Webpack build. While developing this will be done automatically whenever the client code changes, but in production this needs to be run for every build.)
 6. `npm start`
 
 ### Verify Facebook webhook
@@ -49,6 +48,7 @@
 ## Overview of npm commands
 
 - `npm start`: Run buzzbot
+- `npm run init`: Do a Webpack build of the admin dashboard code.
 - `npm run db:nuke`: Drop all tables and data in the db
 - `npm run db:init`: Initialize db using the models in `./db/models` and create fixtures specified in `./db/fixtures`
 - `npm run migrate`: Run all migrations
@@ -56,4 +56,4 @@
 - `npm run migration:undo`: Undo just the last migration
 - `npm run migration:undo:all`: Undo all migrations
 
-Note that there are commands for creating and running migrations, but that the existing migrations are no longer used. All models and relations are created using `sequelize.sync()`. See [here](https://stackoverflow.com/questions/21105748/sequelize-js-how-to-use-migrations-and-sync) for how that could change, unfortunately I have not had time to do it all by hand.
+Note that there are commands for creating and running migrations, but that the existing migrations are no longer used. All models and relations are created using `sequelize.sync()`. See [here](https://stackoverflow.com/questions/21105748/sequelize-js-how-to-use-migrations-and-sync) for how that could change, but it hasn't happened yet.
