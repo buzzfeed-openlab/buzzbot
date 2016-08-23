@@ -101,6 +101,30 @@ const commands = [
     {
         exp: /^(Glance)/i,
         fn: triggerMessages.bind(undefined, [710, 711])
+    },{
+        exp: /^(Amanda(\s+)(Photo|Picture|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [525])
+    },{
+        exp: /^(Ainsley(\s+)(Photo|Picture|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [725])
+    },{
+        exp: /^(Christine(\s+)(Photo|Picture|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [825])
+    },
+        exp: /^(Christine)/i,
+        fn: triggerMessages.bind(undefined, [800])
+    },{
+        exp: /^(Ben(\s+)(Photo|Picture|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [925])
+    },
+        exp: /^(Ben)/i,
+        fn: triggerMessages.bind(undefined, [900])
+    },{
+        exp: /^(Wes(\s+)(Photo|Picture|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [1025])
+    },{
+        exp: /^(Amanda)/i,
+        fn: triggerMessages.bind(undefined, [526])
     },
 ];
 

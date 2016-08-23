@@ -111,7 +111,13 @@ module.exports = [
         data: {
             id: 504,
             data: `{
-                "text": "https://www.dropbox.com/sh/yat2vr7keoye3h5/AACKpkzeHXWJo5rFCwPNXMbYa/BF_OL_map.ai?dl=0"
+
+                  "attachment": {
+                      "type": "image",
+                      "payload":{
+                          "url":"https://buzzfeed-openlab.github.io/imgs/event_map.png"
+                      }
+                  }
             }`,
             unstructuredReply: true,
             repeatable: true
@@ -428,6 +434,137 @@ module.exports = [
             metadata: "wants-poll",
             repeatable: true
         }
-    }
+    },
+    {
+            model: "Message",
+            keys: ["id"],
+            data: {
+                id: 725,
+                data: `{
+                    "attachment": {
+                        "type": "image",
+                        "payload":{
+                            "url":"https://buzzfeed-openlab.github.io/imgs/ainsley.jpg"
+                        }
+                    }
+                }`,
+                metadata: "ainsley photo",
+                repeatable: true
+            }
+        },
+        {
+              model: "Message",
+              keys: ["id"],
+              data:{
+                  id: 825,
+                  data: `{
+                      "attachment": {
+                          "type": "image",
+                          "payload":{
+                              "url":"https://buzzfeed-openlab.github.io/imgs/christine.jpg"
+                          }
+                      }
+                  }`,
+                  metadata: "christine photo",
+                  repeatable: true
+              }
+          },
+          {
+              model: "Message",
+              keys: ["id"],
+              data: {
+                  id: 925,
+                  data: `{
+                      "attachment": {
+                          "type": "image",
+                          "payload":{
+                              "url":"https://buzzfeed-openlab.github.io/imgs/ben.jpg"
+                          }
+                      }
+                  }`,
+                  metadata: "ben photo",
+                  repeatable: true
+              }
+            },
+            {
+              model: "Message",
+              keys: ["id"],
+              data: {
+                  id:1025,
+                  data: `{
+                      "attachment": {
+                          "type": "image",
+                          "payload":{
+                              "url":"https://buzzfeed-openlab.github.io/imgs/wes.png"
+                          }
+                      }
+                  }`,
+                  metadata: "wes photo",
+                  repeatable: true
+              }
+          },
+          {
+              model: "Message",
+              keys: ["id"],
+              data: {
+                  id:525,
+                  data: `{
+                      "attachment": {
+                          "type": "image",
+                          "payload":{
+                              "url":"https://buzzfeed-openlab.github.io/imgs/amanda.jpg"
+                          }
+                      }
+                  }`,
+                  metadata: "amanda photo",
+                  repeatable: true
+              }
+            },
+            {
+                // Amanda
+                model: "Message",
+                keys: ["id"],
+                data: {
+                    id:526,
+                    data: `{
+                        "text": "Amanda Hickman, Senior Fellow // Amanda directs the BuzzFeed Open Lab for Journalism, Technology, and the Arts."
+                    }`,
+                    unstructuredReply: true,
+                    poll: "{}",
+                    metadata: "amanda",
+                    repeatable: true
+                }3
+            },
+            {
+                // Christine
+                model: "Message",
+                keys: ["id"],
+                data: {
+                    id:800,
+                    data: `{
+                        "text": "Christine Sunu, Open Lab / GE Fellow, focuses on the links between emotion, design, and technology. In the Open Lab this year she built emotive interfaces for internet connected technology. Emotive Circuits is a collection of objects that that showcase internet connected technology in soft and unusual forms."
+                    }`,
+                    unstructuredReply: true,
+                    poll: "{}",
+                    metadata: "christine",
+                    repeatable: true
+                }
+            },
+
+            {
+                // Ben
+                model: "Message",
+                keys: ["id"],
+                data: {
+                    id:900,
+                    data: `{
+                        "text": "Ben Kreimer explores the unique perspectives, visual experiences, and storytelling potential of drones, 3D reconstructions, 360-degree video, 3D virtual reality, and open-source hardware sensor platforms."
+                    }`,
+                    unstructuredReply: true,
+                    poll: "{}",
+                    metadata: "ben",
+                    repeatable: true
+                }
+            },
 
 ]
