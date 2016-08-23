@@ -60,9 +60,21 @@ module.exports = [
         data: {
             id: 500,
             data: `{
-                "text": "BuzzFeed's Open Lab for Journalism, Technology, and the Arts provides year-long fellowships to artists, hackers and engineers.\\n\\nI’d love to add you to our NEWSLETTER, or tell you more ABOUT THE OPEN LAB. Or if you feed me any of the Fellow’s names, I can tell you more about what they’re showing off tonight."
+                "text": "The BuzzFeed Open Lab for Journalism, Technology, and the Arts provides year-long fellowships to artists, hackers and engineers in BuzzFeed’s San Francisco bureau."
             }`,
             unstructuredReply: true,
+            repeatable: true
+        }
+    },
+    {
+        // openlab 2
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 501,
+            data: `{
+                "text": "I’d love to add you to our NEWSLETTER, or tell you more ABOUT THE OPEN LAB. Or if you feed me any of the Fellow’s names, I can tell you more about their work and what they’re showing off tonight."
+            }`,
             repeatable: true
         }
     },
@@ -71,7 +83,7 @@ module.exports = [
         model: "Message",
         keys: ["id"],
         data: {
-            id: 501,
+            id: 502,
             data: `{
                 "text": "Cool. I’d love to add you to our Tinyletter. What is your email address?"
             }`,
@@ -84,7 +96,7 @@ module.exports = [
         model: "Message",
         keys: ["id"],
         data: {
-            id: 502,
+            id: 503,
             data: `{
                 "text": "The best place to learn more about BuzzFeed\'s Open Lab is probably: http://www.buzzfeed.com/amandahickman/about-the-open-lab"
             }`,
@@ -97,7 +109,7 @@ module.exports = [
         model: "Message",
         keys: ["id"],
         data: {
-            id: 503,
+            id: 504,
             data: `{
                 "text": "https://www.dropbox.com/sh/yat2vr7keoye3h5/AACKpkzeHXWJo5rFCwPNXMbYa/BF_OL_map.ai?dl=0"
             }`,
@@ -110,7 +122,7 @@ module.exports = [
         model: "Message",
         keys: ["id"],
         data: {
-            id: 504,
+            id: 505,
             data: `{
                 "text": "GE sponsors one Open Lab fellowship\\n\\nGE’s Neuro VR Experience is a peek into how scientists are breakign new ground to understand how the brain works through advanced imaging technology."
             }`,
@@ -158,7 +170,7 @@ module.exports = [
         }
     },
     {
-        // swale
+        // saito software 2
         model: "Message",
         keys: ["id"],
         data: {
@@ -168,51 +180,114 @@ module.exports = [
                     "type": "template",
                     "payload": {
                         "template_type": "button",
-                        "text": "Saito collaborated with Biome Arts to design a pavilion for Mary Mattingly’s nomadic floating garden, Swale. A sensor network tracked plant moisture, water flow and weather, while projection inside the pavilion displayed the data. Saito also deployed a social media monitoring network in neighborhoods near the barge, to help spread the word.",
+                        "text": "Would you like the code?",
                         "buttons": [
                             {
-                                "title": "Tell Me More",
+                                "title": "Yep",
                                 "type": "postback",
-                                "payload": "more-swale"
-                            },
-                            {
-                                "title": "Photo 📸",
-                                "type": "postback",
-                                "payload": "photo-swale"
+                                "payload": "wants-saito-code"
                             }
                         ]
                     }
                 }
             }`,
+            repeatable: true,
+            metadata: "saito-software"
+        }
+    },
+    {
+        // saito software 3 (wants code)
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 604,
+            data: `{
+                "text": "<link>"
+            }`,
+            unstructuredReply: true,
             repeatable: true
         }
+    },
+    {
+        // swale photo
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 610,
+            data: `{
+                "attachment": {
+                    "type": "image",
+                    "payload":{
+                        "url":"https://img.buzzfeed.com/buzzfeed-static/static/2014-07/18/8/enhanced/webdr09/anigif_enhanced-buzz-32587-1405685331-4.gif"
+                    }
+                }
+            }`
+        },
+        unstructuredReply: true
+    },
+    {
+        // swale
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 611,
+            data: `{
+                "text": "Saito collaborated with Biome Arts to design a pavilion for Mary Mattingly’s nomadic floating garden, Swale. A sensor network tracked plant moisture, water flow and weather, while projection inside the pavilion displayed the data."
+            }`,
+            unstructuredReply: true,
+            repeatable: true
+        }
+    },
+    {
+        // swale 2
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 612,
+            data: `{
+                "text": "Saito also deployed a social media monitoring network in neighborhoods near the barge, to help spread the word."
+            }`,
+            repeatable: true
+        }
+    },
+    {
+        // aemp photo
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 620,
+            data: `{
+                "attachment": {
+                    "type": "image",
+                    "payload":{
+                        "url":"https://img.buzzfeed.com/buzzfeed-static/static/2014-07/18/8/enhanced/webdr09/anigif_enhanced-buzz-32587-1405685331-4.gif"
+                    }
+                }
+            }`
+        },
+        unstructuredReply: true
     },
     {
         // aemp
         model: "Message",
         keys: ["id"],
         data: {
-            id: 604,
+            id: 621,
             data: `{
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "button",
-                        "text": "Saito designed a digital billboard that navigates a map of San Francisco, stopping at one site of eviction at a time. At each of these sites, one line from a testimony of the eviction is displayed. As the billboard traverses the city, a poem about displacement emerges.",
-                        "buttons": [
-                            {
-                                "title": "Tell Me More",
-                                "type": "postback",
-                                "payload": "more-aemp"
-                            },
-                            {
-                                "title": "Photo 📸",
-                                "type": "postback",
-                                "payload": "photo-aemp"
-                            }
-                        ]
-                    }
-                }
+                "text": "Saito designed a digital billboard that navigates a map of San Francisco, stopping at one site of eviction at a time."
+            }`,
+            unstructuredReply: true,
+            repeatable: true
+        }
+    },
+    {
+        // aemp 2
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 622,
+            data: `{
+                "text": "At each of these sites, one line from a testimony of the eviction is displayed. As the billboard traverses the city, a poem about displacement emerges."
             }`,
             repeatable: true
         }
@@ -237,9 +312,21 @@ module.exports = [
         data: {
             id: 701,
             data: `{
-                "text": "Ainsley Sutherland works on virtual reality research at the Open Lab. Ainsley has worked as a designer, developer, and producer on virtual reality projects, alternate reality games, the decentralized web, and open government research. Ainsley completed graduate work at MIT’s Imagination, Computation, and Expression lab"
+                "text": "Ainsley Sutherland works on virtual reality research as a fellow at the BuzzFeed Open Lab."
             }`,
             unstructuredReply: true,
+            repeatable: true
+        }
+    },
+    {
+        // ainsley bio 2
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 702,
+            data: `{
+                "text": "Ainsley has worked as a designer, developer, and producer on virtual reality projects, alternate reality games, the decentralized web, and open government research. Ainsley completed graduate work at MIT’s Imagination, Computation, and Expression lab."
+            }`,
             repeatable: true
         }
     },
@@ -248,11 +335,23 @@ module.exports = [
         model: "Message",
         keys: ["id"],
         data: {
-            id: 702,
+            id: 710,
             data: `{
-                "text": "What if your body is an interface, and the environment is an agent? How can we sense the attention of others in a collaborative environment? How can we use these tools to create new types of nonfiction VR work? The experiments on display showcase some of Ainsely’s research towards answering these questions."
+                "text": "What if your body is an interface, and the environment is an agent? How can we sense the attention of others in a collaborative environment? How can we use these tools to create new types of nonfiction VR work?"
             }`,
             unstructuredReply: true,
+            repeatable: true
+        }
+    },
+    {
+        // glance 2
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 711,
+            data: `{
+                "text": "The prototypes and experiments on display showcase some of Ainsely’s research towards answering these questions in the BuzzFeed Open Lab."
+            }`,
             repeatable: true
         }
     },
