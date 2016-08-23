@@ -1,6 +1,6 @@
 
 import { Controller } from '../db';
-import { sendMessage } from './messenger-interface';
+import { sendMessagesSequentially } from './messenger-interface';
 
 // const commands = {
 //     'PAUSE': pauseForUser,
@@ -47,64 +47,60 @@ const commands = [
         fn: resumeForUser
     },
     {
-        exp: /^(LATEST|WHAT\'S THE LATEST)/i,
-        fn: getTheLatest
-    },
-    {
         exp: /^(SURPRISE|SURPRISE ME)/i,
         fn: surpriseForUser
     },
     {
         exp: /^((OPEN(\s+)?LAB))/i,
-        fn: triggerMessage.bind(undefined, 500)
+        fn: triggerMessages.bind(undefined, [500, 501])
     },
     {
         exp: /^(NEWS(\s+)?LETTER)/i,
-        fn: triggerMessage.bind(undefined, 501)
+        fn: triggerMessages.bind(undefined, [502])
     },
     {
         exp: /(ABOUT(.*)?OPEN(\s+)?LAB)/i,
-        fn: triggerMessage.bind(undefined, 502)
+        fn: triggerMessages.bind(undefined, [503])
     },
     {
         exp: /^(MAP)/i,
-        fn: triggerMessage.bind(undefined, 503)
+        fn: triggerMessages.bind(undefined, [504])
     },
     {
         exp: /^(GE)/i,
-        fn: triggerMessage.bind(undefined, 504)
+        fn: triggerMessages.bind(undefined, [505])
     },
     {
-        exp: /^(Saito(\s+)Photo)/i,
-        fn: triggerMessage.bind(undefined, 601)
+        exp: /^(Saito(\s+)(Photo|Picture|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [601])
     },
     {
         exp: /^(Saito(\s+)Software)/i,
-        fn: triggerMessage.bind(undefined, 602)
+        fn: triggerMessages.bind(undefined, [602, 603])
     },
     {
         exp: /^(Saito)/i,
-        fn: triggerMessage.bind(undefined, 600)
+        fn: triggerMessages.bind(undefined, [600])
     },
     {
         exp: /^(Swale)/i,
-        fn: triggerMessage.bind(undefined, 603)
+        fn: triggerMessages.bind(undefined, [610, 611, 612])
     },
     {
         exp: /^(AEMP)/i,
-        fn: triggerMessage.bind(undefined, 604)
+        fn: triggerMessages.bind(undefined, [620, 621, 622])
     },
     {
         exp: /^(Ainsley(.*)Bio)/i,
-        fn: triggerMessage.bind(undefined, 701)
+        fn: triggerMessages.bind(undefined, [701, 702])
     },
     {
         exp: /^(Ainsley)/i,
-        fn: triggerMessage.bind(undefined, 700)
+        fn: triggerMessages.bind(undefined, [700])
     },
     {
         exp: /^(Glance)/i,
-        fn: triggerMessage.bind(undefined, 702)
+        fn: triggerMessages.bind(undefined, [710, 711])
     },
 ];
 
@@ -116,8 +112,6 @@ export default function getCommand(text) {
             return command.fn;
         }
     }
-
-    console.log('nOPE');
 }
 
 function normalizeText(text) {
@@ -172,8 +166,8 @@ function surpriseForUser(token, event, user) {
     });
 }
 
-function triggerMessage(messageId, token, event, user) {
-    Controller.getMessage(messageId).then((message) => {
-        sendMessage(token, user.id, message);
+function triggerMessages(messageIds, token, event, user) {
+    Controller.getMessages(messageIds).then((messages) => {
+        sendMessagesSequentially(token, user.id, messages);
     });
 }
