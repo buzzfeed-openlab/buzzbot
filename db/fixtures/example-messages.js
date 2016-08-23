@@ -565,6 +565,44 @@ module.exports = [
                     metadata: "ben",
                     repeatable: true
                 }
-            },
+            },{
+                // Wes
+                model: "Message",
+                keys: ["id"],
+                data: {
+                    id:1000,
+                    data: `{
+                        "text": "Westley Hennigh-Palermo is interested in finding new ways for newsrooms to engage people in conversation and talk about complex systems that don't lend themselves to simple narratives. At the Open Lab Wes has worked on a series of bots and games, including BUZZBOT and SH*T VCS SAY."
+                    }`,
+                    unstructuredReply: true,
+                    poll: "{}",
+                    metadata: "Wes",
+                    repeatable: true
+                }
+            },{
+                // Wes buzzbot PROMPT TK
+                model: "Message",
+                keys: ["id"],
+                data: {
+                    id:1001,
+                    data: `{
+                        "text": "You're using BuzzBot right now. 🤖 -- BuzzBot ran throughout the 2016 RNC and DNC and facilitated conversation between journalists and thousands of people who were watching from home, protesting outside, or actually attending as delegates."
+                    }`,
+                    metadata: "buzzbot",
+                    repeatable: true
+                }
+            },{
+                // Wes buzzbot code PROMPT TK
+                model: "Message",
+                keys: ["id"],
+                data: {
+                    id:1002,
+                    data: `{
+                        "text": "BuzzBot is open source! 🤖 https://www.buzzfeed.com/westleyargentum/under-the-hood-of-buzzbot "
+                    }`,
+                    metadata: "buzzbot",
+                    repeatable: true
+                }
+            }
 
 ]
