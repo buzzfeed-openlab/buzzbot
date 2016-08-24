@@ -71,7 +71,7 @@ const commands = [
         fn: triggerMessages.bind(undefined, [505])
     },
     {
-        exp: /^(Saito(\s+)(Photo|Picture|Selfie))/i,
+        exp: /^(Saito(\s+)(Photo|Pic|Selfie))/i,
         fn: triggerMessages.bind(undefined, [601])
     },
     {
@@ -84,11 +84,15 @@ const commands = [
     },
     {
         exp: /^(Swale)/i,
-        fn: triggerMessages.bind(undefined, [610, 611, 612])
+        fn: triggerMessages.bind(undefined, [611, 612])
     },
     {
         exp: /^(AEMP)/i,
-        fn: triggerMessages.bind(undefined, [620, 621, 622])
+        fn: triggerMessages.bind(undefined, [621, 622])
+    },
+    {
+        exp: /^(Ainsley(\s+)(Photo|Pic|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [725])
     },
     {
         exp: /^(Ainsley(.*)Bio)/i,
@@ -102,26 +106,32 @@ const commands = [
         exp: /^(Glance)/i,
         fn: triggerMessages.bind(undefined, [710, 711])
     },{
-        exp: /^(Amanda(\s+)(Photo|Picture|Selfie))/i,
+        exp: /^(Amanda(\s+)(Photo|Pic|Selfie))/i,
         fn: triggerMessages.bind(undefined, [525])
     },{
-        exp: /^(Ainsley(\s+)(Photo|Picture|Selfie))/i,
-        fn: triggerMessages.bind(undefined, [725])
-    },{
-        exp: /^(Christine(\s+)(Photo|Picture|Selfie))/i,
+        exp: /^(Christine(\s+)(Photo|Pic|Selfie))/i,
         fn: triggerMessages.bind(undefined, [825])
-    },
+    },{
         exp: /^(Christine)/i,
         fn: triggerMessages.bind(undefined, [800])
     },{
-        exp: /^(Ben(\s+)(Photo|Picture|Selfie))/i,
+        exp: /^(Ben(\s+)(Photo|Pic|Selfie))/i,
         fn: triggerMessages.bind(undefined, [925])
-    },
+    },{
         exp: /^(Ben)/i,
         fn: triggerMessages.bind(undefined, [900])
     },{
-        exp: /^(Wes(\s+)(Photo|Picture|Selfie))/i,
-        fn: triggerMessages.bind(undefined, [1025])
+        exp: /^(Wes(.*)(Photo|Pic|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [425])
+    },{
+        exp: /^(Shit)/i,
+        fn: triggerMessages.bind(undefined, [420,421])
+    },{
+        exp: /^(Wes|Westley)/i,
+        fn: triggerMessages.bind(undefined, [400])
+    },{
+        exp: /^(Buzz(\s+)?Bot|Bot)/i,
+        fn: triggerMessages.bind(undefined, [401, 402])
     },{
         exp: /^(Amanda)/i,
         fn: triggerMessages.bind(undefined, [526])

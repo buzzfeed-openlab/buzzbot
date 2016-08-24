@@ -51,7 +51,43 @@ module.exports = [
 
     // -------
 
-
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 110,
+            data: `{
+                "text": "Hi! 👋 I'm BuzzBot.\\n\\nI can help you find your way around today’s Open Lab Show & Tell."
+            }`,
+            initialMessage: true,
+            unstructuredReply: true,
+            repeatable: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 111,
+            data: `{
+                "text": "You can say things like OPEN LAB or MAP to help get oriented. Or you can say a fellow's name to get more info on them."
+            }`,
+            initialMessage: true,
+            repeatable: true
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 112,
+            data: `{
+                "text": "Try asking about BEN, WES, AINSLEY, CHRISTINE, SAITO, and AMANDA."
+            }`,
+            initialMessage: true,
+            repeatable: true
+        }
+    },
 
     {
         // openlab
@@ -182,23 +218,9 @@ module.exports = [
         data: {
             id: 603,
             data: `{
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "button",
-                        "text": "Would you like the code?",
-                        "buttons": [
-                            {
-                                "title": "Yep",
-                                "type": "postback",
-                                "payload": "wants-saito-code"
-                            }
-                        ]
-                    }
-                }
+                "text": "You can find the code here: https://github.com/owenst/geotweets"
             }`,
-            repeatable: true,
-            metadata: "saito-software"
+            repeatable: true
         }
     },
     {
@@ -214,23 +236,23 @@ module.exports = [
             repeatable: true
         }
     },
-    {
-        // swale photo
-        model: "Message",
-        keys: ["id"],
-        data: {
-            id: 610,
-            data: `{
-                "attachment": {
-                    "type": "image",
-                    "payload":{
-                        "url":"https://img.buzzfeed.com/buzzfeed-static/static/2014-07/18/8/enhanced/webdr09/anigif_enhanced-buzz-32587-1405685331-4.gif"
-                    }
-                }
-            }`
-        },
-        unstructuredReply: true
-    },
+    // {
+    //     // swale photo
+    //     model: "Message",
+    //     keys: ["id"],
+    //     data: {
+    //         id: 610,
+    //         data: `{
+    //             "attachment": {
+    //                 "type": "image",
+    //                 "payload":{
+    //                     "url":""
+    //                 }
+    //             }
+    //         }`
+    //     },
+    //     unstructuredReply: true
+    // },
     {
         // swale
         model: "Message",
@@ -256,23 +278,23 @@ module.exports = [
             repeatable: true
         }
     },
-    {
-        // aemp photo
-        model: "Message",
-        keys: ["id"],
-        data: {
-            id: 620,
-            data: `{
-                "attachment": {
-                    "type": "image",
-                    "payload":{
-                        "url":"https://img.buzzfeed.com/buzzfeed-static/static/2014-07/18/8/enhanced/webdr09/anigif_enhanced-buzz-32587-1405685331-4.gif"
-                    }
-                }
-            }`
-        },
-        unstructuredReply: true
-    },
+    // {
+    //     // aemp photo
+    //     model: "Message",
+    //     keys: ["id"],
+    //     data: {
+    //         id: 620,
+    //         data: `{
+    //             "attachment": {
+    //                 "type": "image",
+    //                 "payload":{
+    //                     "url":"https://img.buzzfeed.com/buzzfeed-static/static/2014-07/18/8/enhanced/webdr09/anigif_enhanced-buzz-32587-1405685331-4.gif"
+    //                 }
+    //             }
+    //         }`
+    //     },
+    //     unstructuredReply: true
+    // },
     {
         // aemp
         model: "Message",
@@ -362,79 +384,6 @@ module.exports = [
         }
     },
 
-    // -------
-
-    {
-        model: "Message",
-        keys: ["id"],
-        data: {
-            id: 110,
-            data: `{
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "button",
-                        "text": "Hi! 👋 I'm BuzzBot.\\n\\nI can help you find your way around today’s Open Lab Show & Tell.",
-                        "buttons": [
-                            {
-                                "title": "Great, I'm here",
-                                "type": "postback",
-                                "payload": "at-event"
-                            },
-                            {
-                                "title": "What's that?",
-                                "type": "postback",
-                                "payload": "what-is-event"
-                            }
-                        ]
-                    }
-                }
-            }`,
-            initialMessage: true
-        }
-    },
-    {
-        model: "Message",
-        keys: ["id"],
-        data: {
-            id: 120,
-            data: `{
-                "text": "This message is marked 'unstructuredReply: true'. You can write back using text, emoji, gifs, video, etc. You can even send multiple replies and they'll end up together."
-            }`,
-            unstructuredReply: true,
-            metadata: "wants-text"
-        }
-    },
-    {
-        model: "Message",
-        keys: ["id"],
-        data: {
-            id: 130,
-            data: `{
-                "attachment": {
-                    "type": "image",
-                    "payload":{
-                        "url":"https://img.buzzfeed.com/buzzfeed-static/static/2014-07/18/8/enhanced/webdr09/anigif_enhanced-buzz-32587-1405685331-4.gif"
-                    }
-                }
-            }`,
-            metadata: "puppy-gif,wants-gif"
-        }
-    },
-    {
-        model: "Message",
-        keys: ["id"],
-        data: {
-            id: 140,
-            data: `{
-                "text": "Tell me how you feel about puppies using emoji! Though you can use text to. Only the first response by a user is counted towards the poll. The other responses are recorded but not shown, so you can't sway the poll by sending a million poop emoji."
-            }`,
-            unstructuredReply: true,
-            poll: "{}",
-            metadata: "wants-poll",
-            repeatable: true
-        }
-    },
     {
             model: "Message",
             keys: ["id"],
@@ -490,7 +439,7 @@ module.exports = [
               model: "Message",
               keys: ["id"],
               data: {
-                  id:1025,
+                  id:425,
                   data: `{
                       "attachment": {
                           "type": "image",
@@ -530,10 +479,9 @@ module.exports = [
                         "text": "Amanda Hickman, Senior Fellow // Amanda directs the BuzzFeed Open Lab for Journalism, Technology, and the Arts."
                     }`,
                     unstructuredReply: true,
-                    poll: "{}",
                     metadata: "amanda",
                     repeatable: true
-                }3
+                }
             },
             {
                 // Christine
@@ -545,7 +493,6 @@ module.exports = [
                         "text": "Christine Sunu, Open Lab / GE Fellow, focuses on the links between emotion, design, and technology. In the Open Lab this year she built emotive interfaces for internet connected technology. Emotive Circuits is a collection of objects that that showcase internet connected technology in soft and unusual forms."
                     }`,
                     unstructuredReply: true,
-                    poll: "{}",
                     metadata: "christine",
                     repeatable: true
                 }
@@ -561,7 +508,6 @@ module.exports = [
                         "text": "Ben Kreimer explores the unique perspectives, visual experiences, and storytelling potential of drones, 3D reconstructions, 360-degree video, 3D virtual reality, and open-source hardware sensor platforms."
                     }`,
                     unstructuredReply: true,
-                    poll: "{}",
                     metadata: "ben",
                     repeatable: true
                 }
@@ -570,39 +516,117 @@ module.exports = [
                 model: "Message",
                 keys: ["id"],
                 data: {
-                    id:1000,
+                    id:400,
                     data: `{
-                        "text": "Westley Hennigh-Palermo is interested in finding new ways for newsrooms to engage people in conversation and talk about complex systems that don't lend themselves to simple narratives. At the Open Lab Wes has worked on a series of bots and games, including BUZZBOT and SH*T VCS SAY."
+                        "text": "Westley Hennigh-Palermo is interested in finding new ways for newsrooms to engage people in conversation and talk about complex systems that don't lend themselves to simple narratives. At the Open Lab Wes has worked on a series of bots and games, including BUZZBOT and SHIT VCS SAY."
                     }`,
                     unstructuredReply: true,
-                    poll: "{}",
                     metadata: "Wes",
                     repeatable: true
                 }
             },{
-                // Wes buzzbot PROMPT TK
                 model: "Message",
                 keys: ["id"],
                 data: {
-                    id:1001,
+                    id:401,
                     data: `{
-                        "text": "You're using BuzzBot right now. 🤖 -- BuzzBot ran throughout the 2016 RNC and DNC and facilitated conversation between journalists and thousands of people who were watching from home, protesting outside, or actually attending as delegates."
+                        "text": "That's me 🤖 -- I ran throughout the 2016 RNC and DNC and facilitated conversation between journalists and thousands of people who were watching from home, protesting outside, or actually attending as delegates."
                     }`,
                     metadata: "buzzbot",
+                    unstructuredReply: true,
                     repeatable: true
                 }
             },{
-                // Wes buzzbot code PROMPT TK
                 model: "Message",
                 keys: ["id"],
                 data: {
-                    id:1002,
+                    id:402,
                     data: `{
-                        "text": "BuzzBot is open source! 🤖 https://www.buzzfeed.com/westleyargentum/under-the-hood-of-buzzbot "
+                        "text": "I'm also open source! 🤖 https://github.com/buzzfeed-openlab/buzzbot"
                     }`,
                     metadata: "buzzbot",
                     repeatable: true
                 }
-            }
+            },
+            {
+                model: "Message",
+                keys: ["id"],
+                data: {
+                    id:420,
+                    data: `{
+                        "text": "Shit VCs Say is an iOS game about the weirder propaganda coming out of Silicon Valley..."
+                    }`,
+                    metadata: "shitvcssay",
+                    unstructuredReply: true,
+                    repeatable: true
+                }
+            },{
+                model: "Message",
+                keys: ["id"],
+                data: {
+                    id:421,
+                    data: `{
+                        "text": "Check it out here: https://itunes.apple.com/us/app/s**t-vcs-say/id1090534404"
+                    }`,
+                    metadata: "shitvcssay",
+                    repeatable: true
+                }
+            },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 120,
+            data: `{
+                "text": "This message is marked 'unstructuredReply: true'. You can write back using text, emoji, gifs, video, etc. You can even send multiple replies and they'll end up together."
+            }`,
+            unstructuredReply: true,
+            metadata: "wants-text"
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 130,
+            data: `{
+                "attachment": {
+                    "type": "image",
+                    "payload":{
+                        "url":"https://img.buzzfeed.com/buzzfeed-static/static/2014-07/18/8/enhanced/webdr09/anigif_enhanced-buzz-32587-1405685331-4.gif"
+                    }
+                }
+            }`,
+            metadata: "puppy-gif,wants-gif"
+        }
+    },
+    {
+        model: "Message",
+        keys: ["id"],
+        data: {
+            id: 140,
+            data: `{
+                "text": "Tell me how you feel about puppies using emoji! Though you can use text to. Only the first response by a user is counted towards the poll. The other responses are recorded but not shown, so you can't sway the poll by sending a million poop emoji."
+            }`,
+            unstructuredReply: true,
+            poll: "{}",
+            metadata: "wants-poll",
+            repeatable: true
+        }
+    },
 
 ]
