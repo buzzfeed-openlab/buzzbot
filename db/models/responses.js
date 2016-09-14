@@ -1,3 +1,4 @@
+
 export default (sequelize, DataTypes) => {
     const Response = sequelize.define('Response', {
         id: {

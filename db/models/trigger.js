@@ -1,5 +1,5 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
+
+export default (sequelize, DataTypes) => {
     var Trigger = sequelize.define('Trigger', {
         id: {
             type: DataTypes.INTEGER,

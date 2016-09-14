@@ -1,5 +1,5 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
+
+export default (sequelize, DataTypes) => {
     var MenuCommand = sequelize.define('MenuCommand', {
         id: {
             type: DataTypes.INTEGER,

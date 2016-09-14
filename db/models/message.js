@@ -1,4 +1,3 @@
-'use strict';
 
 export default (sequelize, DataTypes) => {
     var Message = sequelize.define('Message', {

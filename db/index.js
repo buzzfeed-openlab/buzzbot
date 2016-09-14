@@ -3,11 +3,12 @@ import path from 'path';
 import pg from 'pg';
 import Sequelize from 'sequelize';
 import Controller from './controller';
+import config from '../config.js';
+import dbConfigs from './sequelize_config.js';
 
-const config = require('../config.js'),
-    dbConfig = require('./sequelize_config.js')[config.env],
-    basename = path.basename(module.filename),
-    modelDir = path.join(__dirname, 'models');
+const dbConfig = dbConfigs[config.env],
+      basename = path.basename(module.filename),
+      modelDir = path.join(__dirname, 'models');
 
 const db = {
     Sequelize,

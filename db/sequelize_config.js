@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   development: {
     username: process.env.PGUSER || 'buzzbot',
     password: process.env.PGPASSWORD || null,
