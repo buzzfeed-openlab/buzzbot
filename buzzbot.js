@@ -7,7 +7,7 @@ import webpack from 'webpack';
 import webpackConfig from './webpack.config.js';
 
 import db, { Controller, pg, User, Tag } from './db';
-import Commands from './src/commands';
+import getCommand from './src/commands';
 import {
     sendMessage,
     sendMessagesSequentially,
@@ -77,10 +77,6 @@ function parseTag(tag) {
     return { mid: tagData[0], tag: tagData[1] };
 }
 
-function normalizeText(text) {
-    return String(text).toUpperCase();
-}
-
 function handleIncomingMessage(token, event) {
     const userId = event.sender.id;
 
@@ -109,11 +105,10 @@ function handleIncomingMessage(token, event) {
                 }
             }
 
-            const normalizedText = normalizeText(props.text);
-
             // check for special types of responses (commands, polls)
-            if (Commands[normalizedText]) {
-                Commands[normalizedText](token, event, user);
+            const command = getCommand(props.text);
+            if (command) {
+                command(token, event, user);
 
             } else if (message && message.poll && props.text) {
                 Controller.getUserResponsesToMessage(userId, message.id).then((responses) => {
@@ -169,10 +164,9 @@ function handlePostBack(token, event) {
 
         // check for command postback
         if (tagData.mid === 'command') {
-            const normalizedCommand = normalizeText(tagData.tag);
-
-            if (Commands[normalizedCommand]) {
-                Commands[normalizedCommand](token, event, user);
+            const command = getCommand(tagData.tag);
+            if (command) {
+                command(token, event, user);
 
                 Controller.createResponse(userId, {
                     text: tagData.tag

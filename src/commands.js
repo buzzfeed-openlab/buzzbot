@@ -1,6 +1,156 @@
 
 import { Controller } from '../db';
-import { sendMessage } from './messenger-interface';
+import { sendMessagesSequentially } from './messenger-interface';
+
+// const commands = {
+//     'PAUSE': pauseForUser,
+//     'STOP': pauseForUser,
+//     'UNSUBSCRIBE': pauseForUser,
+//     'QUIT': pauseForUser,
+//     'STOP MESSAGING ME': pauseForUser,
+//     'PLEASE STOP MESSAGING ME': pauseForUser,
+//     'PLEASE STOP': pauseForUser,
+
+//     'RESUME': resumeForUser,
+//     'START': resumeForUser,
+
+//     'WHAT\'S THE LATEST?': getTheLatest,
+//     'WHATS THE LATEST?': getTheLatest,
+//     'WHAT\'S THE LATEST': getTheLatest,
+//     'WHATS THE LATEST': getTheLatest,
+//     'UPDATE': getTheLatest,
+//     'WHAT\'S UP?': getTheLatest,
+//     'WHATS UP?': getTheLatest,
+//     'WHAT\'S UP': getTheLatest,
+//     'WHATS UP': getTheLatest,
+//     'LATEST': getTheLatest,
+//     'LATEST?': getTheLatest,
+
+//     'SURPRISE': surpriseForUser,
+//     'SURPRISE ME': surpriseForUser,
+//     'SURPRISE!': surpriseForUser,
+//     'SURPRISE ME!': surpriseForUser,
+//     'SURPRISE ME': surpriseForUser,
+//     'SUPRISE': surpriseForUser,
+//     'SUPRISE ME': surpriseForUser,
+//     'SUPRISE!': surpriseForUser,
+//     'SUPRISE ME!': surpriseForUser,
+// };
+
+const commands = [
+    {
+        exp: /^(STOP|PAUSE|UNSUBSCRIBE|QUIT)/i,
+        fn: pauseForUser
+    },
+    {
+        exp: /^(RESUME|START)/i,
+        fn: resumeForUser
+    },
+    {
+        exp: /^(SURPRISE|SURPRISE ME)/i,
+        fn: surpriseForUser
+    },
+    {
+        exp: /^((OPEN(\s+)?LAB))/i,
+        fn: triggerMessages.bind(undefined, [500, 501])
+    },
+    {
+        exp: /^(NEWS(\s+)?LETTER)/i,
+        fn: triggerMessages.bind(undefined, [502])
+    },
+    {
+        exp: /(ABOUT(.*)?OPEN(\s+)?LAB)/i,
+        fn: triggerMessages.bind(undefined, [503])
+    },
+    {
+        exp: /^(MAP)/i,
+        fn: triggerMessages.bind(undefined, [504])
+    },
+    {
+        exp: /^(GE)/i,
+        fn: triggerMessages.bind(undefined, [505])
+    },
+    {
+        exp: /^(Saito(\s+)(Photo|Pic|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [601])
+    },
+    {
+        exp: /^(Saito(\s+)Software)/i,
+        fn: triggerMessages.bind(undefined, [602, 603])
+    },
+    {
+        exp: /^(Saito)/i,
+        fn: triggerMessages.bind(undefined, [600])
+    },
+    {
+        exp: /^(Swale)/i,
+        fn: triggerMessages.bind(undefined, [611, 612])
+    },
+    {
+        exp: /^(AEMP)/i,
+        fn: triggerMessages.bind(undefined, [621, 622])
+    },
+    {
+        exp: /^(Ainsley(\s+)(Photo|Pic|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [725])
+    },
+    {
+        exp: /^(Ainsley(.*)Bio)/i,
+        fn: triggerMessages.bind(undefined, [701, 702])
+    },
+    {
+        exp: /^(Ainsley)/i,
+        fn: triggerMessages.bind(undefined, [700])
+    },
+    {
+        exp: /^(Glance)/i,
+        fn: triggerMessages.bind(undefined, [710, 711])
+    },{
+        exp: /^(Amanda(\s+)(Photo|Pic|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [525])
+    },{
+        exp: /^(Christine(\s+)(Photo|Pic|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [825])
+    },{
+        exp: /^(Christine)/i,
+        fn: triggerMessages.bind(undefined, [800])
+    },{
+        exp: /^(Ben(\s+)(Photo|Pic|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [925])
+    },{
+        exp: /^(Ben)/i,
+        fn: triggerMessages.bind(undefined, [900])
+    },{
+        exp: /^(Wes(.*)(Photo|Pic|Selfie))/i,
+        fn: triggerMessages.bind(undefined, [425])
+    },{
+        exp: /^(Shit)/i,
+        fn: triggerMessages.bind(undefined, [420,421])
+    },{
+        exp: /^(Wes|Westley)/i,
+        fn: triggerMessages.bind(undefined, [400])
+    },{
+        exp: /^(Buzz(\s+)?Bot|Bot)/i,
+        fn: triggerMessages.bind(undefined, [401, 402])
+    },{
+        exp: /^(Amanda)/i,
+        fn: triggerMessages.bind(undefined, [526])
+    },
+];
+
+export default function getCommand(text) {
+    for (var i = 0; i < commands.length; ++i) {
+        let command = commands[i];
+
+        if (command.exp.test(text)) {
+            return command.fn;
+        }
+    }
+}
+
+function normalizeText(text) {
+    return String(text).toUpperCase();
+}
 
 function pauseForUser(token, event, user) {
     Controller.updateUser(user.id, { state: 'paused' }).then((user) => {
@@ -50,37 +200,8 @@ function surpriseForUser(token, event, user) {
     });
 }
 
-export default {
-    'PAUSE': pauseForUser,
-    'STOP': pauseForUser,
-    'UNSUBSCRIBE': pauseForUser,
-    'QUIT': pauseForUser,
-    'STOP MESSAGING ME': pauseForUser,
-    'PLEASE STOP MESSAGING ME': pauseForUser,
-    'PLEASE STOP': pauseForUser,
-
-    'RESUME': resumeForUser,
-    'START': resumeForUser,
-
-    'WHAT\'S THE LATEST?': getTheLatest,
-    'WHATS THE LATEST?': getTheLatest,
-    'WHAT\'S THE LATEST': getTheLatest,
-    'WHATS THE LATEST': getTheLatest,
-    'UPDATE': getTheLatest,
-    'WHAT\'S UP?': getTheLatest,
-    'WHATS UP?': getTheLatest,
-    'WHAT\'S UP': getTheLatest,
-    'WHATS UP': getTheLatest,
-    'LATEST': getTheLatest,
-    'LATEST?': getTheLatest,
-
-    'SURPRISE': surpriseForUser,
-    'SURPRISE ME': surpriseForUser,
-    'SURPRISE!': surpriseForUser,
-    'SURPRISE ME!': surpriseForUser,
-    'SURPRISE ME': surpriseForUser,
-    'SUPRISE': surpriseForUser,
-    'SUPRISE ME': surpriseForUser,
-    'SUPRISE!': surpriseForUser,
-    'SUPRISE ME!': surpriseForUser,
-};
+function triggerMessages(messageIds, token, event, user) {
+    Controller.getMessages(messageIds).then((messages) => {
+        sendMessagesSequentially(token, user.id, messages);
+    });
+}
